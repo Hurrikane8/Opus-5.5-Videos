@@ -1,2186 +1,2096 @@
 {
-"duration": 177.447,
-"sections": [
-0.4,
-11.776,
-33.3,
-54.104,
-74.585,
-96.545,
-117.157,
-136.663,
-162.049
-],
+"voice": "en-US-ChristopherNeural",
+"duration": 176.112,
 "words": [
 {
 "text": "Bury",
-"start": 0.4,
-"end": 0.723
+"start": 0.099,
+"end": 0.426
 },
 {
 "text": "banknotes",
-"start": 0.723,
-"end": 1.294
+"start": 0.438,
+"end": 1.033
 },
 {
 "text": "in",
-"start": 1.294,
-"end": 1.518
+"start": 1.045,
+"end": 1.191
 },
 {
 "text": "old",
-"start": 1.518,
-"end": 1.84
+"start": 1.203,
+"end": 1.433
 },
 {
-"text": "bottles.",
-"start": 1.84,
-"end": 2.362
+"text": "bottles",
+"start": 1.446,
+"end": 2.004
 },
 {
 "text": "Pay",
-"start": 2.562,
-"end": 2.776
+"start": 2.84,
+"end": 3.058
 },
 {
 "text": "men",
-"start": 2.776,
-"end": 2.989
+"start": 3.07,
+"end": 3.301
 },
 {
 "text": "to",
-"start": 2.989,
-"end": 3.164
+"start": 3.313,
+"end": 3.41
 },
 {
 "text": "dig",
-"start": 3.164,
-"end": 3.378
+"start": 3.422,
+"end": 3.653
 },
 {
 "text": "them",
-"start": 3.378,
-"end": 3.592
+"start": 3.665,
+"end": 3.799
 },
 {
 "text": "up",
-"start": 3.592,
-"end": 3.767
+"start": 3.811,
+"end": 3.944
 },
 {
-"text": "again.",
-"start": 3.767,
-"end": 4.058
+"text": "again",
+"start": 3.956,
+"end": 4.393
 },
 {
 "text": "That",
-"start": 4.258,
-"end": 4.489
+"start": 5.231,
+"end": 5.473
 },
 {
 "text": "was",
-"start": 4.489,
-"end": 4.678
+"start": 5.485,
+"end": 5.631
 },
 {
 "text": "not",
-"start": 4.678,
-"end": 4.951
+"start": 5.643,
+"end": 5.874
 },
 {
 "text": "a",
-"start": 4.951,
-"end": 5.14
+"start": 5.886,
+"end": 5.934
 },
 {
-"text": "joke.",
-"start": 5.14,
-"end": 5.498
+"text": "joke",
+"start": 5.947,
+"end": 6.42
 },
 {
 "text": "It",
-"start": 5.698,
-"end": 5.877
+"start": 7.257,
+"end": 7.403
 },
 {
 "text": "was",
-"start": 5.877,
-"end": 6.107
+"start": 7.415,
+"end": 7.536
 },
 {
 "text": "a",
-"start": 6.107,
-"end": 6.337
+"start": 7.549,
+"end": 7.621
 },
 {
 "text": "policy",
-"start": 6.337,
-"end": 6.824
+"start": 7.633,
+"end": 8.107
 },
 {
-"text": "suggestion,",
-"start": 6.824,
-"end": 7.463
+"text": "suggestion",
+"start": 8.119,
+"end": 8.786
 },
 {
 "text": "from",
-"start": 7.463,
-"end": 7.745
+"start": 8.993,
+"end": 9.138
 },
 {
 "text": "the",
-"start": 7.745,
-"end": 7.924
+"start": 9.15,
+"end": 9.211
 },
 {
 "text": "most",
-"start": 7.924,
-"end": 8.308
+"start": 9.223,
+"end": 9.49
 },
 {
 "text": "influential",
-"start": 8.308,
-"end": 9.05
+"start": 9.502,
+"end": 10.073
 },
 {
 "text": "economist",
-"start": 9.05,
-"end": 9.741
+"start": 10.085,
+"end": 10.667
 },
 {
 "text": "of",
-"start": 9.741,
-"end": 9.92
+"start": 10.68,
+"end": 10.74
 },
 {
 "text": "the",
-"start": 9.92,
-"end": 10.1
+"start": 10.752,
+"end": 10.825
 },
 {
 "text": "twentieth",
-"start": 10.1,
-"end": 10.637
+"start": 10.837,
+"end": 11.238
 },
 {
-"text": "century.",
-"start": 10.637,
-"end": 11.226
+"text": "century",
+"start": 11.25,
+"end": 11.784
 },
 {
-"text": "In",
-"start": 11.776,
-"end": 12.028
-},
-{
-"text": "1936,",
-"start": 12.028,
-"end": 13.796
+"text": "In 1936",
+"start": 12.621,
+"end": 13.956
 },
 {
 "text": "in",
-"start": 13.796,
-"end": 14.049
+"start": 14.138,
+"end": 14.26
 },
 {
 "text": "the",
-"start": 14.049,
-"end": 14.245
+"start": 14.272,
+"end": 14.381
 },
 {
 "text": "depths",
-"start": 14.245,
-"end": 14.666
+"start": 14.393,
+"end": 14.769
 },
 {
 "text": "of",
-"start": 14.666,
-"end": 14.863
+"start": 14.782,
+"end": 14.879
 },
 {
 "text": "the",
-"start": 14.863,
-"end": 15.059
+"start": 14.891,
+"end": 14.964
 },
 {
-"text": "Depression,",
-"start": 15.059,
-"end": 15.649
+"text": "Depression",
+"start": 14.976,
+"end": 15.546
 },
 {
 "text": "John",
-"start": 15.649,
-"end": 16.07
+"start": 15.789,
+"end": 16.092
 },
 {
 "text": "Maynard",
-"start": 16.07,
-"end": 16.659
+"start": 16.104,
+"end": 16.456
 },
 {
 "text": "Keynes",
-"start": 16.659,
-"end": 17.08
+"start": 16.468,
+"end": 16.833
 },
 {
 "text": "published",
-"start": 17.08,
-"end": 17.613
+"start": 16.845,
+"end": 17.282
 },
 {
 "text": "The",
-"start": 17.613,
-"end": 17.81
+"start": 17.294,
+"end": 17.391
 },
 {
 "text": "General",
-"start": 17.81,
-"end": 18.399
+"start": 17.403,
+"end": 17.779
 },
 {
 "text": "Theory",
-"start": 18.399,
-"end": 18.82
+"start": 17.791,
+"end": 18.204
 },
 {
 "text": "of",
-"start": 18.82,
-"end": 19.016
+"start": 18.216,
+"end": 18.301
 },
 {
-"text": "Employment,",
-"start": 19.016,
-"end": 19.718
+"text": "Employment",
+"start": 18.313,
+"end": 18.859
 },
 {
 "text": "Interest",
-"start": 19.718,
-"end": 20.251
+"start": 19.09,
+"end": 19.587
 },
 {
 "text": "and",
-"start": 20.251,
-"end": 20.504
+"start": 19.684,
+"end": 19.782
 },
 {
-"text": "Money.",
-"start": 20.504,
-"end": 20.925
+"text": "Money",
+"start": 19.794,
+"end": 20.194
 },
 {
 "text": "Its",
-"start": 21.125,
-"end": 21.378
+"start": 21.032,
+"end": 21.226
 },
 {
 "text": "promise",
-"start": 21.378,
-"end": 21.912
+"start": 21.238,
+"end": 21.675
 },
 {
 "text": "was",
-"start": 21.912,
-"end": 22.165
+"start": 21.687,
+"end": 21.845
 },
 {
-"text": "seductive:",
-"start": 22.165,
-"end": 22.756
+"text": "seductive",
+"start": 21.857,
+"end": 22.464
 },
 {
 "text": "when",
-"start": 22.756,
-"end": 23.065
+"start": 22.767,
+"end": 22.888
 },
 {
 "text": "the",
-"start": 23.065,
-"end": 23.262
+"start": 22.901,
+"end": 22.961
 },
 {
 "text": "economy",
-"start": 23.262,
-"end": 23.852
+"start": 22.973,
+"end": 23.459
 },
 {
-"text": "falters,",
-"start": 23.852,
-"end": 24.33
+"text": "falters",
+"start": 23.471,
+"end": 24.078
 },
 {
 "text": "government",
-"start": 24.33,
-"end": 24.977
+"start": 24.272,
+"end": 24.709
 },
 {
 "text": "should",
-"start": 24.977,
-"end": 25.286
+"start": 24.721,
+"end": 24.927
 },
 {
-"text": "spend,",
-"start": 25.286,
-"end": 25.708
+"text": "spend",
+"start": 24.939,
+"end": 25.364
 },
 {
 "text": "borrow",
-"start": 25.708,
-"end": 26.186
+"start": 25.607,
+"end": 26.007
 },
 {
 "text": "and",
-"start": 26.186,
-"end": 26.439
+"start": 26.116,
+"end": 26.226
 },
 {
 "text": "create",
-"start": 26.439,
-"end": 26.973
+"start": 26.238,
+"end": 26.578
 },
 {
-"text": "demand.",
-"start": 26.973,
-"end": 27.507
+"text": "demand",
+"start": 26.59,
+"end": 27.197
 },
 {
 "text": "Recessions",
-"start": 27.707,
-"end": 28.253
+"start": 28.034,
+"end": 28.665
 },
 {
 "text": "were",
-"start": 28.253,
-"end": 28.487
+"start": 28.677,
+"end": 28.774
 },
 {
 "text": "no",
-"start": 28.487,
-"end": 28.773
+"start": 28.786,
+"end": 28.968
 },
 {
 "text": "longer",
-"start": 28.773,
-"end": 29.163
+"start": 28.981,
+"end": 29.284
 },
 {
 "text": "corrections",
-"start": 29.163,
-"end": 29.761
+"start": 29.296,
+"end": 29.83
 },
 {
 "text": "to",
-"start": 29.761,
-"end": 29.995
+"start": 29.842,
+"end": 29.964
 },
 {
-"text": "endure,",
-"start": 29.995,
-"end": 30.384
+"text": "endure",
+"start": 29.976,
+"end": 30.425
 },
 {
 "text": "but",
-"start": 30.384,
-"end": 30.67
+"start": 30.68,
+"end": 30.837
 },
 {
 "text": "failures",
-"start": 30.67,
-"end": 31.164
+"start": 30.849,
+"end": 31.311
 },
 {
 "text": "to",
-"start": 31.164,
-"end": 31.398
+"start": 31.323,
+"end": 31.42
 },
 {
 "text": "manage",
-"start": 31.398,
-"end": 31.84
+"start": 31.432,
+"end": 31.82
 },
 {
 "text": "from",
-"start": 31.84,
-"end": 32.126
+"start": 31.833,
+"end": 31.954
 },
 {
 "text": "the",
-"start": 32.126,
-"end": 32.308
+"start": 31.966,
+"end": 32.039
 },
 {
-"text": "center.",
-"start": 32.308,
-"end": 32.75
+"text": "center",
+"start": 32.051,
+"end": 32.512
 },
 {
 "text": "Friedrich",
-"start": 33.3,
-"end": 33.841
+"start": 33.349,
+"end": 33.835
 },
 {
 "text": "Hayek",
-"start": 33.841,
-"end": 34.194
+"start": 33.847,
+"end": 34.248
 },
 {
 "text": "argued",
-"start": 34.194,
-"end": 34.688
+"start": 34.26,
+"end": 34.612
 },
 {
 "text": "that",
-"start": 34.688,
-"end": 34.946
+"start": 34.624,
+"end": 34.782
 },
 {
 "text": "cheap",
-"start": 34.946,
-"end": 35.299
+"start": 34.794,
+"end": 35.061
 },
 {
 "text": "credit",
-"start": 35.299,
-"end": 35.699
+"start": 35.073,
+"end": 35.413
 },
 {
 "text": "does",
-"start": 35.699,
-"end": 35.958
+"start": 35.425,
+"end": 35.57
 },
 {
 "text": "not",
-"start": 35.958,
-"end": 36.264
+"start": 35.583,
+"end": 35.801
 },
 {
 "text": "create",
-"start": 36.264,
-"end": 36.711
+"start": 35.813,
+"end": 36.153
 },
 {
-"text": "wealth.",
-"start": 36.711,
-"end": 37.064
+"text": "wealth",
+"start": 36.165,
+"end": 36.602
 },
 {
 "text": "It",
-"start": 37.264,
-"end": 37.461
+"start": 37.439,
+"end": 37.597
 },
 {
 "text": "falsifies",
-"start": 37.461,
-"end": 38.164
+"start": 37.609,
+"end": 38.265
 },
 {
 "text": "interest",
-"start": 38.164,
-"end": 38.698
+"start": 38.277,
+"end": 38.665
 },
 {
 "text": "rates",
-"start": 38.698,
-"end": 39.12
+"start": 38.677,
+"end": 38.993
 },
 {
 "text": "and",
-"start": 39.12,
-"end": 39.373
+"start": 39.005,
+"end": 39.151
 },
 {
 "text": "lures",
-"start": 39.373,
-"end": 39.738
+"start": 39.163,
+"end": 39.466
 },
 {
 "text": "businesses",
-"start": 39.738,
-"end": 40.329
+"start": 39.478,
+"end": 40.049
 },
 {
 "text": "into",
-"start": 40.329,
-"end": 40.694
+"start": 40.061,
+"end": 40.291
 },
 {
 "text": "investments",
-"start": 40.694,
-"end": 41.454
+"start": 40.303,
+"end": 40.874
 },
 {
 "text": "the",
-"start": 41.454,
-"end": 41.65
+"start": 40.886,
+"end": 40.983
 },
 {
 "text": "real",
-"start": 41.65,
-"end": 42.072
+"start": 40.995,
+"end": 41.238
 },
 {
 "text": "economy",
-"start": 42.072,
-"end": 42.663
+"start": 41.25,
+"end": 41.723
 },
 {
 "text": "cannot",
-"start": 42.663,
-"end": 43.141
+"start": 41.735,
+"end": 42.063
 },
 {
-"text": "sustain.",
-"start": 43.141,
-"end": 43.731
+"text": "sustain",
+"start": 42.075,
+"end": 42.682
 },
 {
 "text": "The",
-"start": 43.931,
-"end": 44.092
+"start": 43.519,
+"end": 43.653
 },
 {
 "text": "boom",
-"start": 44.092,
-"end": 44.389
+"start": 43.665,
+"end": 43.968
 },
 {
 "text": "plants",
-"start": 44.389,
-"end": 44.778
+"start": 43.981,
+"end": 44.369
 },
 {
 "text": "the",
-"start": 44.778,
-"end": 44.939
+"start": 44.381,
+"end": 44.478
 },
 {
-"text": "bust.",
-"start": 44.939,
-"end": 45.282
+"text": "bust",
+"start": 44.49,
+"end": 45.0
 },
 {
 "text": "And",
-"start": 45.482,
-"end": 45.718
+"start": 45.837,
+"end": 46.007
 },
 {
-"text": "in",
-"start": 45.718,
-"end": 45.954
-},
-{
-"text": "1944",
-"start": 45.954,
-"end": 47.657
+"text": "in 1944",
+"start": 46.019,
+"end": 47.136
 },
 {
 "text": "he",
-"start": 47.657,
-"end": 47.893
+"start": 47.148,
+"end": 47.269
 },
 {
 "text": "warned",
-"start": 47.893,
-"end": 48.339
+"start": 47.282,
+"end": 47.633
 },
 {
 "text": "that",
-"start": 48.339,
-"end": 48.627
+"start": 47.646,
+"end": 47.803
 },
 {
 "text": "ever-wider",
-"start": 48.627,
-"end": 49.23
+"start": 47.816,
+"end": 48.398
 },
 {
 "text": "economic",
-"start": 49.23,
-"end": 49.937
+"start": 48.41,
+"end": 48.92
 },
 {
 "text": "planning",
-"start": 49.937,
-"end": 50.383
+"start": 48.932,
+"end": 49.308
 },
 {
 "text": "leads",
-"start": 50.383,
-"end": 50.776
+"start": 49.32,
+"end": 49.575
 },
 {
 "text": "step",
-"start": 50.776,
-"end": 51.117
+"start": 49.587,
+"end": 49.879
 },
 {
 "text": "by",
-"start": 51.117,
-"end": 51.405
+"start": 49.891,
+"end": 50.024
 },
 {
 "text": "step",
-"start": 51.405,
-"end": 51.745
+"start": 50.036,
+"end": 50.376
 },
 {
 "text": "toward",
-"start": 51.745,
-"end": 52.243
+"start": 50.388,
+"end": 50.655
 },
 {
 "text": "concentrated",
-"start": 52.243,
-"end": 53.161
+"start": 50.667,
+"end": 51.299
 },
 {
-"text": "power.",
-"start": 53.161,
-"end": 53.554
+"text": "power",
+"start": 51.311,
+"end": 51.772
 },
 {
 "text": "After",
-"start": 54.104,
-"end": 54.413
+"start": 52.609,
+"end": 52.925
 },
 {
 "text": "the",
-"start": 54.413,
-"end": 54.579
+"start": 52.937,
+"end": 53.034
 },
 {
-"text": "war,",
-"start": 54.579,
-"end": 54.888
+"text": "war",
+"start": 53.046,
+"end": 53.434
 },
 {
 "text": "Keynes",
-"start": 54.888,
-"end": 55.244
+"start": 53.653,
+"end": 54.017
 },
 {
-"text": "won.",
-"start": 55.244,
-"end": 55.553
+"text": "won",
+"start": 54.029,
+"end": 54.393
 },
 {
-"text": "In",
-"start": 55.753,
-"end": 55.993
-},
-{
-"text": "1965,",
-"start": 55.993,
-"end": 57.731
+"text": "In 1965",
+"start": 55.231,
+"end": 56.651
 },
 {
 "text": "Time",
-"start": 57.731,
-"end": 58.078
+"start": 56.905,
+"end": 57.197
 },
 {
 "text": "put",
-"start": 58.078,
-"end": 58.372
+"start": 57.209,
+"end": 57.342
 },
 {
 "text": "him",
-"start": 58.372,
-"end": 58.666
+"start": 57.354,
+"end": 57.476
 },
 {
 "text": "on",
-"start": 58.666,
-"end": 58.907
+"start": 57.488,
+"end": 57.621
 },
 {
 "text": "its",
-"start": 58.907,
-"end": 59.147
+"start": 57.633,
+"end": 57.767
 },
 {
 "text": "cover",
-"start": 59.147,
-"end": 59.495
+"start": 57.779,
+"end": 58.131
 },
 {
 "text": "under",
-"start": 59.495,
-"end": 59.842
+"start": 58.143,
+"end": 58.313
 },
 {
 "text": "the",
-"start": 59.842,
-"end": 60.03
+"start": 58.325,
+"end": 58.422
 },
 {
 "text": "line",
-"start": 60.03,
-"end": 60.377
+"start": 58.434,
+"end": 58.799
 },
 {
-"text": "'We",
-"start": 60.377,
-"end": 60.618
+"text": "We",
+"start": 58.981,
+"end": 59.114
 },
 {
 "text": "are",
-"start": 60.618,
-"end": 60.858
+"start": 59.126,
+"end": 59.272
 },
 {
 "text": "all",
-"start": 60.858,
-"end": 61.152
+"start": 59.284,
+"end": 59.515
 },
 {
 "text": "Keynesians",
-"start": 61.152,
-"end": 61.82
+"start": 59.527,
+"end": 60.085
 },
 {
-"text": "now.'",
-"start": 61.82,
-"end": 62.168
+"text": "now",
+"start": 60.097,
+"end": 60.449
 },
 {
-"text": "In",
-"start": 62.168,
-"end": 62.409
-},
-{
-"text": "1971,",
-"start": 62.409,
-"end": 64.146
+"text": "In 1971",
+"start": 61.286,
+"end": 62.573
 },
 {
 "text": "President",
-"start": 64.146,
-"end": 64.761
+"start": 62.755,
+"end": 63.18
 },
 {
 "text": "Nixon",
-"start": 64.761,
-"end": 65.215
+"start": 63.192,
+"end": 63.544
 },
 {
 "text": "told",
-"start": 65.215,
-"end": 65.616
+"start": 63.556,
+"end": 63.786
 },
 {
 "text": "a",
-"start": 65.616,
-"end": 65.857
+"start": 63.799,
+"end": 63.823
 },
 {
-"text": "reporter,",
-"start": 65.857,
-"end": 66.418
+"text": "reporter",
+"start": 63.835,
+"end": 64.345
 },
 {
-"text": "'I",
-"start": 66.418,
-"end": 66.659
+"text": "I",
+"start": 64.624,
+"end": 64.733
 },
 {
 "text": "am",
-"start": 66.659,
-"end": 66.846
+"start": 64.745,
+"end": 64.854
 },
 {
 "text": "now",
-"start": 66.846,
-"end": 67.14
+"start": 64.867,
+"end": 65.109
 },
 {
 "text": "a",
-"start": 67.14,
-"end": 67.38
+"start": 65.121,
+"end": 65.17
 },
 {
 "text": "Keynesian",
-"start": 67.38,
-"end": 67.995
+"start": 65.182,
+"end": 65.728
 },
 {
 "text": "in",
-"start": 67.995,
-"end": 68.236
-},
-{
-"text": "economics.'",
-"start": 68.236,
-"end": 69.065
-},
-{
-"text": "That",
-"start": 69.065,
-"end": 69.359
-},
-{
-"text": "same",
-"start": 69.359,
-"end": 69.706
-},
-{
-"text": "year",
-"start": 69.706,
-"end": 70.0
-},
-{
-"text": "he",
-"start": 70.0,
-"end": 70.241
-},
-{
-"text": "closed",
-"start": 70.241,
-"end": 70.695
-},
-{
-"text": "the",
-"start": 70.695,
-"end": 70.882
-},
-{
-"text": "gold",
-"start": 70.882,
-"end": 71.283
-},
-{
-"text": "window.",
-"start": 71.283,
-"end": 71.791
-},
-{
-"text": "The",
-"start": 71.991,
-"end": 72.157
-},
-{
-"text": "last",
-"start": 72.157,
-"end": 72.466
-},
-{
-"text": "anchor",
-"start": 72.466,
-"end": 72.776
-},
-{
-"text": "on",
-"start": 72.776,
-"end": 72.989
-},
-{
-"text": "the",
-"start": 72.989,
-"end": 73.156
-},
-{
-"text": "dollar",
-"start": 73.156,
-"end": 73.512
-},
-{
-"text": "was",
-"start": 73.512,
-"end": 73.726
-},
-{
-"text": "gone.",
-"start": 73.726,
-"end": 74.035
-},
-{
-"text": "The",
-"start": 74.585,
-"end": 74.772
-},
-{
-"text": "theory",
-"start": 74.772,
-"end": 75.172
-},
-{
-"text": "said",
-"start": 75.172,
-"end": 75.466
-},
-{
-"text": "inflation",
-"start": 75.466,
-"end": 76.08
-},
-{
-"text": "and",
-"start": 76.08,
-"end": 76.32
-},
-{
-"text": "unemployment",
-"start": 76.32,
-"end": 77.094
-},
-{
-"text": "trade",
-"start": 77.094,
-"end": 77.494
-},
-{
-"text": "off:",
-"start": 77.494,
-"end": 77.734
-},
-{
-"text": "The",
-"start": 77.934,
-"end": 78.098
-},
-{
-"text": "1970s",
-"start": 78.098,
-"end": 79.48
-},
-{
-"text": "broke",
-"start": 79.48,
-"end": 79.831
-},
-{
-"text": "that",
-"start": 79.831,
-"end": 80.088
-},
-{
-"text": "promise.",
-"start": 80.088,
-"end": 80.58
-},
-{
-"text": "By",
-"start": 80.78,
-"end": 81.055
-},
-{
-"text": "1980,",
-"start": 81.055,
-"end": 82.279
-},
-{
-"text": "consumer",
-"start": 82.279,
-"end": 82.804
-},
-{
-"text": "inflation",
-"start": 82.804,
-"end": 83.378
-},
-{
-"text": "hit",
-"start": 83.378,
-"end": 83.653
-},
-{
-"text": "14.8",
-"start": 83.653,
-"end": 84.727
-},
-{
-"text": "percent",
-"start": 84.727,
-"end": 85.152
-},
-{
-"text": "a",
-"start": 85.152,
-"end": 85.377
-},
-{
-"text": "year.",
-"start": 85.377,
-"end": 85.701
-},
-{
-"text": "Breaking",
-"start": 85.901,
-"end": 86.358
-},
-{
-"text": "it",
-"start": 86.358,
-"end": 86.527
-},
-{
-"text": "took",
-"start": 86.527,
-"end": 86.791
-},
-{
-"text": "interest",
-"start": 86.791,
-"end": 87.248
-},
-{
-"text": "rates",
-"start": 87.248,
-"end": 87.609
-},
-{
-"text": "near",
-"start": 87.609,
-"end": 87.873
-},
-{
-"text": "20",
-"start": 87.873,
-"end": 88.282
-},
-{
-"text": "percent",
-"start": 88.282,
-"end": 88.691
-},
-{
-"text": "and",
-"start": 88.691,
-"end": 88.907
-},
-{
-"text": "unemployment",
-"start": 88.907,
-"end": 89.605
-},
-{
-"text": "of",
-"start": 89.605,
-"end": 89.773
-},
-{
-"text": "10.8",
-"start": 89.773,
-"end": 90.567
-},
-{
-"text": "percent.",
-"start": 90.567,
-"end": 91.024
-},
-{
-"text": "Milton",
-"start": 91.224,
-"end": 91.665
-},
-{
-"text": "Friedman",
-"start": 91.665,
-"end": 92.209
-},
-{
-"text": "had",
-"start": 92.209,
-"end": 92.494
-},
-{
-"text": "predicted",
-"start": 92.494,
-"end": 93.091
-},
-{
-"text": "this",
-"start": 93.091,
-"end": 93.376
-},
-{
-"text": "breakdown",
-"start": 93.376,
-"end": 93.973
-},
-{
-"text": "in",
-"start": 93.973,
-"end": 94.206
-},
-{
-"text": "1967.",
-"start": 94.206,
-"end": 95.995
-},
-{
-"text": "Keynes's",
-"start": 96.545,
-"end": 96.986
-},
-{
-"text": "most",
-"start": 96.986,
-"end": 97.334
-},
-{
-"text": "famous",
-"start": 97.334,
-"end": 97.729
-},
-{
-"text": "line",
-"start": 97.729,
-"end": 98.031
-},
-{
-"text": "comes",
-"start": 98.031,
-"end": 98.333
-},
-{
-"text": "from",
-"start": 98.333,
-"end": 98.588
-},
-{
-"text": "1923:",
-"start": 98.588,
-"end": 100.097
-},
-{
-"text": "'But",
-"start": 100.297,
-"end": 100.582
-},
-{
-"text": "this",
-"start": 100.582,
-"end": 100.867
-},
-{
-"text": "long",
-"start": 100.867,
-"end": 101.153
-},
-{
-"text": "run",
-"start": 101.153,
-"end": 101.438
-},
-{
-"text": "is",
-"start": 101.438,
-"end": 101.62
-},
-{
-"text": "a",
-"start": 101.62,
-"end": 101.853
-},
-{
-"text": "misleading",
-"start": 101.853,
-"end": 102.45
-},
-{
-"text": "guide",
-"start": 102.45,
-"end": 102.787
-},
-{
-"text": "to",
-"start": 102.787,
-"end": 103.02
-},
-{
-"text": "current",
-"start": 103.02,
-"end": 103.513
-},
-{
-"text": "affairs.",
-"start": 103.513,
-"end": 103.954
-},
-{
-"text": "In",
-"start": 104.154,
-"end": 104.347
-},
-{
-"text": "the",
-"start": 104.347,
-"end": 104.498
-},
-{
-"text": "long",
-"start": 104.498,
-"end": 104.734
-},
-{
-"text": "run",
-"start": 104.734,
-"end": 104.97
-},
-{
-"text": "we",
-"start": 104.97,
-"end": 105.163
-},
-{
-"text": "are",
-"start": 105.163,
-"end": 105.356
-},
-{
-"text": "all",
-"start": 105.356,
-"end": 105.592
-},
-{
-"text": "dead.",
-"start": 105.592,
-"end": 105.871
-},
-{
-"text": "Economists",
-"start": 106.071,
-"end": 106.855
-},
-{
-"text": "set",
-"start": 106.855,
-"end": 107.152
-},
-{
-"text": "themselves",
-"start": 107.152,
-"end": 107.719
-},
-{
-"text": "too",
-"start": 107.719,
-"end": 108.016
-},
-{
-"text": "easy,",
-"start": 108.016,
-"end": 108.368
-},
-{
-"text": "too",
-"start": 108.368,
-"end": 108.665
-},
-{
-"text": "useless",
-"start": 108.665,
-"end": 109.178
-},
-{
-"text": "a",
-"start": 109.178,
-"end": 109.421
-},
-{
-"text": "task",
-"start": 109.421,
-"end": 109.772
-},
-{
-"text": "if",
-"start": 109.772,
-"end": 109.961
-},
-{
-"text": "in",
-"start": 109.961,
-"end": 110.205
-},
-{
-"text": "tempestuous",
-"start": 110.205,
-"end": 110.988
-},
-{
-"text": "seasons",
-"start": 110.988,
-"end": 111.501
-},
-{
-"text": "they",
-"start": 111.501,
-"end": 111.744
-},
-{
-"text": "can",
-"start": 111.744,
-"end": 112.042
-},
-{
-"text": "only",
-"start": 112.042,
-"end": 112.447
-},
-{
-"text": "tell",
-"start": 112.447,
-"end": 112.744
-},
-{
-"text": "us",
-"start": 112.744,
-"end": 112.987
-},
-{
-"text": "that",
-"start": 112.987,
-"end": 113.284
-},
-{
-"text": "when",
-"start": 113.284,
-"end": 113.582
-},
-{
-"text": "the",
-"start": 113.582,
-"end": 113.771
-},
-{
-"text": "storm",
-"start": 113.771,
-"end": 114.23
-},
-{
-"text": "is",
-"start": 114.23,
-"end": 114.419
-},
-{
-"text": "long",
-"start": 114.419,
-"end": 114.716
-},
-{
-"text": "past",
-"start": 114.716,
-"end": 115.067
-},
-{
-"text": "the",
-"start": 115.067,
-"end": 115.256
-},
-{
-"text": "ocean",
-"start": 115.256,
-"end": 115.662
-},
-{
-"text": "is",
-"start": 115.662,
-"end": 115.851
-},
-{
-"text": "flat",
-"start": 115.851,
-"end": 116.202
-},
-{
-"text": "again.'",
-"start": 116.202,
-"end": 116.607
-},
-{
-"text": "Whatever",
-"start": 117.157,
-"end": 117.593
-},
-{
-"text": "he",
-"start": 117.593,
-"end": 117.823
-},
-{
-"text": "meant",
-"start": 117.823,
-"end": 118.156
-},
-{
-"text": "by",
-"start": 118.156,
-"end": 118.438
-},
-{
-"text": "it,",
-"start": 118.438,
-"end": 118.617
-},
-{
-"text": "'the",
-"start": 118.617,
-"end": 118.796
-},
-{
-"text": "long",
-"start": 118.796,
-"end": 119.078
-},
-{
-"text": "run'",
-"start": 119.078,
-"end": 119.36
-},
-{
-"text": "became",
-"start": 119.36,
-"end": 119.795
-},
-{
-"text": "something",
-"start": 119.795,
-"end": 120.231
-},
-{
-"text": "politics",
-"start": 120.231,
-"end": 120.871
-},
-{
-"text": "could",
-"start": 120.871,
-"end": 121.153
-},
-{
-"text": "safely",
-"start": 121.153,
-"end": 121.588
-},
-{
-"text": "ignore.",
-"start": 121.588,
-"end": 122.075
-},
-{
-"text": "Nobel",
-"start": 122.275,
-"end": 122.763
-},
-{
-"text": "laureate",
-"start": 122.763,
-"end": 123.482
-},
-{
-"text": "James",
-"start": 123.482,
-"end": 123.971
-},
-{
-"text": "Buchanan",
-"start": 123.971,
-"end": 124.632
-},
-{
-"text": "showed",
-"start": 124.632,
-"end": 125.006
-},
-{
-"text": "how",
-"start": 125.006,
-"end": 125.322
-},
-{
-"text": "Keynesian",
-"start": 125.322,
-"end": 125.983
-},
-{
-"text": "ideas",
-"start": 125.983,
-"end": 126.472
-},
-{
-"text": "freed",
-"start": 126.472,
-"end": 126.904
-},
-{
-"text": "politicians",
-"start": 126.904,
-"end": 127.737
-},
-{
-"text": "from",
-"start": 127.737,
-"end": 128.054
-},
-{
-"text": "balancing",
-"start": 128.054,
-"end": 128.657
-},
-{
-"text": "budgets.",
-"start": 128.657,
-"end": 129.261
-},
-{
-"text": "Spending",
-"start": 129.461,
-"end": 129.964
-},
-{
-"text": "now",
-"start": 129.964,
-"end": 130.255
-},
-{
-"text": "wins",
-"start": 130.255,
-"end": 130.599
-},
-{
-"text": "votes.",
-"start": 130.599,
-"end": 131.049
-},
-{
-"text": "The",
-"start": 131.249,
-"end": 131.431
-},
-{
-"text": "bill",
-"start": 131.431,
-"end": 131.717
-},
-{
-"text": "arrives",
-"start": 131.717,
-"end": 132.16
-},
-{
-"text": "later,",
-"start": 132.16,
-"end": 132.55
-},
-{
-"text": "addressed",
-"start": 132.55,
-"end": 132.992
-},
-{
-"text": "to",
-"start": 132.992,
-"end": 133.226
-},
-{
-"text": "people",
-"start": 133.226,
-"end": 133.668
-},
-{
-"text": "too",
-"start": 133.668,
-"end": 133.954
-},
-{
-"text": "young",
-"start": 133.954,
-"end": 134.24
-},
-{
-"text": "to",
-"start": 134.24,
-"end": 134.474
-},
-{
-"text": "vote,",
-"start": 134.474,
-"end": 134.812
-},
-{
-"text": "or",
-"start": 134.812,
-"end": 135.046
-},
-{
-"text": "not",
-"start": 135.046,
-"end": 135.385
-},
-{
-"text": "yet",
-"start": 135.385,
-"end": 135.671
-},
-{
-"text": "born.",
-"start": 135.671,
-"end": 136.113
-},
-{
-"text": "Washington",
-"start": 136.663,
-"end": 137.207
-},
-{
-"text": "has",
-"start": 137.207,
-"end": 137.467
-},
-{
-"text": "not",
-"start": 137.467,
-"end": 137.775
-},
-{
-"text": "run",
-"start": 137.775,
-"end": 138.035
-},
-{
-"text": "a",
-"start": 138.035,
-"end": 138.248
-},
-{
-"text": "surplus",
-"start": 138.248,
-"end": 138.698
-},
-{
-"text": "since",
-"start": 138.698,
-"end": 139.006
-},
-{
-"text": "2001.",
-"start": 139.006,
-"end": 139.976
-},
-{
-"text": "Federal",
-"start": 140.176,
-"end": 140.657
-},
-{
-"text": "debt",
-"start": 140.657,
-"end": 140.935
-},
-{
-"text": "has",
-"start": 140.935,
-"end": 141.214
-},
-{
-"text": "passed",
-"start": 141.214,
-"end": 141.543
-},
-{
-"text": "37",
-"start": 141.543,
-"end": 142.277
-},
-{
-"text": "trillion",
-"start": 142.277,
-"end": 142.757
-},
-{
-"text": "dollars",
-"start": 142.757,
-"end": 143.188
-},
-{
-"text": ",",
-"start": 143.188,
-"end": 143.314
-},
-{
-"text": "more",
-"start": 143.314,
-"end": 143.643
-},
-{
-"text": "than",
-"start": 143.643,
-"end": 143.871
-},
-{
-"text": "the",
-"start": 143.871,
-"end": 144.048
-},
-{
-"text": "whole",
-"start": 144.048,
-"end": 144.377
-},
-{
-"text": "economy",
-"start": 144.377,
-"end": 144.908
-},
-{
-"text": "produces",
-"start": 144.908,
-"end": 145.49
-},
-{
-"text": "in",
-"start": 145.49,
-"end": 145.718
-},
-{
-"text": "a",
-"start": 145.718,
-"end": 145.946
-},
-{
-"text": "year.",
-"start": 145.946,
-"end": 146.275
-},
-{
-"text": "In",
-"start": 146.475,
-"end": 146.71
-},
-{
-"text": "2024,",
-"start": 146.71,
-"end": 148.201
-},
-{
-"text": "interest",
-"start": 148.201,
-"end": 148.698
-},
-{
-"text": "on",
-"start": 148.698,
-"end": 148.934
-},
-{
-"text": "that",
-"start": 148.934,
-"end": 149.221
-},
-{
-"text": "debt",
-"start": 149.221,
-"end": 149.509
-},
-{
-"text": "cost",
-"start": 149.509,
-"end": 149.849
-},
-{
-"text": "more",
-"start": 149.849,
-"end": 150.189
-},
-{
-"text": "than",
-"start": 150.189,
-"end": 150.424
-},
-{
-"text": "national",
-"start": 150.424,
-"end": 150.921
-},
-{
-"text": "defense.",
-"start": 150.921,
-"end": 151.418
-},
-{
-"text": "And",
-"start": 151.618,
-"end": 151.842
-},
-{
-"text": "the",
-"start": 151.842,
-"end": 152.015
-},
-{
-"text": "dollar?",
-"start": 152.015,
-"end": 152.388
-},
-{
-"text": "Since",
-"start": 152.588,
-"end": 152.92
-},
-{
-"text": "the",
-"start": 152.92,
-"end": 153.099
-},
-{
-"text": "gold",
-"start": 153.099,
-"end": 153.483
-},
-{
-"text": "window",
-"start": 153.483,
-"end": 153.918
-},
-{
-"text": "closed,",
-"start": 153.918,
-"end": 154.354
-},
-{
-"text": "it",
-"start": 154.354,
-"end": 154.533
-},
-{
-"text": "has",
-"start": 154.533,
-"end": 154.814
-},
-{
-"text": "lost",
-"start": 154.814,
-"end": 155.147
-},
-{
-"text": "more",
-"start": 155.147,
-"end": 155.48
-},
-{
-"text": "than",
-"start": 155.48,
-"end": 155.71
-},
-{
-"text": "85",
-"start": 155.71,
-"end": 156.35
-},
-{
-"text": "percent",
-"start": 156.35,
-"end": 156.785
-},
-{
-"text": "of",
-"start": 156.785,
-"end": 156.964
-},
-{
-"text": "its",
-"start": 156.964,
-"end": 157.194
-},
-{
-"text": "purchasing",
-"start": 157.194,
-"end": 157.783
-},
-{
-"text": "power.",
-"start": 157.783,
-"end": 158.167
-},
-{
-"text": "That",
-"start": 158.367,
-"end": 158.63
-},
-{
-"text": "is",
-"start": 158.63,
-"end": 158.797
-},
-{
-"text": "a",
-"start": 158.797,
-"end": 159.013
-},
-{
-"text": "tax",
-"start": 159.013,
-"end": 159.323
-},
-{
-"text": "on",
-"start": 159.323,
-"end": 159.539
-},
-{
-"text": "savings",
-"start": 159.539,
-"end": 159.993
-},
-{
-"text": "no",
-"start": 159.993,
-"end": 160.256
-},
-{
-"text": "one",
-"start": 160.256,
-"end": 160.519
-},
-{
-"text": "ever",
-"start": 160.519,
-"end": 160.782
-},
-{
-"text": "voted",
-"start": 160.782,
-"end": 161.188
-},
-{
-"text": "for.",
-"start": 161.188,
-"end": 161.499
-},
-{
-"text": "Hayek",
-"start": 162.049,
-"end": 162.439
-},
-{
-"text": "said",
-"start": 162.439,
-"end": 162.726
-},
-{
-"text": "the",
-"start": 162.726,
-"end": 162.908
-},
-{
-"text": "curious",
-"start": 162.908,
-"end": 163.454
-},
-{
-"text": "task",
-"start": 163.454,
-"end": 163.793
-},
-{
-"text": "of",
-"start": 163.793,
-"end": 163.975
+"start": 65.74,
+"end": 65.874
 },
 {
 "text": "economics",
-"start": 163.975,
-"end": 164.729
+"start": 65.886,
+"end": 66.638
 },
 {
-"text": "is",
-"start": 164.729,
-"end": 164.912
+"text": "That",
+"start": 67.476,
+"end": 67.718
 },
 {
-"text": "to",
-"start": 164.912,
-"end": 165.146
+"text": "same",
+"start": 67.731,
+"end": 67.998
 },
 {
-"text": "show",
-"start": 165.146,
-"end": 165.432
+"text": "year",
+"start": 68.01,
+"end": 68.155
 },
 {
-"text": "men",
-"start": 165.432,
-"end": 165.718
+"text": "he",
+"start": 68.167,
+"end": 68.289
 },
 {
-"text": "how",
-"start": 165.718,
-"end": 166.005
-},
-{
-"text": "little",
-"start": 166.005,
-"end": 166.395
-},
-{
-"text": "they",
-"start": 166.395,
-"end": 166.629
-},
-{
-"text": "really",
-"start": 166.629,
-"end": 167.02
-},
-{
-"text": "know",
-"start": 167.02,
-"end": 167.306
-},
-{
-"text": "about",
-"start": 167.306,
-"end": 167.696
-},
-{
-"text": "what",
-"start": 167.696,
-"end": 167.983
-},
-{
-"text": "they",
-"start": 167.983,
-"end": 168.217
-},
-{
-"text": "imagine",
-"start": 168.217,
-"end": 168.711
-},
-{
-"text": "they",
-"start": 168.711,
-"end": 168.945
-},
-{
-"text": "can",
-"start": 168.945,
-"end": 169.232
-},
-{
-"text": "design.",
-"start": 169.232,
-"end": 169.726
-},
-{
-"text": "Keynes",
-"start": 169.926,
-"end": 170.264
-},
-{
-"text": "promised",
-"start": 170.264,
-"end": 170.737
-},
-{
-"text": "to",
-"start": 170.737,
-"end": 170.94
-},
-{
-"text": "manage",
-"start": 170.94,
-"end": 171.322
+"text": "closed",
+"start": 68.301,
+"end": 68.689
 },
 {
 "text": "the",
-"start": 171.322,
-"end": 171.48
+"start": 68.701,
+"end": 68.786
 },
 {
-"text": "storm.",
-"start": 171.48,
-"end": 171.908
+"text": "gold",
+"start": 68.799,
+"end": 69.078
 },
 {
-"text": "Instead,",
-"start": 172.108,
-"end": 172.502
-},
-{
-"text": "we",
-"start": 172.502,
-"end": 172.71
-},
-{
-"text": "inherited",
-"start": 172.71,
-"end": 173.243
-},
-{
-"text": "the",
-"start": 173.243,
-"end": 173.405
-},
-{
-"text": "debt.",
-"start": 173.405,
-"end": 173.706
+"text": "window",
+"start": 69.09,
+"end": 69.563
 },
 {
 "text": "The",
-"start": 173.906,
-"end": 174.071
+"start": 70.4,
+"end": 70.534
 },
 {
-"text": "long",
-"start": 174.071,
-"end": 174.331
+"text": "last",
+"start": 70.546,
+"end": 70.898
 },
 {
-"text": "run",
-"start": 174.331,
-"end": 174.59
+"text": "anchor",
+"start": 70.91,
+"end": 71.238
 },
 {
-"text": "is",
-"start": 174.59,
-"end": 174.755
-},
-{
-"text": "here.",
-"start": 174.755,
-"end": 175.062
-},
-{
-"text": "And",
-"start": 175.262,
-"end": 175.446
-},
-{
-"text": "we",
-"start": 175.446,
-"end": 175.63
-},
-{
-"text": "are",
-"start": 175.63,
-"end": 175.814
+"text": "on",
+"start": 71.25,
+"end": 71.335
 },
 {
 "text": "the",
-"start": 175.814,
-"end": 175.957
+"start": 71.347,
+"end": 71.42
 },
 {
-"text": "ones",
-"start": 175.957,
-"end": 176.223
+"text": "dollar",
+"start": 71.432,
+"end": 71.748
 },
 {
-"text": "living",
-"start": 176.223,
-"end": 176.53
+"text": "was",
+"start": 71.76,
+"end": 71.917
+},
+{
+"text": "gone",
+"start": 71.93,
+"end": 72.354
+},
+{
+"text": "The",
+"start": 73.192,
+"end": 73.337
+},
+{
+"text": "theory",
+"start": 73.35,
+"end": 73.726
+},
+{
+"text": "said",
+"start": 73.738,
+"end": 73.968
+},
+{
+"text": "inflation",
+"start": 73.981,
+"end": 74.575
+},
+{
+"text": "and",
+"start": 74.587,
+"end": 74.733
+},
+{
+"text": "unemployment",
+"start": 74.745,
+"end": 75.352
+},
+{
+"text": "trade",
+"start": 75.364,
+"end": 75.643
+},
+{
+"text": "off",
+"start": 75.655,
+"end": 75.983
+},
+{
+"text": "The",
+"start": 76.238,
+"end": 76.323
+},
+{
+"text": "1970s",
+"start": 76.335,
+"end": 77.269
+},
+{
+"text": "broke",
+"start": 77.282,
+"end": 77.561
+},
+{
+"text": "that",
+"start": 77.573,
+"end": 77.731
+},
+{
+"text": "promise",
+"start": 77.743,
+"end": 78.337
+},
+{
+"text": "By 1980",
+"start": 79.175,
+"end": 80.121
+},
+{
+"text": "consumer",
+"start": 80.34,
+"end": 80.837
+},
+{
+"text": "inflation",
+"start": 80.85,
+"end": 81.371
+},
+{
+"text": "hit",
+"start": 81.383,
+"end": 81.553
+},
+{
+"text": "14.8 percent",
+"start": 81.566,
+"end": 82.937
+},
+{
+"text": "a",
+"start": 82.949,
+"end": 82.973
+},
+{
+"text": "year",
+"start": 82.985,
+"end": 83.422
+},
+{
+"text": "Breaking",
+"start": 84.26,
+"end": 84.66
+},
+{
+"text": "it",
+"start": 84.672,
+"end": 84.782
+},
+{
+"text": "took",
+"start": 84.794,
+"end": 85.0
+},
+{
+"text": "interest",
+"start": 85.012,
+"end": 85.425
+},
+{
+"text": "rates",
+"start": 85.437,
+"end": 85.74
+},
+{
+"text": "near",
+"start": 85.752,
+"end": 85.959
+},
+{
+"text": "20 percent",
+"start": 85.971,
+"end": 86.76
+},
+{
+"text": "and",
+"start": 86.772,
+"end": 86.93
+},
+{
+"text": "unemployment",
+"start": 86.942,
+"end": 87.573
+},
+{
+"text": "of",
+"start": 87.585,
+"end": 87.706
+},
+{
+"text": "10.8 percent",
+"start": 87.718,
+"end": 88.968
+},
+{
+"text": "Milton",
+"start": 89.806,
+"end": 90.231
+},
+{
+"text": "Friedman",
+"start": 90.243,
+"end": 90.692
+},
+{
+"text": "had",
+"start": 90.704,
+"end": 90.862
+},
+{
+"text": "predicted",
+"start": 90.874,
+"end": 91.299
+},
+{
+"text": "this",
+"start": 91.311,
+"end": 91.468
+},
+{
+"text": "breakdown",
+"start": 91.481,
+"end": 92.063
+},
+{
+"text": "in 1967",
+"start": 92.075,
+"end": 93.386
+},
+{
+"text": "Keynes's",
+"start": 94.223,
+"end": 94.66
+},
+{
+"text": "most",
+"start": 94.672,
+"end": 94.976
+},
+{
+"text": "famous",
+"start": 94.988,
+"end": 95.352
+},
+{
+"text": "line",
+"start": 95.364,
+"end": 95.667
+},
+{
+"text": "comes",
+"start": 95.68,
+"end": 95.947
+},
+{
+"text": "from 1923",
+"start": 95.959,
+"end": 97.184
+},
+{
+"text": "But",
+"start": 97.488,
+"end": 97.621
+},
+{
+"text": "this",
+"start": 97.633,
+"end": 97.828
+},
+{
+"text": "long",
+"start": 97.84,
+"end": 98.167
+},
+{
+"text": "run",
+"start": 98.18,
+"end": 98.422
+},
+{
+"text": "is",
+"start": 98.434,
+"end": 98.556
+},
+{
+"text": "a",
+"start": 98.568,
+"end": 98.616
+},
+{
+"text": "misleading",
+"start": 98.629,
+"end": 99.15
+},
+{
+"text": "guide",
+"start": 99.163,
+"end": 99.466
+},
+{
+"text": "to",
+"start": 99.478,
+"end": 99.563
+},
+{
+"text": "current",
+"start": 99.575,
+"end": 99.854
+},
+{
+"text": "affairs",
+"start": 99.867,
+"end": 100.51
+},
+{
+"text": "In",
+"start": 101.347,
+"end": 101.493
+},
+{
+"text": "the",
+"start": 101.505,
+"end": 101.59
+},
+{
+"text": "long",
+"start": 101.602,
+"end": 101.954
+},
+{
+"text": "run",
+"start": 101.966,
+"end": 102.197
+},
+{
+"text": "we",
+"start": 102.209,
+"end": 102.33
+},
+{
+"text": "are",
+"start": 102.342,
+"end": 102.476
+},
+{
+"text": "all",
+"start": 102.488,
+"end": 102.694
+},
+{
+"text": "dead",
+"start": 102.706,
+"end": 103.119
+},
+{
+"text": "Economists",
+"start": 103.956,
+"end": 104.648
+},
+{
+"text": "set",
+"start": 104.66,
+"end": 104.83
+},
+{
+"text": "themselves",
+"start": 104.842,
+"end": 105.316
+},
+{
+"text": "too",
+"start": 105.328,
+"end": 105.558
+},
+{
+"text": "easy",
+"start": 105.57,
+"end": 105.959
+},
+{
+"text": "too",
+"start": 106.226,
+"end": 106.444
+},
+{
+"text": "useless",
+"start": 106.456,
+"end": 106.869
+},
+{
+"text": "a",
+"start": 106.881,
+"end": 106.954
+},
+{
+"text": "task",
+"start": 106.966,
+"end": 107.415
+},
+{
+"text": "if",
+"start": 107.427,
+"end": 107.536
 },
 {
 "text": "in",
-"start": 176.53,
-"end": 176.714
+"start": 107.549,
+"end": 107.646
 },
 {
-"text": "it.",
-"start": 176.714,
-"end": 176.897
+"text": "tempestuous",
+"start": 107.658,
+"end": 108.289
+},
+{
+"text": "seasons",
+"start": 108.301,
+"end": 108.714
+},
+{
+"text": "they",
+"start": 108.726,
+"end": 108.835
+},
+{
+"text": "can",
+"start": 108.847,
+"end": 109.005
+},
+{
+"text": "only",
+"start": 109.017,
+"end": 109.248
+},
+{
+"text": "tell",
+"start": 109.26,
+"end": 109.478
+},
+{
+"text": "us",
+"start": 109.49,
+"end": 109.636
+},
+{
+"text": "that",
+"start": 109.648,
+"end": 109.769
+},
+{
+"text": "when",
+"start": 109.782,
+"end": 109.879
+},
+{
+"text": "the",
+"start": 109.891,
+"end": 109.964
+},
+{
+"text": "storm",
+"start": 109.976,
+"end": 110.328
+},
+{
+"text": "is",
+"start": 110.34,
+"end": 110.461
+},
+{
+"text": "long",
+"start": 110.473,
+"end": 110.728
+},
+{
+"text": "past",
+"start": 110.74,
+"end": 111.068
+},
+{
+"text": "the",
+"start": 111.08,
+"end": 111.165
+},
+{
+"text": "ocean",
+"start": 111.177,
+"end": 111.529
+},
+{
+"text": "is",
+"start": 111.541,
+"end": 111.663
+},
+{
+"text": "flat",
+"start": 111.675,
+"end": 111.942
+},
+{
+"text": "again",
+"start": 111.954,
+"end": 112.379
+},
+{
+"text": "Whatever",
+"start": 113.216,
+"end": 113.617
+},
+{
+"text": "he",
+"start": 113.629,
+"end": 113.75
+},
+{
+"text": "meant",
+"start": 113.762,
+"end": 114.017
+},
+{
+"text": "by",
+"start": 114.029,
+"end": 114.223
+},
+{
+"text": "it",
+"start": 114.235,
+"end": 114.369
+},
+{
+"text": "the",
+"start": 114.612,
+"end": 114.733
+},
+{
+"text": "long",
+"start": 114.745,
+"end": 115.073
+},
+{
+"text": "run",
+"start": 115.085,
+"end": 115.34
+},
+{
+"text": "became",
+"start": 115.473,
+"end": 115.825
+},
+{
+"text": "something",
+"start": 115.837,
+"end": 116.238
+},
+{
+"text": "politics",
+"start": 116.25,
+"end": 116.881
+},
+{
+"text": "could",
+"start": 116.893,
+"end": 117.087
+},
+{
+"text": "safely",
+"start": 117.1,
+"end": 117.536
+},
+{
+"text": "ignore",
+"start": 117.549,
+"end": 118.07
+},
+{
+"text": "Nobel",
+"start": 118.908,
+"end": 119.405
+},
+{
+"text": "laureate",
+"start": 119.417,
+"end": 119.782
+},
+{
+"text": "James",
+"start": 119.794,
+"end": 120.17
+},
+{
+"text": "Buchanan",
+"start": 120.182,
+"end": 120.704
+},
+{
+"text": "showed",
+"start": 120.716,
+"end": 121.007
+},
+{
+"text": "how",
+"start": 121.019,
+"end": 121.189
+},
+{
+"text": "Keynesian",
+"start": 121.201,
+"end": 121.711
+},
+{
+"text": "ideas",
+"start": 121.723,
+"end": 122.221
+},
+{
+"text": "freed",
+"start": 122.233,
+"end": 122.5
+},
+{
+"text": "politicians",
+"start": 122.512,
+"end": 123.216
+},
+{
+"text": "from",
+"start": 123.228,
+"end": 123.374
+},
+{
+"text": "balancing",
+"start": 123.386,
+"end": 123.883
+},
+{
+"text": "budgets",
+"start": 123.896,
+"end": 124.478
+},
+{
+"text": "Spending",
+"start": 125.316,
+"end": 125.862
+},
+{
+"text": "now",
+"start": 125.874,
+"end": 126.104
+},
+{
+"text": "wins",
+"start": 126.117,
+"end": 126.456
+},
+{
+"text": "votes",
+"start": 126.468,
+"end": 127.002
+},
+{
+"text": "The",
+"start": 127.84,
+"end": 127.998
+},
+{
+"text": "bill",
+"start": 128.01,
+"end": 128.228
+},
+{
+"text": "arrives",
+"start": 128.24,
+"end": 128.665
+},
+{
+"text": "later",
+"start": 128.677,
+"end": 129.029
+},
+{
+"text": "addressed",
+"start": 129.235,
+"end": 129.636
+},
+{
+"text": "to",
+"start": 129.648,
+"end": 129.733
+},
+{
+"text": "people",
+"start": 129.745,
+"end": 130.061
+},
+{
+"text": "too",
+"start": 130.073,
+"end": 130.279
+},
+{
+"text": "young",
+"start": 130.291,
+"end": 130.582
+},
+{
+"text": "to",
+"start": 130.595,
+"end": 130.704
+},
+{
+"text": "vote",
+"start": 130.716,
+"end": 131.056
+},
+{
+"text": "or",
+"start": 131.286,
+"end": 131.396
+},
+{
+"text": "not",
+"start": 131.408,
+"end": 131.663
+},
+{
+"text": "yet",
+"start": 131.675,
+"end": 131.869
+},
+{
+"text": "born",
+"start": 131.881,
+"end": 132.318
+},
+{
+"text": "Washington",
+"start": 133.155,
+"end": 133.75
+},
+{
+"text": "has",
+"start": 133.762,
+"end": 133.932
+},
+{
+"text": "not",
+"start": 133.944,
+"end": 134.187
+},
+{
+"text": "run",
+"start": 134.199,
+"end": 134.333
+},
+{
+"text": "a",
+"start": 134.345,
+"end": 134.393
+},
+{
+"text": "surplus",
+"start": 134.405,
+"end": 134.927
+},
+{
+"text": "since 2001",
+"start": 134.939,
+"end": 136.129
+},
+{
+"text": "Federal",
+"start": 136.966,
+"end": 137.391
+},
+{
+"text": "debt",
+"start": 137.403,
+"end": 137.646
+},
+{
+"text": "has",
+"start": 137.658,
+"end": 137.815
+},
+{
+"text": "passed",
+"start": 137.828,
+"end": 138.18
+},
+{
+"text": "37 trillion dollars",
+"start": 138.192,
+"end": 139.672
+},
+{
+"text": "more",
+"start": 139.927,
+"end": 140.121
+},
+{
+"text": "than",
+"start": 140.133,
+"end": 140.255
+},
+{
+"text": "the",
+"start": 140.267,
+"end": 140.34
+},
+{
+"text": "whole",
+"start": 140.352,
+"end": 140.595
+},
+{
+"text": "economy",
+"start": 140.607,
+"end": 141.056
+},
+{
+"text": "produces",
+"start": 141.068,
+"end": 141.59
+},
+{
+"text": "in",
+"start": 141.602,
+"end": 141.711
+},
+{
+"text": "a",
+"start": 141.723,
+"end": 141.748
+},
+{
+"text": "year",
+"start": 141.76,
+"end": 142.197
+},
+{
+"text": "In 2024",
+"start": 143.034,
+"end": 144.211
+},
+{
+"text": "interest",
+"start": 144.43,
+"end": 144.879
+},
+{
+"text": "on",
+"start": 144.891,
+"end": 144.988
+},
+{
+"text": "that",
+"start": 145.0,
+"end": 145.218
+},
+{
+"text": "debt",
+"start": 145.231,
+"end": 145.473
+},
+{
+"text": "cost",
+"start": 145.485,
+"end": 145.862
+},
+{
+"text": "more",
+"start": 145.874,
+"end": 146.08
+},
+{
+"text": "than",
+"start": 146.092,
+"end": 146.238
+},
+{
+"text": "national",
+"start": 146.25,
+"end": 146.638
+},
+{
+"text": "defense",
+"start": 146.65,
+"end": 147.257
+},
+{
+"text": "And",
+"start": 148.095,
+"end": 148.228
+},
+{
+"text": "the",
+"start": 148.24,
+"end": 148.337
+},
+{
+"text": "dollar",
+"start": 148.35,
+"end": 148.823
+},
+{
+"text": "Since",
+"start": 149.66,
+"end": 150.012
+},
+{
+"text": "the",
+"start": 150.024,
+"end": 150.121
+},
+{
+"text": "gold",
+"start": 150.133,
+"end": 150.425
+},
+{
+"text": "window",
+"start": 150.437,
+"end": 150.765
+},
+{
+"text": "closed",
+"start": 150.777,
+"end": 151.311
+},
+{
+"text": "it",
+"start": 151.529,
+"end": 151.59
+},
+{
+"text": "has",
+"start": 151.602,
+"end": 151.772
+},
+{
+"text": "lost",
+"start": 151.784,
+"end": 152.1
+},
+{
+"text": "more",
+"start": 152.112,
+"end": 152.306
+},
+{
+"text": "than",
+"start": 152.318,
+"end": 152.488
+},
+{
+"text": "85 percent",
+"start": 152.5,
+"end": 153.386
+},
+{
+"text": "of",
+"start": 153.398,
+"end": 153.483
+},
+{
+"text": "its",
+"start": 153.495,
+"end": 153.617
+},
+{
+"text": "purchasing",
+"start": 153.629,
+"end": 154.126
+},
+{
+"text": "power",
+"start": 154.138,
+"end": 154.587
+},
+{
+"text": "That",
+"start": 155.425,
+"end": 155.68
+},
+{
+"text": "is",
+"start": 155.692,
+"end": 155.789
+},
+{
+"text": "a",
+"start": 155.801,
+"end": 155.874
+},
+{
+"text": "tax",
+"start": 155.886,
+"end": 156.274
+},
+{
+"text": "on",
+"start": 156.286,
+"end": 156.432
+},
+{
+"text": "savings",
+"start": 156.444,
+"end": 156.93
+},
+{
+"text": "no",
+"start": 156.942,
+"end": 157.136
+},
+{
+"text": "one",
+"start": 157.148,
+"end": 157.33
+},
+{
+"text": "ever",
+"start": 157.342,
+"end": 157.549
+},
+{
+"text": "voted",
+"start": 157.561,
+"end": 157.876
+},
+{
+"text": "for",
+"start": 157.888,
+"end": 158.313
+},
+{
+"text": "Hayek",
+"start": 159.15,
+"end": 159.563
+},
+{
+"text": "said",
+"start": 159.575,
+"end": 159.782
+},
+{
+"text": "the",
+"start": 159.794,
+"end": 159.867
+},
+{
+"text": "curious",
+"start": 159.879,
+"end": 160.328
+},
+{
+"text": "task",
+"start": 160.34,
+"end": 160.68
+},
+{
+"text": "of",
+"start": 160.692,
+"end": 160.777
+},
+{
+"text": "economics",
+"start": 160.789,
+"end": 161.383
+},
+{
+"text": "is",
+"start": 161.396,
+"end": 161.541
+},
+{
+"text": "to",
+"start": 161.553,
+"end": 161.65
+},
+{
+"text": "show",
+"start": 161.663,
+"end": 161.966
+},
+{
+"text": "men",
+"start": 161.978,
+"end": 162.184
+},
+{
+"text": "how",
+"start": 162.197,
+"end": 162.354
+},
+{
+"text": "little",
+"start": 162.367,
+"end": 162.621
+},
+{
+"text": "they",
+"start": 162.633,
+"end": 162.767
+},
+{
+"text": "really",
+"start": 162.779,
+"end": 163.095
+},
+{
+"text": "know",
+"start": 163.107,
+"end": 163.362
+},
+{
+"text": "about",
+"start": 163.374,
+"end": 163.629
+},
+{
+"text": "what",
+"start": 163.641,
+"end": 163.786
+},
+{
+"text": "they",
+"start": 163.799,
+"end": 163.92
+},
+{
+"text": "imagine",
+"start": 163.932,
+"end": 164.381
+},
+{
+"text": "they",
+"start": 164.393,
+"end": 164.502
+},
+{
+"text": "can",
+"start": 164.515,
+"end": 164.636
+},
+{
+"text": "design",
+"start": 164.648,
+"end": 165.182
+},
+{
+"text": "Keynes",
+"start": 166.019,
+"end": 166.408
+},
+{
+"text": "promised",
+"start": 166.42,
+"end": 166.869
+},
+{
+"text": "to",
+"start": 166.881,
+"end": 166.954
+},
+{
+"text": "manage",
+"start": 166.966,
+"end": 167.354
+},
+{
+"text": "the",
+"start": 167.367,
+"end": 167.464
+},
+{
+"text": "storm",
+"start": 167.476,
+"end": 167.973
+},
+{
+"text": "Instead",
+"start": 168.811,
+"end": 169.417
+},
+{
+"text": "we",
+"start": 169.636,
+"end": 169.806
+},
+{
+"text": "inherited",
+"start": 169.818,
+"end": 170.316
+},
+{
+"text": "the",
+"start": 170.328,
+"end": 170.425
+},
+{
+"text": "debt",
+"start": 170.437,
+"end": 170.789
+},
+{
+"text": "The",
+"start": 171.626,
+"end": 171.772
+},
+{
+"text": "long",
+"start": 171.784,
+"end": 172.136
+},
+{
+"text": "run",
+"start": 172.148,
+"end": 172.367
+},
+{
+"text": "is",
+"start": 172.379,
+"end": 172.512
+},
+{
+"text": "here",
+"start": 172.524,
+"end": 172.9
+},
+{
+"text": "And",
+"start": 173.738,
+"end": 173.908
+},
+{
+"text": "we",
+"start": 173.92,
+"end": 174.078
+},
+{
+"text": "are",
+"start": 174.09,
+"end": 174.199
+},
+{
+"text": "the",
+"start": 174.211,
+"end": 174.308
+},
+{
+"text": "ones",
+"start": 174.32,
+"end": 174.612
+},
+{
+"text": "living",
+"start": 174.624,
+"end": 174.951
+},
+{
+"text": "in",
+"start": 174.964,
+"end": 175.061
+},
+{
+"text": "it",
+"start": 175.073,
+"end": 175.291
 }
 ]
 }

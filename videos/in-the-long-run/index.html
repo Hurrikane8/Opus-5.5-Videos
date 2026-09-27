@@ -1,0 +1,983 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=1920, height=1080" />
+<script src="assets/js/gsap.min.js"></script>
+<style>
+@font-face { font-family: "Inter"; src: url("assets/fonts/inter-latin-400-normal.woff2") format("woff2"); font-weight: 400; }
+@font-face { font-family: "Inter"; src: url("assets/fonts/inter-latin-500-normal.woff2") format("woff2"); font-weight: 500; }
+@font-face { font-family: "Inter"; src: url("assets/fonts/inter-latin-600-normal.woff2") format("woff2"); font-weight: 600; }
+@font-face { font-family: "Plex Mono"; src: url("assets/fonts/ibm-plex-mono-latin-400-normal.woff2") format("woff2"); font-weight: 400; }
+@font-face { font-family: "Plex Mono"; src: url("assets/fonts/ibm-plex-mono-latin-500-normal.woff2") format("woff2"); font-weight: 500; }
+@font-face { font-family: "Garamond"; src: url("assets/fonts/eb-garamond-latin-400-normal.woff2") format("woff2"); font-weight: 400; }
+@font-face { font-family: "Garamond"; src: url("assets/fonts/eb-garamond-latin-500-normal.woff2") format("woff2"); font-weight: 500; }
+@font-face { font-family: "Garamond"; src: url("assets/fonts/eb-garamond-latin-400-italic.woff2") format("woff2"); font-weight: 400; font-style: italic; }
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html, body { width: 1920px; height: 1080px; overflow: hidden; background: #000; }
+#root { position: relative; width: 100%; height: 100%; overflow: hidden; background: #000; color: #f4f4f5; font-family: "Inter", sans-serif; }
+#bg { position: absolute; inset: 0; background: radial-gradient(ellipse at 50% 45%, #0d0d0f 0%, #000 70%); }
+.scene { position: absolute; inset: 0; }
+.center { display: flex; align-items: center; justify-content: center; }
+
+/* grain + vignette */
+#grain { position: absolute; inset: -40px; pointer-events: none; opacity: 0.13; mix-blend-mode: screen;
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='240' height='240'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' seed='7'/><feColorMatrix values='0 0 0 0 1  0 0 0 0 1  0 0 0 0 1  0 0 0 1.4 -0.2'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>");
+  background-size: 240px 240px; }
+#vignette { position: absolute; inset: 0; pointer-events: none; background: radial-gradient(ellipse at center, transparent 55%, rgba(0,0,0,0.75) 100%); }
+
+/* photos */
+.pwrap { position: relative; display: flex; flex-direction: column; align-items: center; }
+.photo-frame { position: relative; overflow: hidden; box-shadow: 0 30px 80px rgba(0,0,0,0.8); outline: 1px solid rgba(255,255,255,0.08); }
+.photo-frame img { display: block; width: 100%; height: auto; filter: grayscale(1) contrast(1.15) brightness(0.95); }
+.photo-full { position: absolute; inset: 0; width: 1920px; height: 1080px; overflow: hidden; }
+.photo-full img { width: 100%; height: 100%; object-fit: cover; filter: grayscale(1) contrast(1.1) brightness(0.72); }
+.photo-full.dim img, .photo-frame.dim img { filter: grayscale(1) contrast(1.05) brightness(0.38); }
+.pwrap:has(.photo-full) { position: absolute; inset: 0; }
+.halftone { position: absolute; inset: 0; pointer-events: none; mix-blend-mode: multiply; opacity: 0.35;
+  background-image: radial-gradient(circle, rgba(0,0,0,0.9) 1px, transparent 1.6px); background-size: 5px 5px; }
+.plabel { margin-top: 26px; font-family: "Plex Mono", monospace; font-size: 22px; letter-spacing: 0.18em; color: #bdbdc2; }
+
+/* kinetic words */
+.kinetic { max-width: 1400px; text-align: center; font-weight: 500; line-height: 1.25; letter-spacing: -0.01em; }
+.kinetic.serif { font-family: "Garamond", serif; font-weight: 400; }
+.kw { display: inline-block; }
+.kw.hl { color: #ff4d4d; }
+
+/* glitch title */
+.gwrap { display: flex; flex-direction: column; align-items: center; }
+.glitch { position: relative; font-family: "Plex Mono", monospace; font-weight: 500; color: #e9fbff; letter-spacing: 0.08em;
+  text-shadow: -4px 0 rgba(0,229,255,0.85), 4px 0 rgba(255,40,80,0.85), 0 0 24px rgba(160,240,255,0.45); }
+.glitch.small { font-size: 44px; max-width: 900px; line-height: 1.35; }
+.gsub { margin-top: 24px; font-family: "Plex Mono", monospace; font-size: 22px; letter-spacing: 0.2em; color: #9a9aa2; }
+
+/* book macro */
+.book { font-family: "Garamond", serif; color: #1c1c1c; background: #ecebe6; padding: 50px 120px; width: 2300px; line-height: 1.32;
+  box-shadow: inset 0 0 200px rgba(0,0,0,0.35); }
+.brow { position: relative; white-space: nowrap; }
+.brow .btxt, .ql .btxt { position: relative; }
+.mark { position: absolute; left: -16px; right: -16px; top: 8%; bottom: 4%; transform-origin: left center; display: block; }
+.mark.red { background: rgba(200,30,40,0.85); }
+.mark.blue { background: rgba(70,110,190,0.7); }
+.hlrow .btxt { color: #fff; }
+.btag { position: absolute; bottom: 110px; left: 0; right: 0; text-align: center; font-family: "Plex Mono", monospace; font-size: 22px; letter-spacing: 0.2em; color: #d7d7dc;
+  text-shadow: 0 2px 10px #000; }
+
+/* general theory cover */
+.cover { width: 620px; height: 860px; background: #2a3b2f; border: 2px solid #b89b5e; color: #d9c48f; display: flex; flex-direction: column; align-items: center; justify-content: center;
+  text-align: center; font-family: "Garamond", serif; transform-style: preserve-3d; box-shadow: 40px 40px 90px rgba(0,0,0,0.8); padding: 40px; }
+.cv1 { font-size: 54px; letter-spacing: 0.06em; }
+.cv2 { font-size: 34px; letter-spacing: 0.08em; margin-top: 18px; line-height: 1.3; }
+.cvrule { width: 200px; height: 2px; background: #b89b5e; margin: 48px 0; }
+.cv3 { font-size: 30px; letter-spacing: 0.14em; }
+.cv4 { font-size: 20px; letter-spacing: 0.2em; margin-top: 140px; }
+.side-photo { position: relative; width: 420px; overflow: hidden; box-shadow: 0 30px 80px #000; }
+.side-photo img { width: 100%; display: block; filter: grayscale(1) contrast(1.15); }
+
+/* triad */
+.triad { display: flex; flex-direction: column; gap: 18px; font-family: "Plex Mono", monospace; font-size: 88px; font-weight: 500; letter-spacing: 0.06em; text-align: right; }
+.triad div:last-child { color: #ff4d4d; }
+
+/* hayek flow */
+.flow { display: flex; align-items: center; gap: 28px; }
+.node { position: relative; overflow: hidden; font-family: "Plex Mono", monospace; font-size: 30px; letter-spacing: 0.08em; padding: 30px 34px; border: 2px solid rgba(255,255,255,0.5); background: rgba(255,255,255,0.04); }
+.arrow { font-size: 48px; color: #888; }
+.flowsrc { position: absolute; bottom: 180px; font-family: "Plex Mono", monospace; font-size: 20px; letter-spacing: 0.2em; color: #8a8a92; }
+
+/* nixon quote */
+.nquote { max-width: 900px; display: flex; flex-direction: column; align-items: flex-start; }
+
+/* gold window */
+.gold { display: flex; flex-direction: column; align-items: center; gap: 60px; font-family: "Plex Mono", monospace; }
+.gdate { font-size: 96px; font-weight: 500; }
+.peg { display: flex; align-items: center; gap: 30px; font-size: 44px; color: #d9c48f; }
+.chain { display: block; width: 260px; height: 6px; background: #d9c48f; transform-origin: left center; }
+.gone { font-size: 40px; letter-spacing: 0.2em; color: #ff4d4d; }
+
+/* chart */
+.chart { display: flex; flex-direction: column; align-items: center; }
+.ctitle { font-family: "Plex Mono", monospace; font-size: 30px; letter-spacing: 0.12em; margin-bottom: 30px; color: #e5e5ea; }
+.chart svg { overflow: visible; }
+.grid { stroke: rgba(255,255,255,0.12); stroke-width: 1; }
+.ax { fill: #8a8a92; font-family: "Plex Mono", monospace; font-size: 22px; }
+.lab { font-family: "Plex Mono", monospace; font-size: 24px; }
+.annot { font-family: "Plex Mono", monospace; font-size: 24px; }
+.cnote { margin-top: 18px; font-family: "Plex Mono", monospace; font-size: 18px; letter-spacing: 0.14em; color: #77777f; }
+
+/* stat */
+.statbg { position: absolute; inset: 0; }
+.statbg img { width: 100%; height: 100%; object-fit: cover; filter: grayscale(1) brightness(0.3) contrast(1.1); }
+.stat { position: relative; display: flex; flex-direction: column; align-items: center; }
+.sval { font-family: "Plex Mono", monospace; font-size: 240px; font-weight: 500; line-height: 1; }
+.slab { margin-top: 30px; font-family: "Plex Mono", monospace; font-size: 34px; letter-spacing: 0.16em; }
+.ssub { margin-top: 14px; font-family: "Plex Mono", monospace; font-size: 20px; letter-spacing: 0.18em; color: #9a9aa2; }
+.twostat { display: flex; flex-direction: column; gap: 60px; font-family: "Plex Mono", monospace; }
+.twostat div { display: flex; flex-direction: column; }
+.twostat b { font-size: 130px; font-weight: 500; color: #ff4d4d; line-height: 1; }
+.twostat span { font-size: 24px; letter-spacing: 0.16em; margin-top: 10px; color: #cfcfd4; }
+
+/* quote */
+.quote { max-width: 1500px; font-family: "Garamond", serif; font-size: 58px; line-height: 1.3; text-align: center; }
+.ql { position: relative; }
+.qhl { font-size: 76px; margin: 18px 0; color: #fff; }
+.qhl .mark { top: 12%; bottom: 6%; }
+.qsrc { margin-top: 40px; font-family: "Plex Mono", monospace; font-size: 22px; letter-spacing: 0.14em; color: #9a9aa2; }
+.qsrc i { font-style: normal; color: #d7d7dc; }
+.closing { font-size: 64px; font-style: italic; }
+
+/* now / later */
+.arrowline { display: flex; align-items: center; gap: 40px; font-family: "Plex Mono", monospace; }
+.arrowline b { font-size: 90px; font-weight: 500; display: block; }
+.arrowline span { font-size: 24px; letter-spacing: 0.16em; color: #cfcfd4; }
+.al-later b { color: #ff4d4d; }
+.al-bar { width: 520px; height: 4px; background: linear-gradient(90deg, #fff, #ff4d4d); transform-origin: left center; }
+.al-who { position: absolute; bottom: 230px; font-family: "Plex Mono", monospace; font-size: 26px; letter-spacing: 0.14em; color: #ff8a8a; }
+
+/* deficit years */
+.years { display: flex; gap: 12px; }
+.yr { display: flex; flex-direction: column; align-items: center; gap: 12px; }
+.yr i { display: block; width: 44px; height: 120px; background: #b3121b; }
+.yr.surplus i { background: #e8e8e8; }
+.yr span { font-family: "Plex Mono", monospace; font-size: 15px; color: #8a8a92; writing-mode: vertical-rl; transform: rotate(180deg); }
+.ylab { position: absolute; bottom: 250px; font-family: "Plex Mono", monospace; font-size: 20px; letter-spacing: 0.14em; color: #9a9aa2; display: flex; align-items: center; gap: 10px; }
+.sw, .dw { display: inline-block; width: 18px; height: 18px; }
+.sw { background: #e8e8e8; } .dw { background: #b3121b; margin-left: 22px; }
+
+/* bars */
+.bars { display: flex; gap: 160px; align-items: flex-end; height: 620px; }
+.bar { display: flex; flex-direction: column; align-items: center; justify-content: flex-end; height: 100%; font-family: "Plex Mono", monospace; }
+.bfill { width: 220px; height: 440px; background: #d9d9de; transform-origin: bottom center; }
+.bfill.red { background: #b3121b; height: 444px; }
+.bar b { font-size: 64px; font-weight: 500; margin-top: 20px; }
+.bar span { font-size: 22px; letter-spacing: 0.16em; color: #9a9aa2; margin-top: 6px; }
+.bsrc { position: absolute; bottom: 110px; font-family: "Plex Mono", monospace; font-size: 18px; letter-spacing: 0.14em; color: #77777f; }
+
+/* end card */
+.endcard { display: flex; flex-direction: column; align-items: center; gap: 24px; font-family: "Plex Mono", monospace; font-size: 56px; letter-spacing: 0.2em; }
+.endcard span { font-size: 20px; color: #77777f; }
+
+/* captions */
+.cap { position: absolute; left: 0; right: 0; bottom: 56px; display: flex; justify-content: center; }
+.capt { max-width: 1300px; text-align: center; font-family: "Inter", sans-serif; font-weight: 500; font-size: 30px; line-height: 1.35; color: #fff;
+  text-shadow: 0 2px 8px rgba(0,0,0,0.9), 0 0 2px #000; }
+
+.cplot { position: relative; }
+.clayer { position: absolute; inset: 0; }
+
+#nd3r { position: absolute; inset: 0; background: #b3121b; }
+.node span { position: relative; }
+
+</style>
+</head>
+<body>
+<div id="root" data-composition-id="main" data-start="0" data-duration="178.5" data-width="1920" data-height="1080">
+<div id="bg"></div>
+<div id="c7" class="clip scene center" data-start="0.050" data-duration="2.700" data-track-index="1" style=""><div id="kb6" class="kinetic " style="font-size:72px;margin-top:0px;color:#f4f4f5"><span id="k1" class="kw ">Bury</span> <span id="k2" class="kw ">banknotes</span> <span id="k3" class="kw ">in</span> <span id="k4" class="kw ">old</span> <span id="k5" class="kw ">bottles.</span></div></div>
+<div id="c16" class="clip scene center" data-start="2.750" data-duration="2.400" data-track-index="1" style=""><div id="kb15" class="kinetic " style="font-size:72px;margin-top:0px;color:#f4f4f5"><span id="k8" class="kw ">Pay</span> <span id="k9" class="kw ">men</span> <span id="k10" class="kw ">to</span> <span id="k11" class="kw ">dig</span> <span id="k12" class="kw ">them</span> <span id="k13" class="kw ">up</span> <span id="k14" class="kw ">again.</span></div></div>
+<div id="c18" class="clip scene center" data-start="5.150" data-duration="3.850" data-track-index="1" style=""><div id="b17" class="book" style="font-size:78px"><div class="brow hlrow" style="filter:blur(0px)"><span class="mark red" id="b17m"></span><span class="btxt">If the Treasury were to fill old bottles</span></div><div class="brow" style="filter:blur(1.6px)"><span class="btxt">with banknotes, bury them at suitable depths</span></div><div class="brow" style="filter:blur(3.2px)"><span class="btxt">in disused coalmines which are then filled up</span></div><div class="brow" style="filter:blur(4.800000000000001px)"><span class="btxt">to the surface with town rubbish, and leave it</span></div><div class="brow" style="filter:blur(5px)"><span class="btxt">to private-enterprise ... to dig the notes up again</span></div></div><div class="btag">J. M. KEYNES · THE GENERAL THEORY · 1936 · CH. 10</div></div>
+<div id="c20" class="clip scene center" data-start="9.000" data-duration="2.300" data-track-index="1" style=""><div class="pwrap" style="transform:translate(0px,0px)"><div id="p19" class="photo-frame" style="width:520px;"><img src="assets/img/keynes_1933.jpg" alt=""><div class="halftone"></div></div><div class="plabel">JOHN MAYNARD KEYNES · 1883–1946</div></div></div>
+<div id="c22" class="clip scene center" data-start="11.300" data-duration="1.150" data-track-index="1" style=""><div class="gwrap"><div id="g21" class="glitch" style="font-size:110px" data-text="IN THE LONG RUN">IN THE LONG RUN</div></div></div>
+<div id="c26" class="clip scene center" data-start="12.450" data-duration="3.300" data-track-index="1" style=""><div class="pwrap" style="transform:translate(0px,0px)"><div id="p25" class="photo-full" style=""><img src="assets/img/soup_kitchen.jpg" alt=""><div class="halftone"></div></div><div class="plabel">DEPRESSION SOUP KITCHEN · CHICAGO · 1931</div></div></div>
+<div id="c28" class="clip scene center" data-start="12.600" data-duration="3.000" data-track-index="1" style=""><div class="gwrap"><div id="g27" class="glitch" style="font-size:150px" data-text="1936">1936</div></div></div>
+<div id="c29" class="clip scene center" data-start="15.750" data-duration="5.250" data-track-index="1" style="gap:110px"><div class="cover" id="cov"><div class="cv1">THE GENERAL THEORY</div><div class="cv2">OF EMPLOYMENT, INTEREST</div><div class="cv2" style="margin-top:4px">AND MONEY</div><div class="cvrule"></div><div class="cv3">JOHN MAYNARD KEYNES</div><div class="cv4">MACMILLAN · LONDON · 1936</div></div><div class="side-photo" id="covp"><img src="assets/img/keynes.jpg" alt=""><div class="halftone"></div></div></div>
+<div id="c32" class="clip scene center" data-start="21.000" data-duration="6.950" data-track-index="1" style=""><div class="pwrap" style="transform:translate(-420px,0px)"><div id="p31" class="photo-frame dim" style="width:880px;"><img src="assets/img/eccles_1937.jpg" alt=""><div class="halftone"></div></div><div class="plabel">FEDERAL RESERVE BUILDING · 1937</div></div></div>
+<div id="c33" class="clip scene center" data-start="21.000" data-duration="6.950" data-track-index="2" style="justify-content:flex-end;padding-right:180px"><div class="triad"><div id="tr1">SPEND</div><div id="tr2">BORROW</div><div id="tr3">CREATE DEMAND</div></div></div>
+<div id="c49" class="clip scene center" data-start="27.950" data-duration="5.250" data-track-index="1" style=""><div id="kb48" class="kinetic " style="font-size:60px;margin-top:0px;color:#f4f4f5"><span id="k34" class="kw ">Recessions</span> <span id="k35" class="kw ">were</span> <span id="k36" class="kw ">no</span> <span id="k37" class="kw ">longer</span> <span id="k38" class="kw ">corrections</span> <span id="k39" class="kw ">to</span> <span id="k40" class="kw ">endure,</span> <span id="k41" class="kw ">but</span> <span id="k42" class="kw ">failures</span> <span id="k43" class="kw ">to</span> <span id="k44" class="kw ">manage</span> <span id="k45" class="kw ">from</span> <span id="k46" class="kw ">the</span> <span id="k47" class="kw hl">center.</span></div></div>
+<div id="c51" class="clip scene center" data-start="33.200" data-duration="4.150" data-track-index="1" style=""><div class="pwrap" style="transform:translate(0px,0px)"><div id="p50" class="photo-frame" style="width:1300px;"><img src="assets/img/hayek_1981.jpg" alt=""><div class="halftone"></div></div><div class="plabel">FRIEDRICH A. HAYEK · LSE · 1981</div></div></div>
+<div id="c52" class="clip scene center" data-start="37.350" data-duration="8.400" data-track-index="1" style=""><div class="flow"><div class="node" id="nd0"><span>CHEAP CREDIT</span></div><div class="arrow" id="ar0">→</div><div class="node" id="nd1"><span>FALSE PRICE SIGNALS</span></div><div class="arrow" id="ar1">→</div><div class="node" id="nd2"><span>MALINVESTMENT</span></div><div class="arrow" id="ar2">→</div><div class="node" id="nd3"><i id=nd3r></i><span>BUST</span></div></div><div class="flowsrc">HAYEK · PRICES AND PRODUCTION · 1931</div></div>
+<div id="c55" class="clip scene center" data-start="45.750" data-duration="6.750" data-track-index="1" style=""><div id="b54" class="book" style="font-size:84px"><div class="brow" style="filter:blur(1.6px)"><span class="btxt">Prices and Production — 1931</span></div><div class="brow hlrow" style="filter:blur(0px)"><span class="mark red" id="b54m"></span><span class="btxt">The Road to Serfdom — 1944</span></div><div class="brow" style="filter:blur(1.6px)"><span class="btxt">The Constitution of Liberty — 1960</span></div></div><div class="btag">F. A. HAYEK</div></div>
+<div id="c57" class="clip scene center" data-start="52.500" data-duration="2.650" data-track-index="1" style=""><div class="pwrap" style="transform:translate(0px,0px)"><div id="p56" class="photo-frame" style="width:520px;"><img src="assets/img/white_keynes.jpg" alt=""><div class="halftone"></div></div><div class="plabel">HARRY DEXTER WHITE &amp; J. M. KEYNES · 1946</div></div></div>
+<div id="c59" class="clip scene center" data-start="55.150" data-duration="6.100" data-track-index="1" style=""><div id="b58" class="book" style="font-size:92px"><div class="brow" style="filter:blur(1.6px)"><span class="btxt">The Economy:</span></div><div class="brow hlrow" style="filter:blur(0px)"><span class="mark blue" id="b58m"></span><span class="btxt">“We Are All Keynesians Now”</span></div><div class="brow" style="filter:blur(1.6px)"><span class="btxt">Time magazine cover story</span></div></div><div class="btag">TIME · DECEMBER 31, 1965</div></div>
+<div id="c61" class="clip scene center" data-start="61.250" data-duration="6.200" data-track-index="1" style=""><div class="pwrap" style="transform:translate(-460px,0px)"><div id="p60" class="photo-frame" style="width:560px;"><img src="assets/img/nixon.jpg" alt=""><div class="halftone"></div></div></div></div>
+<div id="c62" class="clip scene center" data-start="61.250" data-duration="6.200" data-track-index="2" style="justify-content:flex-end;padding-right:150px"><div class="nquote" id="nq"><div class="glitch small" data-text="“I AM NOW A KEYNESIAN IN ECONOMICS.”">“I AM NOW A KEYNESIAN IN ECONOMICS.”</div><div class="gsub">RICHARD NIXON · JANUARY 1971</div></div></div>
+<div id="c63" class="clip scene center" data-start="67.450" data-duration="5.650" data-track-index="1" style=""><div class="gold"><div class="gdate" id="gd">AUGUST 15, 1971</div><div class="peg" id="pg"><span>US $</span><span class="chain" id="chn"></span><span id="pgg">GOLD · $35 / OZ</span></div><div class="gone" id="gn">THE LAST ANCHOR — GONE</div></div></div>
+<div id="c66" class="clip scene center" data-start="73.100" data-duration="6.050" data-track-index="1" style=""><div id="ch65" class="chart"><div class="ctitle">INFLATION AND UNEMPLOYMENT WERE SUPPOSED TO TRADE OFF</div><div class="cplot" style="width:1400px;height:640px"><svg viewBox="0 0 1400 640" width="1400" height="640"><line x1="90" x2="1360" y1="580.0" y2="580.0" class="grid"/><text x="74" y="588.0" class="ax" text-anchor="end">0%</text><line x1="90" x2="1360" y1="396.7" y2="396.7" class="grid"/><text x="74" y="404.7" class="ax" text-anchor="end">5%</text><line x1="90" x2="1360" y1="213.3" y2="213.3" class="grid"/><text x="74" y="221.3" class="ax" text-anchor="end">10%</text><line x1="90" x2="1360" y1="30.0" y2="30.0" class="grid"/><text x="74" y="38.0" class="ax" text-anchor="end">15%</text><text x="90.0" y="622" class="ax" text-anchor="middle">1965</text><text x="407.5" y="622" class="ax" text-anchor="middle">1970</text><text x="725.0" y="622" class="ax" text-anchor="middle">1975</text><text x="1042.5" y="622" class="ax" text-anchor="middle">1980</text><text x="1360.0" y="622" class="ax" text-anchor="middle">1985</text></svg><div id="ch65ln" class="clayer"><svg viewBox="0 0 1400 640" width="1400" height="640"><path d="M90.0,510.3 L153.5,451.7 L217.0,470.0 L280.5,407.7 L344.0,352.7 L407.5,374.7 L471.0,459.0 L534.5,455.3 L598.0,261.0 L661.5,129.0 L725.0,327.0 L788.5,400.3 L852.0,334.3 L915.5,250.0 L979.0,92.3 L1042.5,121.7 L1106.0,253.7 L1169.5,440.7 L1233.0,440.7 L1296.5,437.0 L1360.0,440.7" fill="none" stroke="#ff4d4d" stroke-width="5" stroke-linejoin="round" stroke-linecap="round"/><path d="M90.0,415.0 L153.5,440.7 L217.0,440.7 L280.5,448.0 L344.0,451.7 L407.5,400.3 L471.0,363.7 L534.5,374.7 L598.0,400.3 L661.5,374.7 L725.0,268.3 L788.5,297.7 L852.0,319.7 L915.5,356.3 L979.0,367.3 L1042.5,319.7 L1106.0,301.3 L1169.5,224.3 L1233.0,228.0 L1296.5,305.0 L1360.0,316.0" fill="none" stroke="#e8e8e8" stroke-width="5" stroke-linejoin="round" stroke-linecap="round"/></svg></div><div id="ch65en" class="clayer"><svg viewBox="0 0 1400 640" width="1400" height="640"><text x="1374.0" y="448.7" class="lab" fill="#ff4d4d">INFLATION</text><text x="1374.0" y="324.0" class="lab" fill="#e8e8e8">UNEMPLOYMENT</text></svg></div></div><div class="cnote">SOURCE: BLS VIA FRED (CPIAUCSL, UNRATE) · ANNUAL</div></div></div>
+<div id="c68" class="clip scene center" data-start="79.150" data-duration="5.100" data-track-index="1" style=""><div class="statbg"><img src="assets/img/gas_line.jpg" alt=""></div><div class="stat"><div class="sval" style="color:#ff4d4d"><span></span><span id="st67">14.8</span><span>%</span></div><div class="slab">CONSUMER PRICE INFLATION</div><div class="ssub">MARCH 1980 · YEAR OVER YEAR</div></div></div>
+<div id="c71" class="clip scene center" data-start="84.250" data-duration="5.500" data-track-index="1" style=""><div class="pwrap" style="transform:translate(-330px,0px)"><div id="p70" class="photo-frame dim" style="width:1000px;"><img src="assets/img/reagan_volcker.jpg" alt=""><div class="halftone"></div></div><div class="plabel">PAUL VOLCKER &amp; RONALD REAGAN · 1981</div></div></div>
+<div id="c72" class="clip scene center" data-start="84.250" data-duration="5.500" data-track-index="2" style="justify-content:flex-end;padding-right:170px"><div class="twostat"><div id="ts1"><b>~20%</b><span>FED FUNDS RATE · 1981</span></div><div id="ts2"><b>10.8%</b><span>UNEMPLOYMENT · 1982</span></div></div></div>
+<div id="c74" class="clip scene center" data-start="89.750" data-duration="4.350" data-track-index="1" style=""><div class="pwrap" style="transform:translate(0px,0px)"><div id="p73" class="photo-frame" style="width:560px;"><img src="assets/img/friedman.jpg" alt=""><div class="halftone"></div></div><div class="plabel">MILTON FRIEDMAN · PREDICTED THE BREAKDOWN IN 1967</div></div></div>
+<div id="c76" class="clip scene center" data-start="94.100" data-duration="3.350" data-track-index="1" style=""><div id="b75" class="book" style="font-size:96px"><div class="brow" style="filter:blur(1.6px)"><span class="btxt">A TRACT ON</span></div><div class="brow hlrow" style="filter:blur(0px)"><span class="mark red" id="b75m"></span><span class="btxt">MONETARY REFORM</span></div><div class="brow" style="filter:blur(1.6px)"><span class="btxt">J. M. KEYNES · 1923</span></div></div><div class="btag">MACMILLAN · LONDON</div></div>
+<div id="c77" class="clip scene center" data-start="97.450" data-duration="15.650" data-track-index="1" style=""><div class="quote"><div class="ql" id="ql0"><span class="btxt">But this long run is a misleading guide to current affairs.</span></div><div class="ql qhl" id="ql1"><span class="mark red" id="qm"></span><span class="btxt">In the long run we are all dead.</span></div><div class="ql" id="ql2"><span class="btxt">Economists set themselves too easy, too useless a task if in</span></div><div class="ql" id="ql3"><span class="btxt">tempestuous seasons they can only tell us that when the storm</span></div><div class="ql" id="ql4"><span class="btxt">is long past the ocean is flat again.</span></div><div class="qsrc">— JOHN MAYNARD KEYNES, <i>A TRACT ON MONETARY REFORM</i> (1923), CH. 3</div></div></div>
+<div id="c94" class="clip scene center" data-start="113.100" data-duration="5.750" data-track-index="1" style=""><div id="kb93" class="kinetic " style="font-size:60px;margin-top:0px;color:#f4f4f5"><span id="k79" class="kw ">Whatever</span> <span id="k80" class="kw ">he</span> <span id="k81" class="kw ">meant</span> <span id="k82" class="kw ">by</span> <span id="k83" class="kw ">it,</span> <span id="k84" class="kw ">the</span> <span id="k85" class="kw ">long</span> <span id="k86" class="kw ">run</span> <span id="k87" class="kw ">became</span> <span id="k88" class="kw ">something</span> <span id="k89" class="kw ">politics</span> <span id="k90" class="kw ">could</span> <span id="k91" class="kw ">safely</span> <span id="k92" class="kw hl">ignore.</span></div></div>
+<div id="c96" class="clip scene center" data-start="118.850" data-duration="6.400" data-track-index="1" style=""><div class="pwrap" style="transform:translate(0px,0px)"><div id="p95" class="photo-full dim" style=""><img src="assets/img/capitol.jpg" alt=""><div class="halftone"></div></div></div></div>
+<div id="c98" class="clip scene center" data-start="118.850" data-duration="6.400" data-track-index="1" style=""><div id="b97" class="book" style="font-size:80px"><div class="brow" style="filter:blur(1.6px)"><span class="btxt">Democracy in Deficit:</span></div><div class="brow hlrow" style="filter:blur(0px)"><span class="mark red" id="b97m"></span><span class="btxt">The Political Legacy of Lord Keynes</span></div><div class="brow" style="filter:blur(1.6px)"><span class="btxt">James M. Buchanan &amp; Richard E. Wagner</span></div></div><div class="btag">1977 · BUCHANAN: NOBEL PRIZE IN ECONOMICS, 1986</div></div>
+<div id="c99" class="clip scene center" data-start="125.250" data-duration="7.850" data-track-index="1" style=""><div class="arrowline"><div class="al-now" id="aln"><b>NOW</b><span>SPENDING WINS VOTES</span></div><div class="al-bar" id="alb"></div><div class="al-later" id="all"><b>LATER</b><span>THE BILL ARRIVES</span></div></div><div class="al-who" id="alw">ADDRESSED TO PEOPLE TOO YOUNG TO VOTE — OR NOT YET BORN</div></div>
+<div id="c100" class="clip scene center" data-start="133.100" data-duration="3.850" data-track-index="1" style=""><div class="years"><div class="yr" id="y1998"><i></i><span>1998</span></div><div class="yr" id="y1999"><i></i><span>1999</span></div><div class="yr" id="y2000"><i></i><span>2000</span></div><div class="yr surplus" id="y2001"><i></i><span>2001</span></div><div class="yr" id="y2002"><i></i><span>2002</span></div><div class="yr" id="y2003"><i></i><span>2003</span></div><div class="yr" id="y2004"><i></i><span>2004</span></div><div class="yr" id="y2005"><i></i><span>2005</span></div><div class="yr" id="y2006"><i></i><span>2006</span></div><div class="yr" id="y2007"><i></i><span>2007</span></div><div class="yr" id="y2008"><i></i><span>2008</span></div><div class="yr" id="y2009"><i></i><span>2009</span></div><div class="yr" id="y2010"><i></i><span>2010</span></div><div class="yr" id="y2011"><i></i><span>2011</span></div><div class="yr" id="y2012"><i></i><span>2012</span></div><div class="yr" id="y2013"><i></i><span>2013</span></div><div class="yr" id="y2014"><i></i><span>2014</span></div><div class="yr" id="y2015"><i></i><span>2015</span></div><div class="yr" id="y2016"><i></i><span>2016</span></div><div class="yr" id="y2017"><i></i><span>2017</span></div><div class="yr" id="y2018"><i></i><span>2018</span></div><div class="yr" id="y2019"><i></i><span>2019</span></div><div class="yr" id="y2020"><i></i><span>2020</span></div><div class="yr" id="y2021"><i></i><span>2021</span></div><div class="yr" id="y2022"><i></i><span>2022</span></div><div class="yr" id="y2023"><i></i><span>2023</span></div><div class="yr" id="y2024"><i></i><span>2024</span></div><div class="yr" id="y2025"><i></i><span>2025</span></div></div><div class="ylab"><span class="sw"></span>SURPLUS <span class="dw"></span>DEFICIT · SOURCE: OMB HISTORICAL TABLE 1.1</div></div>
+<div id="c105" class="clip scene center" data-start="136.950" data-duration="6.000" data-track-index="1" style=""><div id="ch101" class="chart"><div class="ctitle">FEDERAL DEBT AS A SHARE OF THE ECONOMY</div><div class="cplot" style="width:1400px;height:640px"><svg viewBox="0 0 1400 640" width="1400" height="640"><line x1="90" x2="1360" y1="580.0" y2="580.0" class="grid"/><text x="74" y="588.0" class="ax" text-anchor="end">0%</text><line x1="90" x2="1360" y1="383.6" y2="383.6" class="grid"/><text x="74" y="391.6" class="ax" text-anchor="end">50%</text><line x1="90" x2="1360" y1="187.1" y2="187.1" class="grid"/><text x="74" y="195.1" class="ax" text-anchor="end">100%</text><text x="90.0" y="622" class="ax" text-anchor="middle">1940</text><text x="388.8" y="622" class="ax" text-anchor="middle">1960</text><text x="687.6" y="622" class="ax" text-anchor="middle">1980</text><text x="986.5" y="622" class="ax" text-anchor="middle">2000</text><text x="1285.3" y="622" class="ax" text-anchor="middle">2020</text></svg><div id="ch101ln" class="clayer"><svg viewBox="0 0 1400 640" width="1400" height="640"><path d="M90.0,382.0 L134.8,269.2 L179.6,112.9 L239.4,218.2 L314.1,306.6 L388.8,366.7 L463.5,399.7 L538.2,437.8 L598.0,455.5 L687.6,455.1 L762.4,412.6 L837.1,367.1 L911.8,327.0 L986.5,362.4 L1061.2,337.2 L1106.0,314.0 L1135.9,224.9 L1210.6,187.9 L1285.3,84.6 L1315.2,109.4 L1360.0,104.6" fill="none" stroke="#ff4d4d" stroke-width="5" stroke-linejoin="round" stroke-linecap="round"/></svg></div><div id="ch101en" class="clayer"><svg viewBox="0 0 1400 640" width="1400" height="640"><text x="1374.0" y="112.6" class="lab" fill="#ff4d4d">DEBT / GDP</text></svg></div><div id="an102" class="clayer"><svg viewBox="0 0 1400 640" width="1400" height="640"><circle cx="179.6" cy="112.9" r="9" fill="#ff4d4d"/><text x="179.6" y="88.9" class="annot" text-anchor="middle" fill="#fff">WWII PEAK</text></svg></div><div id="an103" class="clayer"><svg viewBox="0 0 1400 640" width="1400" height="640"><circle cx="598.0" cy="455.5" r="9" fill="#ff4d4d"/><text x="598.0" y="431.5" class="annot" text-anchor="middle" fill="#fff">1974 LOW</text></svg></div><div id="an104" class="clayer"><svg viewBox="0 0 1400 640" width="1400" height="640"><circle cx="1360.0" cy="104.6" r="9" fill="#ff4d4d"/><text x="1360.0" y="80.6" class="annot" text-anchor="middle" fill="#fff">$37 TRILLION</text></svg></div></div><div class="cnote">SOURCE: OMB HISTORICAL TABLE 7.1; FRED GFDEGDQ188S · GROSS FEDERAL DEBT</div></div></div>
+<div id="c106" class="clip scene center" data-start="142.950" data-duration="5.100" data-track-index="1" style=""><div class="bars"><div class="bar"><div class="bfill red" id="bi"></div><b>$881B</b><span>NET INTEREST</span></div><div class="bar"><div class="bfill" id="bd"></div><b>$874B</b><span>NATIONAL DEFENSE</span></div></div><div class="bsrc">FISCAL YEAR 2024 · SOURCE: CBO MONTHLY BUDGET REVIEW</div></div>
+<div id="c108" class="clip scene center" data-start="148.050" data-duration="7.300" data-track-index="1" style=""><div class="pwrap" style="transform:translate(0px,0px)"><div id="p107" class="photo-full dim" style=""><img src="assets/img/bep_printing.jpg" alt=""><div class="halftone"></div></div></div></div>
+<div id="c110" class="clip scene center" data-start="148.050" data-duration="7.300" data-track-index="1" style=""><div class="stat"><div class="sval" style="color:#fff"><span>$</span><span id="st109">0.13</span><span></span></div><div class="slab">WHAT A 1971 DOLLAR BUYS TODAY</div><div class="ssub">SOURCE: BLS CPI-U VIA FRED · AUG 1971 → 2025</div></div></div>
+<div id="c121" class="clip scene center" data-start="155.350" data-duration="3.750" data-track-index="1" style=""><div id="kb120" class="kinetic " style="font-size:76px;margin-top:0px;color:#f4f4f5"><span id="k111" class="kw ">A</span> <span id="k112" class="kw hl">tax</span> <span id="k113" class="kw ">on</span> <span id="k114" class="kw hl">savings</span> <span id="k115" class="kw ">no</span> <span id="k116" class="kw ">one</span> <span id="k117" class="kw ">ever</span> <span id="k118" class="kw ">voted</span> <span id="k119" class="kw ">for.</span></div></div>
+<div id="c123" class="clip scene center" data-start="159.100" data-duration="6.850" data-track-index="1" style=""><div class="pwrap" style="transform:translate(0px,0px)"><div id="p122" class="photo-full dim" style=""><img src="assets/img/hayek_1981.jpg" alt=""><div class="halftone"></div></div></div></div>
+<div id="c124" class="clip scene center" data-start="159.100" data-duration="6.850" data-track-index="2" style=""><div class="quote closing"><div class="ql" id="hq">“The curious task of economics is to demonstrate to men how little they really know about what they imagine they can design.”</div><div class="qsrc">— F. A. HAYEK, <i>THE FATAL CONCEIT</i> (1988)</div></div></div>
+<div id="c132" class="clip scene center" data-start="165.950" data-duration="2.800" data-track-index="1" style=""><div id="kb131" class="kinetic " style="font-size:68px;margin-top:0px;color:#f4f4f5"><span id="k125" class="kw ">Keynes</span> <span id="k126" class="kw ">promised</span> <span id="k127" class="kw ">to</span> <span id="k128" class="kw ">manage</span> <span id="k129" class="kw ">the</span> <span id="k130" class="kw ">storm.</span></div></div>
+<div id="c139" class="clip scene center" data-start="168.750" data-duration="2.800" data-track-index="1" style=""><div id="kb138" class="kinetic " style="font-size:68px;margin-top:0px;color:#f4f4f5"><span id="k133" class="kw ">Instead,</span> <span id="k134" class="kw ">we</span> <span id="k135" class="kw ">inherited</span> <span id="k136" class="kw ">the</span> <span id="k137" class="kw hl">debt.</span></div></div>
+<div id="c141" class="clip scene center" data-start="171.550" data-duration="2.050" data-track-index="1" style=""><div class="gwrap"><div id="g140" class="glitch" style="font-size:96px" data-text="THE LONG RUN IS HERE.">THE LONG RUN IS HERE.</div></div></div>
+<div id="c152" class="clip scene center" data-start="173.600" data-duration="2.600" data-track-index="1" style=""><div id="kb151" class="kinetic " style="font-size:60px;margin-top:0px;color:#f4f4f5"><span id="k143" class="kw ">And</span> <span id="k144" class="kw ">we</span> <span id="k145" class="kw ">are</span> <span id="k146" class="kw ">the</span> <span id="k147" class="kw ">ones</span> <span id="k148" class="kw ">living</span> <span id="k149" class="kw ">in</span> <span id="k150" class="kw ">it.</span></div></div>
+<div id="c153" class="clip scene center" data-start="176.200" data-duration="2.300" data-track-index="1" style=""><div class="endcard" id="ec"><div>IN THE LONG RUN</div><span>SOURCES IN DESCRIPTION</span></div></div>
+<div class="clip cap" data-start="0.049" data-duration="2.205" data-track-index="6"><div class="capt"><span id="w162">Bury</span> <span id="w163">banknotes</span> <span id="w164">in</span> <span id="w165">old</span> <span id="w166">bottles.</span></div></div>
+<div class="clip cap" data-start="2.790" data-duration="1.853" data-track-index="6"><div class="capt"><span id="w167">Pay</span> <span id="w168">men</span> <span id="w169">to</span> <span id="w170">dig</span> <span id="w171">them</span> <span id="w172">up</span> <span id="w173">again.</span></div></div>
+<div class="clip cap" data-start="5.181" data-duration="1.489" data-track-index="6"><div class="capt"><span id="w174">That</span> <span id="w175">was</span> <span id="w176">not</span> <span id="w177">a</span> <span id="w178">joke.</span></div></div>
+<div class="clip cap" data-start="7.207" data-duration="1.736" data-track-index="6"><div class="capt"><span id="w179">It</span> <span id="w180">was</span> <span id="w181">a</span> <span id="w182">policy</span> <span id="w183">suggestion,</span></div></div>
+<div class="clip cap" data-start="8.943" data-duration="1.844" data-track-index="6"><div class="capt"><span id="w184">from</span> <span id="w185">the</span> <span id="w186">most</span> <span id="w187">influential</span> <span id="w188">economist</span> <span id="w189">of</span> <span id="w190">the</span></div></div>
+<div class="clip cap" data-start="10.787" data-duration="1.247" data-track-index="6"><div class="capt"><span id="w191">twentieth</span> <span id="w192">century.</span></div></div>
+<div class="clip cap" data-start="12.571" data-duration="3.168" data-track-index="6"><div class="capt"><span id="w193">In 1936,</span> <span id="w194">in</span> <span id="w195">the</span> <span id="w196">depths</span> <span id="w197">of</span> <span id="w198">the</span> <span id="w199">Depression,</span></div></div>
+<div class="clip cap" data-start="15.739" data-duration="2.427" data-track-index="6"><div class="capt"><span id="w200">John</span> <span id="w201">Maynard</span> <span id="w202">Keynes</span> <span id="w203">published</span> <span id="w204">The</span> <span id="w205">General</span> <span id="w206">Theory</span></div></div>
+<div class="clip cap" data-start="18.166" data-duration="2.278" data-track-index="6"><div class="capt"><span id="w207">of</span> <span id="w208">Employment,</span> <span id="w209">Interest</span> <span id="w210">and</span> <span id="w211">Money.</span></div></div>
+<div class="clip cap" data-start="20.982" data-duration="1.732" data-track-index="6"><div class="capt"><span id="w212">Its</span> <span id="w213">promise</span> <span id="w214">was</span> <span id="w215">seductive:</span></div></div>
+<div class="clip cap" data-start="22.717" data-duration="1.505" data-track-index="6"><div class="capt"><span id="w216">when</span> <span id="w217">the</span> <span id="w218">economy</span> <span id="w219">falters,</span></div></div>
+<div class="clip cap" data-start="24.222" data-duration="3.225" data-track-index="6"><div class="capt"><span id="w220">government</span> <span id="w221">should</span> <span id="w222">spend,</span> <span id="w223">borrow</span> <span id="w224">and</span> <span id="w225">create</span> <span id="w226">demand.</span></div></div>
+<div class="clip cap" data-start="27.984" data-duration="2.646" data-track-index="6"><div class="capt"><span id="w227">Recessions</span> <span id="w228">were</span> <span id="w229">no</span> <span id="w230">longer</span> <span id="w231">corrections</span> <span id="w232">to</span> <span id="w233">endure,</span></div></div>
+<div class="clip cap" data-start="30.630" data-duration="2.132" data-track-index="6"><div class="capt"><span id="w234">but</span> <span id="w235">failures</span> <span id="w236">to</span> <span id="w237">manage</span> <span id="w238">from</span> <span id="w239">the</span> <span id="w240">center.</span></div></div>
+<div class="clip cap" data-start="33.299" data-duration="2.234" data-track-index="6"><div class="capt"><span id="w241">Friedrich</span> <span id="w242">Hayek</span> <span id="w243">argued</span> <span id="w244">that</span> <span id="w245">cheap</span> <span id="w246">credit</span> <span id="w247">does</span></div></div>
+<div class="clip cap" data-start="35.533" data-duration="1.319" data-track-index="6"><div class="capt"><span id="w248">not</span> <span id="w249">create</span> <span id="w250">wealth.</span></div></div>
+<div class="clip cap" data-start="37.389" data-duration="2.622" data-track-index="6"><div class="capt"><span id="w251">It</span> <span id="w252">falsifies</span> <span id="w253">interest</span> <span id="w254">rates</span> <span id="w255">and</span> <span id="w256">lures</span> <span id="w257">businesses</span></div></div>
+<div class="clip cap" data-start="40.011" data-duration="2.921" data-track-index="6"><div class="capt"><span id="w258">into</span> <span id="w259">investments</span> <span id="w260">the</span> <span id="w261">real</span> <span id="w262">economy</span> <span id="w263">cannot</span> <span id="w264">sustain.</span></div></div>
+<div class="clip cap" data-start="43.469" data-duration="1.781" data-track-index="6"><div class="capt"><span id="w265">The</span> <span id="w266">boom</span> <span id="w267">plants</span> <span id="w268">the</span> <span id="w269">bust.</span></div></div>
+<div class="clip cap" data-start="45.787" data-duration="3.095" data-track-index="6"><div class="capt"><span id="w270">And</span> <span id="w271">in 1944</span> <span id="w272">he</span> <span id="w273">warned</span> <span id="w274">that</span> <span id="w275">ever-wider</span> <span id="w276">economic</span></div></div>
+<div class="clip cap" data-start="48.882" data-duration="2.379" data-track-index="6"><div class="capt"><span id="w277">planning</span> <span id="w278">leads</span> <span id="w279">step</span> <span id="w280">by</span> <span id="w281">step</span> <span id="w282">toward</span> <span id="w283">concentrated</span></div></div>
+<div class="clip cap" data-start="51.261" data-duration="0.761" data-track-index="6"><div class="capt"><span id="w284">power.</span></div></div>
+<div class="clip cap" data-start="52.559" data-duration="2.084" data-track-index="6"><div class="capt"><span id="w285">After</span> <span id="w286">the</span> <span id="w287">war,</span> <span id="w288">Keynes</span> <span id="w289">won.</span></div></div>
+<div class="clip cap" data-start="55.181" data-duration="2.912" data-track-index="6"><div class="capt"><span id="w290">In 1965,</span> <span id="w291">Time</span> <span id="w292">put</span> <span id="w293">him</span> <span id="w294">on</span> <span id="w295">its</span> <span id="w296">cover</span></div></div>
+<div class="clip cap" data-start="58.093" data-duration="1.954" data-track-index="6"><div class="capt"><span id="w297">under</span> <span id="w298">the</span> <span id="w299">line</span> <span id="w300">&#x27;We</span> <span id="w301">are</span> <span id="w302">all</span> <span id="w303">Keynesians</span></div></div>
+<div class="clip cap" data-start="60.047" data-duration="0.652" data-track-index="6"><div class="capt"><span id="w304">now.&#x27;</span></div></div>
+<div class="clip cap" data-start="61.236" data-duration="3.338" data-track-index="6"><div class="capt"><span id="w305">In 1971,</span> <span id="w306">President</span> <span id="w307">Nixon</span> <span id="w308">told</span> <span id="w309">a</span> <span id="w310">reporter,</span></div></div>
+<div class="clip cap" data-start="64.574" data-duration="2.314" data-track-index="6"><div class="capt"><span id="w311">&#x27;I</span> <span id="w312">am</span> <span id="w313">now</span> <span id="w314">a</span> <span id="w315">Keynesian</span> <span id="w316">in</span> <span id="w317">economics.&#x27;</span></div></div>
+<div class="clip cap" data-start="67.426" data-duration="1.614" data-track-index="6"><div class="capt"><span id="w318">That</span> <span id="w319">same</span> <span id="w320">year</span> <span id="w321">he</span> <span id="w322">closed</span> <span id="w323">the</span> <span id="w324">gold</span></div></div>
+<div class="clip cap" data-start="69.040" data-duration="0.773" data-track-index="6"><div class="capt"><span id="w325">window.</span></div></div>
+<div class="clip cap" data-start="70.350" data-duration="1.530" data-track-index="6"><div class="capt"><span id="w326">The</span> <span id="w327">last</span> <span id="w328">anchor</span> <span id="w329">on</span> <span id="w330">the</span> <span id="w331">dollar</span> <span id="w332">was</span></div></div>
+<div class="clip cap" data-start="71.880" data-duration="0.724" data-track-index="6"><div class="capt"><span id="w333">gone.</span></div></div>
+<div class="clip cap" data-start="73.142" data-duration="2.463" data-track-index="6"><div class="capt"><span id="w334">The</span> <span id="w335">theory</span> <span id="w336">said</span> <span id="w337">inflation</span> <span id="w338">and</span> <span id="w339">unemployment</span> <span id="w340">trade</span></div></div>
+<div class="clip cap" data-start="75.605" data-duration="0.583" data-track-index="6"><div class="capt"><span id="w341">off:</span></div></div>
+<div class="clip cap" data-start="76.188" data-duration="2.399" data-track-index="6"><div class="capt"><span id="w342">The</span> <span id="w343">1970s</span> <span id="w344">broke</span> <span id="w345">that</span> <span id="w346">promise.</span></div></div>
+<div class="clip cap" data-start="79.125" data-duration="3.774" data-track-index="6"><div class="capt"><span id="w347">By 1980,</span> <span id="w348">consumer</span> <span id="w349">inflation</span> <span id="w350">hit</span> <span id="w351">14.8 percent</span></div></div>
+<div class="clip cap" data-start="82.899" data-duration="0.773" data-track-index="6"><div class="capt"><span id="w352">a</span> <span id="w353">year.</span></div></div>
+<div class="clip cap" data-start="84.210" data-duration="2.512" data-track-index="6"><div class="capt"><span id="w354">Breaking</span> <span id="w355">it</span> <span id="w356">took</span> <span id="w357">interest</span> <span id="w358">rates</span> <span id="w359">near</span> <span id="w360">20 percent</span></div></div>
+<div class="clip cap" data-start="86.722" data-duration="2.496" data-track-index="6"><div class="capt"><span id="w361">and</span> <span id="w362">unemployment</span> <span id="w363">of</span> <span id="w364">10.8 percent.</span></div></div>
+<div class="clip cap" data-start="89.756" data-duration="2.269" data-track-index="6"><div class="capt"><span id="w365">Milton</span> <span id="w366">Friedman</span> <span id="w367">had</span> <span id="w368">predicted</span> <span id="w369">this</span> <span id="w370">breakdown</span></div></div>
+<div class="clip cap" data-start="92.025" data-duration="1.611" data-track-index="6"><div class="capt"><span id="w371">in 1967.</span></div></div>
+<div class="clip cap" data-start="94.173" data-duration="3.261" data-track-index="6"><div class="capt"><span id="w372">Keynes&#x27;s</span> <span id="w373">most</span> <span id="w374">famous</span> <span id="w375">line</span> <span id="w376">comes</span> <span id="w377">from 1923:</span></div></div>
+<div class="clip cap" data-start="97.438" data-duration="1.675" data-track-index="6"><div class="capt"><span id="w378">&#x27;But</span> <span id="w379">this</span> <span id="w380">long</span> <span id="w381">run</span> <span id="w382">is</span> <span id="w383">a</span> <span id="w384">misleading</span></div></div>
+<div class="clip cap" data-start="99.113" data-duration="1.647" data-track-index="6"><div class="capt"><span id="w385">guide</span> <span id="w386">to</span> <span id="w387">current</span> <span id="w388">affairs.</span></div></div>
+<div class="clip cap" data-start="101.297" data-duration="1.359" data-track-index="6"><div class="capt"><span id="w389">In</span> <span id="w390">the</span> <span id="w391">long</span> <span id="w392">run</span> <span id="w393">we</span> <span id="w394">are</span> <span id="w395">all</span></div></div>
+<div class="clip cap" data-start="102.656" data-duration="0.713" data-track-index="6"><div class="capt"><span id="w396">dead.</span></div></div>
+<div class="clip cap" data-start="103.906" data-duration="2.270" data-track-index="6"><div class="capt"><span id="w397">Economists</span> <span id="w398">set</span> <span id="w399">themselves</span> <span id="w400">too</span> <span id="w401">easy,</span></div></div>
+<div class="clip cap" data-start="106.176" data-duration="2.075" data-track-index="6"><div class="capt"><span id="w402">too</span> <span id="w403">useless</span> <span id="w404">a</span> <span id="w405">task</span> <span id="w406">if</span> <span id="w407">in</span> <span id="w408">tempestuous</span></div></div>
+<div class="clip cap" data-start="108.251" data-duration="1.481" data-track-index="6"><div class="capt"><span id="w409">seasons</span> <span id="w410">they</span> <span id="w411">can</span> <span id="w412">only</span> <span id="w413">tell</span> <span id="w414">us</span> <span id="w415">that</span></div></div>
+<div class="clip cap" data-start="109.732" data-duration="1.395" data-track-index="6"><div class="capt"><span id="w416">when</span> <span id="w417">the</span> <span id="w418">storm</span> <span id="w419">is</span> <span id="w420">long</span> <span id="w421">past</span> <span id="w422">the</span></div></div>
+<div class="clip cap" data-start="111.127" data-duration="1.502" data-track-index="6"><div class="capt"><span id="w423">ocean</span> <span id="w424">is</span> <span id="w425">flat</span> <span id="w426">again.&#x27;</span></div></div>
+<div class="clip cap" data-start="113.166" data-duration="1.396" data-track-index="6"><div class="capt"><span id="w427">Whatever</span> <span id="w428">he</span> <span id="w429">meant</span> <span id="w430">by</span> <span id="w431">it,</span></div></div>
+<div class="clip cap" data-start="114.562" data-duration="2.488" data-track-index="6"><div class="capt"><span id="w432">&#x27;the</span> <span id="w433">long</span> <span id="w434">run&#x27;</span> <span id="w435">became</span> <span id="w436">something</span> <span id="w437">politics</span> <span id="w438">could</span></div></div>
+<div class="clip cap" data-start="117.050" data-duration="1.270" data-track-index="6"><div class="capt"><span id="w439">safely</span> <span id="w440">ignore.</span></div></div>
+<div class="clip cap" data-start="118.858" data-duration="2.815" data-track-index="6"><div class="capt"><span id="w441">Nobel</span> <span id="w442">laureate</span> <span id="w443">James</span> <span id="w444">Buchanan</span> <span id="w445">showed</span> <span id="w446">how</span> <span id="w447">Keynesian</span></div></div>
+<div class="clip cap" data-start="121.673" data-duration="3.055" data-track-index="6"><div class="capt"><span id="w448">ideas</span> <span id="w449">freed</span> <span id="w450">politicians</span> <span id="w451">from</span> <span id="w452">balancing</span> <span id="w453">budgets.</span></div></div>
+<div class="clip cap" data-start="125.266" data-duration="1.986" data-track-index="6"><div class="capt"><span id="w454">Spending</span> <span id="w455">now</span> <span id="w456">wins</span> <span id="w457">votes.</span></div></div>
+<div class="clip cap" data-start="127.790" data-duration="1.395" data-track-index="6"><div class="capt"><span id="w458">The</span> <span id="w459">bill</span> <span id="w460">arrives</span> <span id="w461">later,</span></div></div>
+<div class="clip cap" data-start="129.185" data-duration="2.051" data-track-index="6"><div class="capt"><span id="w462">addressed</span> <span id="w463">to</span> <span id="w464">people</span> <span id="w465">too</span> <span id="w466">young</span> <span id="w467">to</span> <span id="w468">vote,</span></div></div>
+<div class="clip cap" data-start="131.236" data-duration="1.332" data-track-index="6"><div class="capt"><span id="w469">or</span> <span id="w470">not</span> <span id="w471">yet</span> <span id="w472">born.</span></div></div>
+<div class="clip cap" data-start="133.105" data-duration="3.274" data-track-index="6"><div class="capt"><span id="w473">Washington</span> <span id="w474">has</span> <span id="w475">not</span> <span id="w476">run</span> <span id="w477">a</span> <span id="w478">surplus</span> <span id="w479">since 2001.</span></div></div>
+<div class="clip cap" data-start="136.916" data-duration="3.167" data-track-index="6"><div class="capt"><span id="w480">Federal</span> <span id="w481">debt</span> <span id="w482">has</span> <span id="w483">passed</span> <span id="w484">37 trillion dollars</span> <span id="w485">,</span></div></div>
+<div class="clip cap" data-start="140.083" data-duration="1.627" data-track-index="6"><div class="capt"><span id="w486">more</span> <span id="w487">than</span> <span id="w488">the</span> <span id="w489">whole</span> <span id="w490">economy</span> <span id="w491">produces</span> <span id="w492">in</span></div></div>
+<div class="clip cap" data-start="141.710" data-duration="0.737" data-track-index="6"><div class="capt"><span id="w493">a</span></div></div>
+<div class="clip cap" data-start="142.984" data-duration="3.058" data-track-index="6"><div class="capt"><span id="w494">year. In</span> <span id="w495">2024,</span> <span id="w496">interest</span> <span id="w497">on</span> <span id="w498">that</span> <span id="w499">debt</span> <span id="w500">cost</span></div></div>
+<div class="clip cap" data-start="146.042" data-duration="1.465" data-track-index="6"><div class="capt"><span id="w501">more</span> <span id="w502">than</span> <span id="w503">national</span></div></div>
+<div class="clip cap" data-start="148.045" data-duration="0.145" data-track-index="6"><div class="capt"><span id="w504">defense.</span></div></div>
+<div class="clip cap" data-start="148.190" data-duration="0.883" data-track-index="6"><div class="capt"><span id="w505">And</span> <span id="w506">the</span></div></div>
+<div class="clip cap" data-start="149.610" data-duration="0.364" data-track-index="6"><div class="capt"><span id="w507">dollar?</span></div></div>
+<div class="clip cap" data-start="149.974" data-duration="1.578" data-track-index="6"><div class="capt"><span id="w508">Since</span> <span id="w509">the</span> <span id="w510">gold</span> <span id="w511">window</span> <span id="w512">closed,</span></div></div>
+<div class="clip cap" data-start="151.552" data-duration="2.027" data-track-index="6"><div class="capt"><span id="w513">it</span> <span id="w514">has</span> <span id="w515">lost</span> <span id="w516">more</span> <span id="w517">than 85</span> <span id="w518">percent</span> <span id="w519">of</span></div></div>
+<div class="clip cap" data-start="153.579" data-duration="1.258" data-track-index="6"><div class="capt"><span id="w520">its</span> <span id="w521">purchasing</span></div></div>
+<div class="clip cap" data-start="155.375" data-duration="0.267" data-track-index="6"><div class="capt"><span id="w522">power.</span></div></div>
+<div class="clip cap" data-start="155.642" data-duration="1.650" data-track-index="6"><div class="capt"><span id="w523">That</span> <span id="w524">is</span> <span id="w525">a</span> <span id="w526">tax</span> <span id="w527">on</span> <span id="w528">savings</span> <span id="w529">no</span></div></div>
+<div class="clip cap" data-start="157.292" data-duration="1.271" data-track-index="6"><div class="capt"><span id="w530">one</span> <span id="w531">ever</span> <span id="w532">voted</span></div></div>
+<div class="clip cap" data-start="159.100" data-duration="0.425" data-track-index="6"><div class="capt"><span id="w533">for.</span></div></div>
+<div class="clip cap" data-start="159.525" data-duration="1.978" data-track-index="6"><div class="capt"><span id="w534">Hayek</span> <span id="w535">said</span> <span id="w536">the</span> <span id="w537">curious</span> <span id="w538">task</span> <span id="w539">of</span> <span id="w540">economics</span></div></div>
+<div class="clip cap" data-start="161.503" data-duration="1.554" data-track-index="6"><div class="capt"><span id="w541">is</span> <span id="w542">to</span> <span id="w543">show</span> <span id="w544">men</span> <span id="w545">how</span> <span id="w546">little</span> <span id="w547">they</span></div></div>
+<div class="clip cap" data-start="163.057" data-duration="1.541" data-track-index="6"><div class="capt"><span id="w548">really</span> <span id="w549">know</span> <span id="w550">about</span> <span id="w551">what</span> <span id="w552">they</span> <span id="w553">imagine</span> <span id="w554">they</span></div></div>
+<div class="clip cap" data-start="164.598" data-duration="0.834" data-track-index="6"><div class="capt"><span id="w555">can</span></div></div>
+<div class="clip cap" data-start="165.969" data-duration="0.401" data-track-index="6"><div class="capt"><span id="w556">design.</span></div></div>
+<div class="clip cap" data-start="166.370" data-duration="1.853" data-track-index="6"><div class="capt"><span id="w557">Keynes</span> <span id="w558">promised</span> <span id="w559">to</span> <span id="w560">manage</span> <span id="w561">the</span></div></div>
+<div class="clip cap" data-start="168.761" data-duration="0.825" data-track-index="6"><div class="capt"><span id="w562">storm.</span></div></div>
+<div class="clip cap" data-start="169.586" data-duration="1.453" data-track-index="6"><div class="capt"><span id="w563">Instead,</span> <span id="w564">we</span> <span id="w565">inherited</span> <span id="w566">the</span></div></div>
+<div class="clip cap" data-start="171.576" data-duration="0.158" data-track-index="6"><div class="capt"><span id="w567">debt.</span></div></div>
+<div class="clip cap" data-start="171.734" data-duration="1.416" data-track-index="6"><div class="capt"><span id="w568">The</span> <span id="w569">long</span> <span id="w570">run</span> <span id="w571">is</span></div></div>
+<div class="clip cap" data-start="173.688" data-duration="0.182" data-track-index="6"><div class="capt"><span id="w572">here.</span></div></div>
+<div class="clip cap" data-start="173.870" data-duration="1.671" data-track-index="6"><div class="capt"><span id="w573">And</span> <span id="w574">we</span> <span id="w575">are</span> <span id="w576">the</span> <span id="w577">ones</span> <span id="w578">living</span> <span id="w579">in</span></div></div>
+<div id="grain" class="clip" data-start="0" data-duration="178.5" data-track-index="8"></div>
+<div id="vignette" class="clip" data-start="0" data-duration="178.5" data-track-index="9"></div>
+<audio id="vo" src="assets/audio/vo.mp3" data-start="0" data-duration="176.112" data-track-index="10" data-volume="1"></audio>
+<audio id="s23" src="assets/audio/impact-bass-1.mp3" data-start="11.300" data-duration="2.100" data-track-index="11" data-volume="0.22"></audio>
+<audio id="s24" src="assets/audio/glitch-2.mp3" data-start="11.250" data-duration="3.500" data-track-index="12" data-volume="0.12"></audio>
+<audio id="s30" src="assets/audio/whoosh-cinematic.mp3" data-start="15.500" data-duration="5.500" data-track-index="13" data-volume="0.18"></audio>
+<audio id="s53" src="assets/audio/impact-bass-2.mp3" data-start="44.490" data-duration="2.590" data-track-index="14" data-volume="0.2"></audio>
+<audio id="s64" src="assets/audio/impact-bass-1.mp3" data-start="69.090" data-duration="2.100" data-track-index="11" data-volume="0.22"></audio>
+<audio id="s69" src="assets/audio/impact-bass-2.mp3" data-start="81.566" data-duration="2.590" data-track-index="12" data-volume="0.18"></audio>
+<audio id="s78" src="assets/audio/impact-bass-1.mp3" data-start="102.706" data-duration="2.100" data-track-index="13" data-volume="0.16"></audio>
+<audio id="s142" src="assets/audio/impact-bass-1.mp3" data-start="171.550" data-duration="2.100" data-track-index="14" data-volume="0.22"></audio>
+<audio id="s154" src="assets/audio/riser.mp3" data-start="161.400" data-duration="10.000" data-track-index="11" data-volume="0.1"></audio>
+<audio id="s155" src="assets/audio/whoosh-short.mp3" data-start="12.300" data-duration="0.570" data-track-index="12" data-volume="0.2"></audio>
+<audio id="s156" src="assets/audio/whoosh-short.mp3" data-start="33.050" data-duration="0.570" data-track-index="13" data-volume="0.2"></audio>
+<audio id="s157" src="assets/audio/whoosh-short.mp3" data-start="52.350" data-duration="0.570" data-track-index="14" data-volume="0.2"></audio>
+<audio id="s158" src="assets/audio/whoosh-short.mp3" data-start="72.950" data-duration="0.570" data-track-index="11" data-volume="0.2"></audio>
+<audio id="s159" src="assets/audio/whoosh-short.mp3" data-start="93.950" data-duration="0.570" data-track-index="12" data-volume="0.2"></audio>
+<audio id="s160" src="assets/audio/whoosh-short.mp3" data-start="132.950" data-duration="0.570" data-track-index="13" data-volume="0.2"></audio>
+<audio id="s161" src="assets/audio/whoosh-short.mp3" data-start="158.950" data-duration="0.570" data-track-index="14" data-volume="0.2"></audio>
+</div>
+<script>
+function fmtN(v,f){var d=(f.match(/\.(\d)f/)||[0,0])[1]|0;return v.toFixed(d);}
+const tl = gsap.timeline({ paused: true });
+tl.to("#grain",{backgroundPosition:"317px 211px",duration:178.5,ease:"steps(2142)"},0);
+tl.fromTo("#k1",{opacity:0,filter:"blur(12px)",y:8},{opacity:1,filter:"blur(0px)",y:0,duration:0.35,ease:"power2.out"},0.099);
+tl.fromTo("#k2",{opacity:0,filter:"blur(12px)",y:8},{opacity:1,filter:"blur(0px)",y:0,duration:0.35,ease:"power2.out"},0.438);
+tl.fromTo("#k3",{opacity:0,filter:"blur(12px)",y:8},{opacity:1,filter:"blur(0px)",y:0,duration:0.35,ease:"power2.out"},1.045);
+tl.fromTo("#k4",{opacity:0,filter:"blur(12px)",y:8},{opacity:1,filter:"blur(0px)",y:0,duration:0.35,ease:"power2.out"},1.203);
+tl.fromTo("#k5",{opacity:0,filter:"blur(12px)",y:8},{opacity:1,filter:"blur(0px)",y:0,duration:0.35,ease:"power2.out"},1.446);
+tl.to("#kb6",{opacity:0,filter:"blur(8px)",duration:0.35},2.400);
+tl.fromTo("#k8",{opacity:0,filter:"blur(12px)",y:8},{opacity:1,filter:"blur(0px)",y:0,duration:0.35,ease:"power2.out"},2.840);
+tl.fromTo("#k9",{opacity:0,filter:"blur(12px)",y:8},{opacity:1,filter:"blur(0px)",y:0,duration:0.35,ease:"power2.out"},3.070);
+tl.fromTo("#k10",{opacity:0,filter:"blur(12px)",y:8},{opacity:1,filter:"blur(0px)",y:0,duration:0.35,ease:"power2.out"},3.313);
+tl.fromTo("#k11",{opacity:0,filter:"blur(12px)",y:8},{opacity:1,filter:"blur(0px)",y:0,duration:0.35,ease:"power2.out"},3.422);
+tl.fromTo("#k12",{opacity:0,filter:"blur(12px)",y:8},{opacity:1,filter:"blur(0px)",y:0,duration:0.35,ease:"power2.out"},3.665);
+tl.fromTo("#k13",{opacity:0,filter:"blur(12px)",y:8},{opacity:1,filter:"blur(0px)",y:0,duration:0.35,ease:"power2.out"},3.811);
+tl.fromTo("#k14",{opacity:0,filter:"blur(12px)",y:8},{opacity:1,filter:"blur(0px)",y:0,duration:0.35,ease:"power2.out"},3.956);
+tl.to("#kb15",{opacity:0,filter:"blur(8px)",duration:0.35},4.800);
+tl.fromTo("#b17",{opacity:0,scale:1.12,rotation:-2},{opacity:1,scale:1.0,rotation:-2,duration:0.8,ease:"power2.out"},5.150);
+tl.to("#b17",{x:-60,duration:3.850,ease:"none"},5.150);
+tl.fromTo("#b17m",{scaleX:0},{scaleX:1,duration:0.6,ease:"power3.inOut"},5.600);
+tl.to("#b17",{opacity:0,duration:0.4},8.600);
+tl.fromTo("#p19",{opacity:0,scale:1.0,filter:"blur(10px)"},{opacity:1,filter:"blur(0px)",duration:0.6,ease:"power2.out"},9.000);
+tl.fromTo("#p19 img",{scale:1.0},{scale:1.07,duration:2.300,ease:"none"},9.000);
+tl.to("#p19",{opacity:0,duration:0.4,ease:"power1.in"},10.900);
+tl.fromTo("#g21",{opacity:0,scaleX:1.35},{opacity:1,scaleX:1,duration:0.5,ease:"expo.out"},11.300);
+tl.fromTo("#g21",{x:-14,skewX:12},{x:0,skewX:0,duration:0.45,ease:"steps(6)"},11.300);
+tl.to("#g21",{x:10,duration:0.18,ease:"steps(3)",yoyo:true,repeat:1},12.400);
+tl.to("#g21",{opacity:0,duration:0.3},12.150);
+tl.fromTo("#p25",{opacity:0,scale:1.0,filter:"blur(10px)"},{opacity:1,filter:"blur(0px)",duration:0.6,ease:"power2.out"},12.450);
+tl.fromTo("#p25 img",{scale:1.0},{scale:1.1,duration:3.300,ease:"none"},12.450);
+tl.to("#p25",{opacity:0,duration:0.4,ease:"power1.in"},15.350);
+tl.fromTo("#g27",{opacity:0,scaleX:1.35},{opacity:1,scaleX:1,duration:0.5,ease:"expo.out"},12.600);
+tl.fromTo("#g27",{x:-14,skewX:12},{x:0,skewX:0,duration:0.45,ease:"steps(6)"},12.600);
+tl.to("#g27",{x:10,duration:0.18,ease:"steps(3)",yoyo:true,repeat:1},13.700);
+tl.to("#g27",{opacity:0,duration:0.3},15.300);
+tl.fromTo("#cov",{opacity:0,y:30},{opacity:1,y:0,duration:0.9,ease:"power3.out"},15.8);
+tl.fromTo("#covp",{opacity:0,y:30},{opacity:1,y:0,duration:0.9,ease:"power3.out"},16.4);
+tl.to("#cov,#covp",{opacity:0,duration:0.4},20.6);
+tl.fromTo("#p31",{opacity:0,scale:1.0,filter:"blur(10px)"},{opacity:1,filter:"blur(0px)",duration:0.6,ease:"power2.out"},21.000);
+tl.fromTo("#p31 img",{scale:1.0},{scale:1.07,duration:6.950,ease:"none"},21.000);
+tl.to("#p31",{opacity:0,duration:0.4,ease:"power1.in"},27.550);
+tl.fromTo("#tr1",{opacity:0,x:40,filter:"blur(10px)"},{opacity:1,x:0,filter:"blur(0px)",duration:0.4,ease:"power2.out"},24.939);
+tl.fromTo("#tr2",{opacity:0,x:40,filter:"blur(10px)"},{opacity:1,x:0,filter:"blur(0px)",duration:0.4,ease:"power2.out"},25.607);
+tl.fromTo("#tr3",{opacity:0,x:40,filter:"blur(10px)"},{opacity:1,x:0,filter:"blur(0px)",duration:0.4,ease:"power2.out"},26.590);
+tl.to(".triad",{opacity:0,duration:0.35},27.6);
+tl.fromTo("#k34",{opacity:0,filter:"blur(12px)",y:8},{opacity:1,filter:"blur(0px)",y:0,duration:0.35,ease:"power2.out"},28.034);
+tl.fromTo("#k35",{opacity:0,filter:"blur(12px)",y:8},{opacity:1,filter:"blur(0px)",y:0,duration:0.35,ease:"power2.out"},28.677);
+tl.fromTo("#k36",{opacity:0,filter:"blur(12px)",y:8},{opacity:1,filter:"blur(0px)",y:0,duration:0.35,ease:"power2.out"},28.786);
+tl.fromTo("#k37",{opacity:0,filter:"blur(12px)",y:8},{opacity:1,filter:"blur(0px)",y:0,duration:0.35,ease:"power2.out"},28.981);
+tl.fromTo("#k38",{opacity:0,filter:"blur(12px)",y:8},{opacity:1,filter:"blur(0px)",y:0,duration:0.35,ease:"power2.out"},29.296);
+tl.fromTo("#k39",{opacity:0,filter:"blur(12px)",y:8},{opacity:1,filter:"blur(0px)",y:0,duration:0.35,ease:"power2.out"},29.842);
+tl.fromTo("#k40",{opacity:0,filter:"blur(12px)",y:8},{opacity:1,filter:"blur(0px)",y:0,duration:0.35,ease:"power2.out"},29.976);
+tl.fromTo("#k41",{opacity:0,filter:"blur(12px)",y:8},{opacity:1,filter:"blur(0px)",y:0,duration:0.35,ease:"power2.out"},30.680);
+tl.fromTo("#k42",{opacity:0,filter:"blur(12px)",y:8},{opacity:1,filter:"blur(0px)",y:0,duration:0.35,ease:"power2.out"},30.849);
+tl.fromTo("#k43",{opacity:0,filter:"blur(12px)",y:8},{opacity:1,filter:"blur(0px)",y:0,duration:0.35,ease:"power2.out"},31.323);
+tl.fromTo("#k44",{opacity:0,filter:"blur(12px)",y:8},{opacity:1,filter:"blur(0px)",y:0,duration:0.35,ease:"power2.out"},31.432);
+tl.fromTo("#k45",{opacity:0,filter:"blur(12px)",y:8},{opacity:1,filter:"blur(0px)",y:0,duration:0.35,ease:"power2.out"},31.833);
+tl.fromTo("#k46",{opacity:0,filter:"blur(12px)",y:8},{opacity:1,filter:"blur(0px)",y:0,duration:0.35,ease:"power2.out"},31.966);
+tl.fromTo("#k47",{opacity:0,filter:"blur(12px)",y:8},{opacity:1,filter:"blur(0px)",y:0,duration:0.35,ease:"power2.out"},32.051);
+tl.to("#kb48",{opacity:0,filter:"blur(8px)",duration:0.35},32.850);
+tl.fromTo("#p50",{opacity:0,scale:1.0,filter:"blur(10px)"},{opacity:1,filter:"blur(0px)",duration:0.6,ease:"power2.out"},33.200);
+tl.fromTo("#p50 img",{scale:1.0},{scale:1.07,duration:4.150,ease:"none"},33.200);
+tl.to("#p50",{opacity:0,duration:0.4,ease:"power1.in"},36.950);
+tl.fromTo("#nd0",{opacity:0,y:20},{opacity:1,y:0,duration:0.4,ease:"power2.out"},37.609);
+tl.fromTo("#ar0",{opacity:0},{opacity:1,duration:0.3},37.909);
+tl.fromTo("#nd1",{opacity:0,y:20},{opacity:1,y:0,duration:0.4,ease:"power2.out"},38.277);
+tl.fromTo("#ar1",{opacity:0},{opacity:1,duration:0.3},38.577);
+tl.fromTo("#nd2",{opacity:0,y:20},{opacity:1,y:0,duration:0.4,ease:"power2.out"},39.478);
+tl.fromTo("#ar2",{opacity:0},{opacity:1,duration:0.3},39.778);
+tl.fromTo("#nd3",{opacity:0,y:20},{opacity:1,y:0,duration:0.4,ease:"power2.out"},44.490);
+tl.fromTo("#nd3r",{opacity:0},{opacity:1,duration:0.2},44.490);
+tl.to(".flow",{opacity:0,duration:0.35},45.4);
+tl.fromTo("#b54",{opacity:0,scale:1.12,rotation:-2},{opacity:1,scale:1.0,rotation:-2,duration:0.8,ease:"power2.out"},45.750);
+tl.to("#b54",{x:-60,duration:6.750,ease:"none"},45.750);
+tl.fromTo("#b54m",{scaleX:0},{scaleX:1,duration:0.6,ease:"power3.inOut"},46.200);
+tl.to("#b54",{opacity:0,duration:0.4},52.100);
+tl.fromTo("#p56",{opacity:0,scale:1.0,filter:"blur(10px)"},{opacity:1,filter:"blur(0px)",duration:0.6,ease:"power2.out"},52.500);
+tl.fromTo("#p56 img",{scale:1.0},{scale:1.07,duration:2.650,ease:"none"},52.500);
+tl.to("#p56",{opacity:0,duration:0.4,ease:"power1.in"},54.750);
+tl.fromTo("#b58",{opacity:0,scale:1.12,rotation:-2},{opacity:1,scale:1.0,rotation:-2,duration:0.8,ease:"power2.out"},55.150);
+tl.to("#b58",{x:-60,duration:6.100,ease:"none"},55.150);
+tl.fromTo("#b58m",{scaleX:0},{scaleX:1,duration:0.6,ease:"power3.inOut"},59.000);
+tl.to("#b58",{opacity:0,duration:0.4},60.850);
+tl.fromTo("#p60",{opacity:0,scale:1.0,filter:"blur(10px)"},{opacity:1,filter:"blur(0px)",duration:0.6,ease:"power2.out"},61.250);
+tl.fromTo("#p60 img",{scale:1.0},{scale:1.07,duration:6.200,ease:"none"},61.250);
+tl.to("#p60",{opacity:0,duration:0.4,ease:"power1.in"},67.050);
+tl.fromTo("#nq",{opacity:0},{opacity:1,duration:0.5},64.624);
+tl.to("#nq",{opacity:0,duration:0.3},67.1);
+tl.fromTo("#gd",{opacity:0,scaleX:1.3},{opacity:1,scaleX:1,duration:0.6,ease:"expo.out"},67.5);
+tl.fromTo("#pg",{opacity:0},{opacity:1,duration:0.4},67.9);
+tl.fromTo("#chn",{scaleX:1},{scaleX:0,duration:0.25,ease:"power4.in",immediateRender:false},69.090);
+tl.fromTo("#pgg",{x:0,opacity:1},{x:220,opacity:0.25,duration:1.2,ease:"power2.out",immediateRender:false},69.290);
+tl.fromTo("#gn",{opacity:0,y:20},{opacity:1,y:0,duration:0.5},70.910);
+tl.fromTo("#ch65ln",{clipPath:"inset(-40px 100% -40px -40px)"},{clipPath:"inset(-40px 0% -40px -40px)",duration:2.6,ease:"power1.inOut"},76.035);
+tl.fromTo("#ch65en",{opacity:0},{opacity:1,duration:0.4},78.435);
+tl.fromTo("#ch65",{opacity:0,y:30},{opacity:1,y:0,duration:0.6,ease:"power2.out"},73.100);
+tl.to("#ch65",{opacity:0,duration:0.4},78.750);
+tl.fromTo("#st67",{opacity:0},{opacity:1,duration:0.3},80.966);
+(function(){var o={v:0};var el=document.getElementById("st67");tl.to(o,{v:14.8,duration:1.0,ease:"power2.out",onUpdate:function(){el.textContent=fmtN(o.v,"{:.1f}");}},80.966);})();
+tl.fromTo("#p70",{opacity:0,scale:1.0,filter:"blur(10px)"},{opacity:1,filter:"blur(0px)",duration:0.6,ease:"power2.out"},84.250);
+tl.fromTo("#p70 img",{scale:1.0},{scale:1.07,duration:5.500,ease:"none"},84.250);
+tl.to("#p70",{opacity:0,duration:0.4,ease:"power1.in"},89.350);
+tl.fromTo("#ts1",{opacity:0,x:40},{opacity:1,x:0,duration:0.4},85.971);
+tl.fromTo("#ts2",{opacity:0,x:40},{opacity:1,x:0,duration:0.4},87.718);
+tl.to(".twostat",{opacity:0,duration:0.3},89.4);
+tl.fromTo("#p73",{opacity:0,scale:1.0,filter:"blur(10px)"},{opacity:1,filter:"blur(0px)",duration:0.6,ease:"power2.out"},89.750);
+tl.fromTo("#p73 img",{scale:1.0},{scale:1.07,duration:4.350,ease:"none"},89.750);
+tl.to("#p73",{opacity:0,duration:0.4,ease:"power1.in"},93.700);
+tl.fromTo("#b75",{opacity:0,scale:1.12,rotation:-2},{opacity:1,scale:1.0,rotation:-2,duration:0.8,ease:"power2.out"},94.100);
+tl.to("#b75",{x:-60,duration:3.350,ease:"none"},94.100);
+tl.fromTo("#b75m",{scaleX:0},{scaleX:1,duration:0.6,ease:"power3.inOut"},94.600);
+tl.to("#b75",{opacity:0,duration:0.4},97.050);
+tl.fromTo("#ql0",{opacity:0,filter:"blur(10px)"},{opacity:1,filter:"blur(0px)",duration:0.6},97.388);
+tl.fromTo("#ql1",{opacity:0,filter:"blur(10px)"},{opacity:1,filter:"blur(0px)",duration:0.6},101.247);
+tl.fromTo("#ql2",{opacity:0,filter:"blur(10px)"},{opacity:1,filter:"blur(0px)",duration:0.6},103.856);
+tl.fromTo("#ql3",{opacity:0,filter:"blur(10px)"},{opacity:1,filter:"blur(0px)",duration:0.6},107.558);
+tl.fromTo("#ql4",{opacity:0,filter:"blur(10px)"},{opacity:1,filter:"blur(0px)",duration:0.6},110.240);
+tl.fromTo("#qm",{scaleX:0},{scaleX:1,duration:0.8,ease:"power3.inOut"},102.306);
+tl.fromTo(".qsrc",{opacity:0},{opacity:1,duration:0.6},104.2);
+tl.to(".quote",{opacity:0,duration:0.4},112.7);
+tl.fromTo("#k79",{opacity:0,filter:"blur(12px)",y:8},{opacity:1,filter:"blur(0px)",y:0,duration:0.35,ease:"power2.out"},113.216);
+tl.fromTo("#k80",{opacity:0,filter:"blur(12px)",y:8},{opacity:1,filter:"blur(0px)",y:0,duration:0.35,ease:"power2.out"},113.629);
+tl.fromTo("#k81",{opacity:0,filter:"blur(12px)",y:8},{opacity:1,filter:"blur(0px)",y:0,duration:0.35,ease:"power2.out"},113.762);
+tl.fromTo("#k82",{opacity:0,filter:"blur(12px)",y:8},{opacity:1,filter:"blur(0px)",y:0,duration:0.35,ease:"power2.out"},114.029);
+tl.fromTo("#k83",{opacity:0,filter:"blur(12px)",y:8},{opacity:1,filter:"blur(0px)",y:0,duration:0.35,ease:"power2.out"},114.235);
+tl.fromTo("#k84",{opacity:0,filter:"blur(12px)",y:8},{opacity:1,filter:"blur(0px)",y:0,duration:0.35,ease:"power2.out"},114.612);
+tl.fromTo("#k85",{opacity:0,filter:"blur(12px)",y:8},{opacity:1,filter:"blur(0px)",y:0,duration:0.35,ease:"power2.out"},114.745);
+tl.fromTo("#k86",{opacity:0,filter:"blur(12px)",y:8},{opacity:1,filter:"blur(0px)",y:0,duration:0.35,ease:"power2.out"},115.085);
+tl.fromTo("#k87",{opacity:0,filter:"blur(12px)",y:8},{opacity:1,filter:"blur(0px)",y:0,duration:0.35,ease:"power2.out"},115.473);
+tl.fromTo("#k88",{opacity:0,filter:"blur(12px)",y:8},{opacity:1,filter:"blur(0px)",y:0,duration:0.35,ease:"power2.out"},115.837);
+tl.fromTo("#k89",{opacity:0,filter:"blur(12px)",y:8},{opacity:1,filter:"blur(0px)",y:0,duration:0.35,ease:"power2.out"},116.250);
+tl.fromTo("#k90",{opacity:0,filter:"blur(12px)",y:8},{opacity:1,filter:"blur(0px)",y:0,duration:0.35,ease:"power2.out"},116.893);
+tl.fromTo("#k91",{opacity:0,filter:"blur(12px)",y:8},{opacity:1,filter:"blur(0px)",y:0,duration:0.35,ease:"power2.out"},117.100);
+tl.fromTo("#k92",{opacity:0,filter:"blur(12px)",y:8},{opacity:1,filter:"blur(0px)",y:0,duration:0.35,ease:"power2.out"},117.549);
+tl.to("#kb93",{opacity:0,filter:"blur(8px)",duration:0.35},118.500);
+tl.fromTo("#p95",{opacity:0,scale:1.0,filter:"blur(10px)"},{opacity:1,filter:"blur(0px)",duration:0.6,ease:"power2.out"},118.850);
+tl.fromTo("#p95 img",{scale:1.0},{scale:1.08,duration:6.400,ease:"none"},118.850);
+tl.to("#p95",{opacity:0,duration:0.4,ease:"power1.in"},124.850);
+tl.fromTo("#b97",{opacity:0,scale:1.12,rotation:-2},{opacity:1,scale:1.0,rotation:-2,duration:0.8,ease:"power2.out"},118.850);
+tl.to("#b97",{x:-60,duration:6.400,ease:"none"},118.850);
+tl.fromTo("#b97m",{scaleX:0},{scaleX:1,duration:0.6,ease:"power3.inOut"},122.200);
+tl.to("#b97",{opacity:0,duration:0.4},124.850);
+tl.fromTo("#aln",{opacity:0,y:20},{opacity:1,y:0,duration:0.4},125.316);
+tl.fromTo("#alb",{scaleX:0},{scaleX:1,duration:1.0,ease:"power2.inOut"},128.010);
+tl.fromTo("#all",{opacity:0,y:20},{opacity:1,y:0,duration:0.4},128.677);
+tl.fromTo("#alw",{opacity:0},{opacity:1,duration:0.5},129.235);
+tl.to(".arrowline,#alw",{opacity:0,duration:0.35},132.7);
+tl.fromTo("#y1998",{opacity:0,y:14},{opacity:1,y:0,duration:0.25},133.300);
+tl.fromTo("#y1999",{opacity:0,y:14},{opacity:1,y:0,duration:0.25},133.380);
+tl.fromTo("#y2000",{opacity:0,y:14},{opacity:1,y:0,duration:0.25},133.460);
+tl.fromTo("#y2001",{opacity:0,y:14},{opacity:1,y:0,duration:0.25},133.540);
+tl.fromTo("#y2002",{opacity:0,y:14},{opacity:1,y:0,duration:0.25},133.620);
+tl.fromTo("#y2003",{opacity:0,y:14},{opacity:1,y:0,duration:0.25},133.700);
+tl.fromTo("#y2004",{opacity:0,y:14},{opacity:1,y:0,duration:0.25},133.780);
+tl.fromTo("#y2005",{opacity:0,y:14},{opacity:1,y:0,duration:0.25},133.860);
+tl.fromTo("#y2006",{opacity:0,y:14},{opacity:1,y:0,duration:0.25},133.940);
+tl.fromTo("#y2007",{opacity:0,y:14},{opacity:1,y:0,duration:0.25},134.020);
+tl.fromTo("#y2008",{opacity:0,y:14},{opacity:1,y:0,duration:0.25},134.100);
+tl.fromTo("#y2009",{opacity:0,y:14},{opacity:1,y:0,duration:0.25},134.180);
+tl.fromTo("#y2010",{opacity:0,y:14},{opacity:1,y:0,duration:0.25},134.260);
+tl.fromTo("#y2011",{opacity:0,y:14},{opacity:1,y:0,duration:0.25},134.340);
+tl.fromTo("#y2012",{opacity:0,y:14},{opacity:1,y:0,duration:0.25},134.420);
+tl.fromTo("#y2013",{opacity:0,y:14},{opacity:1,y:0,duration:0.25},134.500);
+tl.fromTo("#y2014",{opacity:0,y:14},{opacity:1,y:0,duration:0.25},134.580);
+tl.fromTo("#y2015",{opacity:0,y:14},{opacity:1,y:0,duration:0.25},134.660);
+tl.fromTo("#y2016",{opacity:0,y:14},{opacity:1,y:0,duration:0.25},134.740);
+tl.fromTo("#y2017",{opacity:0,y:14},{opacity:1,y:0,duration:0.25},134.820);
+tl.fromTo("#y2018",{opacity:0,y:14},{opacity:1,y:0,duration:0.25},134.900);
+tl.fromTo("#y2019",{opacity:0,y:14},{opacity:1,y:0,duration:0.25},134.980);
+tl.fromTo("#y2020",{opacity:0,y:14},{opacity:1,y:0,duration:0.25},135.060);
+tl.fromTo("#y2021",{opacity:0,y:14},{opacity:1,y:0,duration:0.25},135.140);
+tl.fromTo("#y2022",{opacity:0,y:14},{opacity:1,y:0,duration:0.25},135.220);
+tl.fromTo("#y2023",{opacity:0,y:14},{opacity:1,y:0,duration:0.25},135.300);
+tl.fromTo("#y2024",{opacity:0,y:14},{opacity:1,y:0,duration:0.25},135.380);
+tl.fromTo("#y2025",{opacity:0,y:14},{opacity:1,y:0,duration:0.25},135.460);
+tl.to(".years,.ylab",{opacity:0,duration:0.3},136.6);
+tl.fromTo("#ch101ln",{clipPath:"inset(-40px 100% -40px -40px)"},{clipPath:"inset(-40px 0% -40px -40px)",duration:1.5,ease:"power1.inOut"},137.000);
+tl.fromTo("#ch101en",{opacity:0},{opacity:1,duration:0.4},138.300);
+tl.fromTo("#an102",{opacity:0},{opacity:1,duration:0.4},137.400);
+tl.fromTo("#an103",{opacity:0},{opacity:1,duration:0.4},137.900);
+tl.fromTo("#an104",{opacity:0},{opacity:1,duration:0.4},138.600);
+tl.fromTo("#ch101",{opacity:0,y:30},{opacity:1,y:0,duration:0.6,ease:"power2.out"},136.950);
+tl.to("#ch101",{opacity:0,duration:0.4},142.550);
+tl.fromTo("#bi",{scaleY:0},{scaleY:1,duration:1.0,ease:"power3.out"},144.430);
+tl.fromTo("#bd",{scaleY:0},{scaleY:1,duration:1.0,ease:"power3.out"},146.350);
+tl.to(".bars,.bsrc",{opacity:0,duration:0.3},147.7);
+tl.fromTo("#p107",{opacity:0,scale:1.0,filter:"blur(10px)"},{opacity:1,filter:"blur(0px)",duration:0.6,ease:"power2.out"},148.050);
+tl.fromTo("#p107 img",{scale:1.0},{scale:1.08,duration:7.300,ease:"none"},148.050);
+tl.to("#p107",{opacity:0,duration:0.4,ease:"power1.in"},154.950);
+tl.fromTo("#st109",{opacity:0},{opacity:1,duration:0.3},151.784);
+(function(){var o={v:1.0};var el=document.getElementById("st109");tl.to(o,{v:0.13,duration:2.2,ease:"power2.out",onUpdate:function(){el.textContent=fmtN(o.v,"{:.2f}");}},151.784);})();
+tl.fromTo("#k111",{opacity:0,filter:"blur(12px)",y:8},{opacity:1,filter:"blur(0px)",y:0,duration:0.35,ease:"power2.out"},155.801);
+tl.fromTo("#k112",{opacity:0,filter:"blur(12px)",y:8},{opacity:1,filter:"blur(0px)",y:0,duration:0.35,ease:"power2.out"},155.886);
+tl.fromTo("#k113",{opacity:0,filter:"blur(12px)",y:8},{opacity:1,filter:"blur(0px)",y:0,duration:0.35,ease:"power2.out"},156.286);
+tl.fromTo("#k114",{opacity:0,filter:"blur(12px)",y:8},{opacity:1,filter:"blur(0px)",y:0,duration:0.35,ease:"power2.out"},156.444);
+tl.fromTo("#k115",{opacity:0,filter:"blur(12px)",y:8},{opacity:1,filter:"blur(0px)",y:0,duration:0.35,ease:"power2.out"},156.942);
+tl.fromTo("#k116",{opacity:0,filter:"blur(12px)",y:8},{opacity:1,filter:"blur(0px)",y:0,duration:0.35,ease:"power2.out"},157.148);
+tl.fromTo("#k117",{opacity:0,filter:"blur(12px)",y:8},{opacity:1,filter:"blur(0px)",y:0,duration:0.35,ease:"power2.out"},157.342);
+tl.fromTo("#k118",{opacity:0,filter:"blur(12px)",y:8},{opacity:1,filter:"blur(0px)",y:0,duration:0.35,ease:"power2.out"},157.561);
+tl.fromTo("#k119",{opacity:0,filter:"blur(12px)",y:8},{opacity:1,filter:"blur(0px)",y:0,duration:0.35,ease:"power2.out"},157.888);
+tl.to("#kb120",{opacity:0,filter:"blur(8px)",duration:0.35},158.750);
+tl.fromTo("#p122",{opacity:0,scale:1.0,filter:"blur(10px)"},{opacity:1,filter:"blur(0px)",duration:0.6,ease:"power2.out"},159.100);
+tl.fromTo("#p122 img",{scale:1.0},{scale:1.06,duration:6.850,ease:"none"},159.100);
+tl.to("#p122",{opacity:0,duration:0.4,ease:"power1.in"},165.550);
+tl.fromTo("#hq",{opacity:0,filter:"blur(10px)"},{opacity:1,filter:"blur(0px)",duration:0.8},159.3);
+tl.to(".closing",{opacity:0,duration:0.4},165.5);
+tl.fromTo("#k125",{opacity:0,filter:"blur(12px)",y:8},{opacity:1,filter:"blur(0px)",y:0,duration:0.35,ease:"power2.out"},166.019);
+tl.fromTo("#k126",{opacity:0,filter:"blur(12px)",y:8},{opacity:1,filter:"blur(0px)",y:0,duration:0.35,ease:"power2.out"},166.420);
+tl.fromTo("#k127",{opacity:0,filter:"blur(12px)",y:8},{opacity:1,filter:"blur(0px)",y:0,duration:0.35,ease:"power2.out"},166.881);
+tl.fromTo("#k128",{opacity:0,filter:"blur(12px)",y:8},{opacity:1,filter:"blur(0px)",y:0,duration:0.35,ease:"power2.out"},166.966);
+tl.fromTo("#k129",{opacity:0,filter:"blur(12px)",y:8},{opacity:1,filter:"blur(0px)",y:0,duration:0.35,ease:"power2.out"},167.367);
+tl.fromTo("#k130",{opacity:0,filter:"blur(12px)",y:8},{opacity:1,filter:"blur(0px)",y:0,duration:0.35,ease:"power2.out"},167.476);
+tl.to("#kb131",{opacity:0,filter:"blur(8px)",duration:0.35},168.400);
+tl.fromTo("#k133",{opacity:0,filter:"blur(12px)",y:8},{opacity:1,filter:"blur(0px)",y:0,duration:0.35,ease:"power2.out"},168.811);
+tl.fromTo("#k134",{opacity:0,filter:"blur(12px)",y:8},{opacity:1,filter:"blur(0px)",y:0,duration:0.35,ease:"power2.out"},169.636);
+tl.fromTo("#k135",{opacity:0,filter:"blur(12px)",y:8},{opacity:1,filter:"blur(0px)",y:0,duration:0.35,ease:"power2.out"},169.818);
+tl.fromTo("#k136",{opacity:0,filter:"blur(12px)",y:8},{opacity:1,filter:"blur(0px)",y:0,duration:0.35,ease:"power2.out"},170.328);
+tl.fromTo("#k137",{opacity:0,filter:"blur(12px)",y:8},{opacity:1,filter:"blur(0px)",y:0,duration:0.35,ease:"power2.out"},170.437);
+tl.to("#kb138",{opacity:0,filter:"blur(8px)",duration:0.35},171.200);
+tl.fromTo("#g140",{opacity:0,scaleX:1.35},{opacity:1,scaleX:1,duration:0.5,ease:"expo.out"},171.550);
+tl.fromTo("#g140",{x:-14,skewX:12},{x:0,skewX:0,duration:0.45,ease:"steps(6)"},171.550);
+tl.to("#g140",{x:10,duration:0.18,ease:"steps(3)",yoyo:true,repeat:1},172.650);
+tl.to("#g140",{opacity:0,duration:0.3},173.300);
+tl.fromTo("#k143",{opacity:0,filter:"blur(12px)",y:8},{opacity:1,filter:"blur(0px)",y:0,duration:0.35,ease:"power2.out"},173.738);
+tl.fromTo("#k144",{opacity:0,filter:"blur(12px)",y:8},{opacity:1,filter:"blur(0px)",y:0,duration:0.35,ease:"power2.out"},173.920);
+tl.fromTo("#k145",{opacity:0,filter:"blur(12px)",y:8},{opacity:1,filter:"blur(0px)",y:0,duration:0.35,ease:"power2.out"},174.090);
+tl.fromTo("#k146",{opacity:0,filter:"blur(12px)",y:8},{opacity:1,filter:"blur(0px)",y:0,duration:0.35,ease:"power2.out"},174.211);
+tl.fromTo("#k147",{opacity:0,filter:"blur(12px)",y:8},{opacity:1,filter:"blur(0px)",y:0,duration:0.35,ease:"power2.out"},174.320);
+tl.fromTo("#k148",{opacity:0,filter:"blur(12px)",y:8},{opacity:1,filter:"blur(0px)",y:0,duration:0.35,ease:"power2.out"},174.624);
+tl.fromTo("#k149",{opacity:0,filter:"blur(12px)",y:8},{opacity:1,filter:"blur(0px)",y:0,duration:0.35,ease:"power2.out"},174.964);
+tl.fromTo("#k150",{opacity:0,filter:"blur(12px)",y:8},{opacity:1,filter:"blur(0px)",y:0,duration:0.35,ease:"power2.out"},175.073);
+tl.to("#kb151",{opacity:0,filter:"blur(8px)",duration:0.35},175.850);
+tl.fromTo("#ec",{opacity:0},{opacity:1,duration:0.8},176.3);
+tl.fromTo("#w162",{opacity:0.28},{opacity:1,duration:0.08},0.099);
+tl.fromTo("#w163",{opacity:0.28},{opacity:1,duration:0.08},0.438);
+tl.fromTo("#w164",{opacity:0.28},{opacity:1,duration:0.08},1.045);
+tl.fromTo("#w165",{opacity:0.28},{opacity:1,duration:0.08},1.203);
+tl.fromTo("#w166",{opacity:0.28},{opacity:1,duration:0.08},1.446);
+tl.fromTo("#w167",{opacity:0.28},{opacity:1,duration:0.08},2.840);
+tl.fromTo("#w168",{opacity:0.28},{opacity:1,duration:0.08},3.070);
+tl.fromTo("#w169",{opacity:0.28},{opacity:1,duration:0.08},3.313);
+tl.fromTo("#w170",{opacity:0.28},{opacity:1,duration:0.08},3.422);
+tl.fromTo("#w171",{opacity:0.28},{opacity:1,duration:0.08},3.665);
+tl.fromTo("#w172",{opacity:0.28},{opacity:1,duration:0.08},3.811);
+tl.fromTo("#w173",{opacity:0.28},{opacity:1,duration:0.08},3.956);
+tl.fromTo("#w174",{opacity:0.28},{opacity:1,duration:0.08},5.231);
+tl.fromTo("#w175",{opacity:0.28},{opacity:1,duration:0.08},5.485);
+tl.fromTo("#w176",{opacity:0.28},{opacity:1,duration:0.08},5.643);
+tl.fromTo("#w177",{opacity:0.28},{opacity:1,duration:0.08},5.886);
+tl.fromTo("#w178",{opacity:0.28},{opacity:1,duration:0.08},5.947);
+tl.fromTo("#w179",{opacity:0.28},{opacity:1,duration:0.08},7.257);
+tl.fromTo("#w180",{opacity:0.28},{opacity:1,duration:0.08},7.415);
+tl.fromTo("#w181",{opacity:0.28},{opacity:1,duration:0.08},7.549);
+tl.fromTo("#w182",{opacity:0.28},{opacity:1,duration:0.08},7.633);
+tl.fromTo("#w183",{opacity:0.28},{opacity:1,duration:0.08},8.119);
+tl.fromTo("#w184",{opacity:0.28},{opacity:1,duration:0.08},8.993);
+tl.fromTo("#w185",{opacity:0.28},{opacity:1,duration:0.08},9.150);
+tl.fromTo("#w186",{opacity:0.28},{opacity:1,duration:0.08},9.223);
+tl.fromTo("#w187",{opacity:0.28},{opacity:1,duration:0.08},9.502);
+tl.fromTo("#w188",{opacity:0.28},{opacity:1,duration:0.08},10.085);
+tl.fromTo("#w189",{opacity:0.28},{opacity:1,duration:0.08},10.680);
+tl.fromTo("#w190",{opacity:0.28},{opacity:1,duration:0.08},10.752);
+tl.fromTo("#w191",{opacity:0.28},{opacity:1,duration:0.08},10.837);
+tl.fromTo("#w192",{opacity:0.28},{opacity:1,duration:0.08},11.250);
+tl.fromTo("#w193",{opacity:0.28},{opacity:1,duration:0.08},12.621);
+tl.fromTo("#w194",{opacity:0.28},{opacity:1,duration:0.08},14.138);
+tl.fromTo("#w195",{opacity:0.28},{opacity:1,duration:0.08},14.272);
+tl.fromTo("#w196",{opacity:0.28},{opacity:1,duration:0.08},14.393);
+tl.fromTo("#w197",{opacity:0.28},{opacity:1,duration:0.08},14.782);
+tl.fromTo("#w198",{opacity:0.28},{opacity:1,duration:0.08},14.891);
+tl.fromTo("#w199",{opacity:0.28},{opacity:1,duration:0.08},14.976);
+tl.fromTo("#w200",{opacity:0.28},{opacity:1,duration:0.08},15.789);
+tl.fromTo("#w201",{opacity:0.28},{opacity:1,duration:0.08},16.104);
+tl.fromTo("#w202",{opacity:0.28},{opacity:1,duration:0.08},16.468);
+tl.fromTo("#w203",{opacity:0.28},{opacity:1,duration:0.08},16.845);
+tl.fromTo("#w204",{opacity:0.28},{opacity:1,duration:0.08},17.294);
+tl.fromTo("#w205",{opacity:0.28},{opacity:1,duration:0.08},17.403);
+tl.fromTo("#w206",{opacity:0.28},{opacity:1,duration:0.08},17.791);
+tl.fromTo("#w207",{opacity:0.28},{opacity:1,duration:0.08},18.216);
+tl.fromTo("#w208",{opacity:0.28},{opacity:1,duration:0.08},18.313);
+tl.fromTo("#w209",{opacity:0.28},{opacity:1,duration:0.08},19.090);
+tl.fromTo("#w210",{opacity:0.28},{opacity:1,duration:0.08},19.684);
+tl.fromTo("#w211",{opacity:0.28},{opacity:1,duration:0.08},19.794);
+tl.fromTo("#w212",{opacity:0.28},{opacity:1,duration:0.08},21.032);
+tl.fromTo("#w213",{opacity:0.28},{opacity:1,duration:0.08},21.238);
+tl.fromTo("#w214",{opacity:0.28},{opacity:1,duration:0.08},21.687);
+tl.fromTo("#w215",{opacity:0.28},{opacity:1,duration:0.08},21.857);
+tl.fromTo("#w216",{opacity:0.28},{opacity:1,duration:0.08},22.767);
+tl.fromTo("#w217",{opacity:0.28},{opacity:1,duration:0.08},22.901);
+tl.fromTo("#w218",{opacity:0.28},{opacity:1,duration:0.08},22.973);
+tl.fromTo("#w219",{opacity:0.28},{opacity:1,duration:0.08},23.471);
+tl.fromTo("#w220",{opacity:0.28},{opacity:1,duration:0.08},24.272);
+tl.fromTo("#w221",{opacity:0.28},{opacity:1,duration:0.08},24.721);
+tl.fromTo("#w222",{opacity:0.28},{opacity:1,duration:0.08},24.939);
+tl.fromTo("#w223",{opacity:0.28},{opacity:1,duration:0.08},25.607);
+tl.fromTo("#w224",{opacity:0.28},{opacity:1,duration:0.08},26.116);
+tl.fromTo("#w225",{opacity:0.28},{opacity:1,duration:0.08},26.238);
+tl.fromTo("#w226",{opacity:0.28},{opacity:1,duration:0.08},26.590);
+tl.fromTo("#w227",{opacity:0.28},{opacity:1,duration:0.08},28.034);
+tl.fromTo("#w228",{opacity:0.28},{opacity:1,duration:0.08},28.677);
+tl.fromTo("#w229",{opacity:0.28},{opacity:1,duration:0.08},28.786);
+tl.fromTo("#w230",{opacity:0.28},{opacity:1,duration:0.08},28.981);
+tl.fromTo("#w231",{opacity:0.28},{opacity:1,duration:0.08},29.296);
+tl.fromTo("#w232",{opacity:0.28},{opacity:1,duration:0.08},29.842);
+tl.fromTo("#w233",{opacity:0.28},{opacity:1,duration:0.08},29.976);
+tl.fromTo("#w234",{opacity:0.28},{opacity:1,duration:0.08},30.680);
+tl.fromTo("#w235",{opacity:0.28},{opacity:1,duration:0.08},30.849);
+tl.fromTo("#w236",{opacity:0.28},{opacity:1,duration:0.08},31.323);
+tl.fromTo("#w237",{opacity:0.28},{opacity:1,duration:0.08},31.432);
+tl.fromTo("#w238",{opacity:0.28},{opacity:1,duration:0.08},31.833);
+tl.fromTo("#w239",{opacity:0.28},{opacity:1,duration:0.08},31.966);
+tl.fromTo("#w240",{opacity:0.28},{opacity:1,duration:0.08},32.051);
+tl.fromTo("#w241",{opacity:0.28},{opacity:1,duration:0.08},33.349);
+tl.fromTo("#w242",{opacity:0.28},{opacity:1,duration:0.08},33.847);
+tl.fromTo("#w243",{opacity:0.28},{opacity:1,duration:0.08},34.260);
+tl.fromTo("#w244",{opacity:0.28},{opacity:1,duration:0.08},34.624);
+tl.fromTo("#w245",{opacity:0.28},{opacity:1,duration:0.08},34.794);
+tl.fromTo("#w246",{opacity:0.28},{opacity:1,duration:0.08},35.073);
+tl.fromTo("#w247",{opacity:0.28},{opacity:1,duration:0.08},35.425);
+tl.fromTo("#w248",{opacity:0.28},{opacity:1,duration:0.08},35.583);
+tl.fromTo("#w249",{opacity:0.28},{opacity:1,duration:0.08},35.813);
+tl.fromTo("#w250",{opacity:0.28},{opacity:1,duration:0.08},36.165);
+tl.fromTo("#w251",{opacity:0.28},{opacity:1,duration:0.08},37.439);
+tl.fromTo("#w252",{opacity:0.28},{opacity:1,duration:0.08},37.609);
+tl.fromTo("#w253",{opacity:0.28},{opacity:1,duration:0.08},38.277);
+tl.fromTo("#w254",{opacity:0.28},{opacity:1,duration:0.08},38.677);
+tl.fromTo("#w255",{opacity:0.28},{opacity:1,duration:0.08},39.005);
+tl.fromTo("#w256",{opacity:0.28},{opacity:1,duration:0.08},39.163);
+tl.fromTo("#w257",{opacity:0.28},{opacity:1,duration:0.08},39.478);
+tl.fromTo("#w258",{opacity:0.28},{opacity:1,duration:0.08},40.061);
+tl.fromTo("#w259",{opacity:0.28},{opacity:1,duration:0.08},40.303);
+tl.fromTo("#w260",{opacity:0.28},{opacity:1,duration:0.08},40.886);
+tl.fromTo("#w261",{opacity:0.28},{opacity:1,duration:0.08},40.995);
+tl.fromTo("#w262",{opacity:0.28},{opacity:1,duration:0.08},41.250);
+tl.fromTo("#w263",{opacity:0.28},{opacity:1,duration:0.08},41.735);
+tl.fromTo("#w264",{opacity:0.28},{opacity:1,duration:0.08},42.075);
+tl.fromTo("#w265",{opacity:0.28},{opacity:1,duration:0.08},43.519);
+tl.fromTo("#w266",{opacity:0.28},{opacity:1,duration:0.08},43.665);
+tl.fromTo("#w267",{opacity:0.28},{opacity:1,duration:0.08},43.981);
+tl.fromTo("#w268",{opacity:0.28},{opacity:1,duration:0.08},44.381);
+tl.fromTo("#w269",{opacity:0.28},{opacity:1,duration:0.08},44.490);
+tl.fromTo("#w270",{opacity:0.28},{opacity:1,duration:0.08},45.837);
+tl.fromTo("#w271",{opacity:0.28},{opacity:1,duration:0.08},46.019);
+tl.fromTo("#w272",{opacity:0.28},{opacity:1,duration:0.08},47.148);
+tl.fromTo("#w273",{opacity:0.28},{opacity:1,duration:0.08},47.282);
+tl.fromTo("#w274",{opacity:0.28},{opacity:1,duration:0.08},47.646);
+tl.fromTo("#w275",{opacity:0.28},{opacity:1,duration:0.08},47.816);
+tl.fromTo("#w276",{opacity:0.28},{opacity:1,duration:0.08},48.410);
+tl.fromTo("#w277",{opacity:0.28},{opacity:1,duration:0.08},48.932);
+tl.fromTo("#w278",{opacity:0.28},{opacity:1,duration:0.08},49.320);
+tl.fromTo("#w279",{opacity:0.28},{opacity:1,duration:0.08},49.587);
+tl.fromTo("#w280",{opacity:0.28},{opacity:1,duration:0.08},49.891);
+tl.fromTo("#w281",{opacity:0.28},{opacity:1,duration:0.08},50.036);
+tl.fromTo("#w282",{opacity:0.28},{opacity:1,duration:0.08},50.388);
+tl.fromTo("#w283",{opacity:0.28},{opacity:1,duration:0.08},50.667);
+tl.fromTo("#w284",{opacity:0.28},{opacity:1,duration:0.08},51.311);
+tl.fromTo("#w285",{opacity:0.28},{opacity:1,duration:0.08},52.609);
+tl.fromTo("#w286",{opacity:0.28},{opacity:1,duration:0.08},52.937);
+tl.fromTo("#w287",{opacity:0.28},{opacity:1,duration:0.08},53.046);
+tl.fromTo("#w288",{opacity:0.28},{opacity:1,duration:0.08},53.653);
+tl.fromTo("#w289",{opacity:0.28},{opacity:1,duration:0.08},54.029);
+tl.fromTo("#w290",{opacity:0.28},{opacity:1,duration:0.08},55.231);
+tl.fromTo("#w291",{opacity:0.28},{opacity:1,duration:0.08},56.905);
+tl.fromTo("#w292",{opacity:0.28},{opacity:1,duration:0.08},57.209);
+tl.fromTo("#w293",{opacity:0.28},{opacity:1,duration:0.08},57.354);
+tl.fromTo("#w294",{opacity:0.28},{opacity:1,duration:0.08},57.488);
+tl.fromTo("#w295",{opacity:0.28},{opacity:1,duration:0.08},57.633);
+tl.fromTo("#w296",{opacity:0.28},{opacity:1,duration:0.08},57.779);
+tl.fromTo("#w297",{opacity:0.28},{opacity:1,duration:0.08},58.143);
+tl.fromTo("#w298",{opacity:0.28},{opacity:1,duration:0.08},58.325);
+tl.fromTo("#w299",{opacity:0.28},{opacity:1,duration:0.08},58.434);
+tl.fromTo("#w300",{opacity:0.28},{opacity:1,duration:0.08},58.981);
+tl.fromTo("#w301",{opacity:0.28},{opacity:1,duration:0.08},59.126);
+tl.fromTo("#w302",{opacity:0.28},{opacity:1,duration:0.08},59.284);
+tl.fromTo("#w303",{opacity:0.28},{opacity:1,duration:0.08},59.527);
+tl.fromTo("#w304",{opacity:0.28},{opacity:1,duration:0.08},60.097);
+tl.fromTo("#w305",{opacity:0.28},{opacity:1,duration:0.08},61.286);
+tl.fromTo("#w306",{opacity:0.28},{opacity:1,duration:0.08},62.755);
+tl.fromTo("#w307",{opacity:0.28},{opacity:1,duration:0.08},63.192);
+tl.fromTo("#w308",{opacity:0.28},{opacity:1,duration:0.08},63.556);
+tl.fromTo("#w309",{opacity:0.28},{opacity:1,duration:0.08},63.799);
+tl.fromTo("#w310",{opacity:0.28},{opacity:1,duration:0.08},63.835);
+tl.fromTo("#w311",{opacity:0.28},{opacity:1,duration:0.08},64.624);
+tl.fromTo("#w312",{opacity:0.28},{opacity:1,duration:0.08},64.745);
+tl.fromTo("#w313",{opacity:0.28},{opacity:1,duration:0.08},64.867);
+tl.fromTo("#w314",{opacity:0.28},{opacity:1,duration:0.08},65.121);
+tl.fromTo("#w315",{opacity:0.28},{opacity:1,duration:0.08},65.182);
+tl.fromTo("#w316",{opacity:0.28},{opacity:1,duration:0.08},65.740);
+tl.fromTo("#w317",{opacity:0.28},{opacity:1,duration:0.08},65.886);
+tl.fromTo("#w318",{opacity:0.28},{opacity:1,duration:0.08},67.476);
+tl.fromTo("#w319",{opacity:0.28},{opacity:1,duration:0.08},67.731);
+tl.fromTo("#w320",{opacity:0.28},{opacity:1,duration:0.08},68.010);
+tl.fromTo("#w321",{opacity:0.28},{opacity:1,duration:0.08},68.167);
+tl.fromTo("#w322",{opacity:0.28},{opacity:1,duration:0.08},68.301);
+tl.fromTo("#w323",{opacity:0.28},{opacity:1,duration:0.08},68.701);
+tl.fromTo("#w324",{opacity:0.28},{opacity:1,duration:0.08},68.799);
+tl.fromTo("#w325",{opacity:0.28},{opacity:1,duration:0.08},69.090);
+tl.fromTo("#w326",{opacity:0.28},{opacity:1,duration:0.08},70.400);
+tl.fromTo("#w327",{opacity:0.28},{opacity:1,duration:0.08},70.546);
+tl.fromTo("#w328",{opacity:0.28},{opacity:1,duration:0.08},70.910);
+tl.fromTo("#w329",{opacity:0.28},{opacity:1,duration:0.08},71.250);
+tl.fromTo("#w330",{opacity:0.28},{opacity:1,duration:0.08},71.347);
+tl.fromTo("#w331",{opacity:0.28},{opacity:1,duration:0.08},71.432);
+tl.fromTo("#w332",{opacity:0.28},{opacity:1,duration:0.08},71.760);
+tl.fromTo("#w333",{opacity:0.28},{opacity:1,duration:0.08},71.930);
+tl.fromTo("#w334",{opacity:0.28},{opacity:1,duration:0.08},73.192);
+tl.fromTo("#w335",{opacity:0.28},{opacity:1,duration:0.08},73.350);
+tl.fromTo("#w336",{opacity:0.28},{opacity:1,duration:0.08},73.738);
+tl.fromTo("#w337",{opacity:0.28},{opacity:1,duration:0.08},73.981);
+tl.fromTo("#w338",{opacity:0.28},{opacity:1,duration:0.08},74.587);
+tl.fromTo("#w339",{opacity:0.28},{opacity:1,duration:0.08},74.745);
+tl.fromTo("#w340",{opacity:0.28},{opacity:1,duration:0.08},75.364);
+tl.fromTo("#w341",{opacity:0.28},{opacity:1,duration:0.08},75.655);
+tl.fromTo("#w342",{opacity:0.28},{opacity:1,duration:0.08},76.238);
+tl.fromTo("#w343",{opacity:0.28},{opacity:1,duration:0.08},76.335);
+tl.fromTo("#w344",{opacity:0.28},{opacity:1,duration:0.08},77.282);
+tl.fromTo("#w345",{opacity:0.28},{opacity:1,duration:0.08},77.573);
+tl.fromTo("#w346",{opacity:0.28},{opacity:1,duration:0.08},77.743);
+tl.fromTo("#w347",{opacity:0.28},{opacity:1,duration:0.08},79.175);
+tl.fromTo("#w348",{opacity:0.28},{opacity:1,duration:0.08},80.340);
+tl.fromTo("#w349",{opacity:0.28},{opacity:1,duration:0.08},80.850);
+tl.fromTo("#w350",{opacity:0.28},{opacity:1,duration:0.08},81.383);
+tl.fromTo("#w351",{opacity:0.28},{opacity:1,duration:0.08},81.566);
+tl.fromTo("#w352",{opacity:0.28},{opacity:1,duration:0.08},82.949);
+tl.fromTo("#w353",{opacity:0.28},{opacity:1,duration:0.08},82.985);
+tl.fromTo("#w354",{opacity:0.28},{opacity:1,duration:0.08},84.260);
+tl.fromTo("#w355",{opacity:0.28},{opacity:1,duration:0.08},84.672);
+tl.fromTo("#w356",{opacity:0.28},{opacity:1,duration:0.08},84.794);
+tl.fromTo("#w357",{opacity:0.28},{opacity:1,duration:0.08},85.012);
+tl.fromTo("#w358",{opacity:0.28},{opacity:1,duration:0.08},85.437);
+tl.fromTo("#w359",{opacity:0.28},{opacity:1,duration:0.08},85.752);
+tl.fromTo("#w360",{opacity:0.28},{opacity:1,duration:0.08},85.971);
+tl.fromTo("#w361",{opacity:0.28},{opacity:1,duration:0.08},86.772);
+tl.fromTo("#w362",{opacity:0.28},{opacity:1,duration:0.08},86.942);
+tl.fromTo("#w363",{opacity:0.28},{opacity:1,duration:0.08},87.585);
+tl.fromTo("#w364",{opacity:0.28},{opacity:1,duration:0.08},87.718);
+tl.fromTo("#w365",{opacity:0.28},{opacity:1,duration:0.08},89.806);
+tl.fromTo("#w366",{opacity:0.28},{opacity:1,duration:0.08},90.243);
+tl.fromTo("#w367",{opacity:0.28},{opacity:1,duration:0.08},90.704);
+tl.fromTo("#w368",{opacity:0.28},{opacity:1,duration:0.08},90.874);
+tl.fromTo("#w369",{opacity:0.28},{opacity:1,duration:0.08},91.311);
+tl.fromTo("#w370",{opacity:0.28},{opacity:1,duration:0.08},91.481);
+tl.fromTo("#w371",{opacity:0.28},{opacity:1,duration:0.08},92.075);
+tl.fromTo("#w372",{opacity:0.28},{opacity:1,duration:0.08},94.223);
+tl.fromTo("#w373",{opacity:0.28},{opacity:1,duration:0.08},94.672);
+tl.fromTo("#w374",{opacity:0.28},{opacity:1,duration:0.08},94.988);
+tl.fromTo("#w375",{opacity:0.28},{opacity:1,duration:0.08},95.364);
+tl.fromTo("#w376",{opacity:0.28},{opacity:1,duration:0.08},95.680);
+tl.fromTo("#w377",{opacity:0.28},{opacity:1,duration:0.08},95.959);
+tl.fromTo("#w378",{opacity:0.28},{opacity:1,duration:0.08},97.488);
+tl.fromTo("#w379",{opacity:0.28},{opacity:1,duration:0.08},97.633);
+tl.fromTo("#w380",{opacity:0.28},{opacity:1,duration:0.08},97.840);
+tl.fromTo("#w381",{opacity:0.28},{opacity:1,duration:0.08},98.180);
+tl.fromTo("#w382",{opacity:0.28},{opacity:1,duration:0.08},98.434);
+tl.fromTo("#w383",{opacity:0.28},{opacity:1,duration:0.08},98.568);
+tl.fromTo("#w384",{opacity:0.28},{opacity:1,duration:0.08},98.629);
+tl.fromTo("#w385",{opacity:0.28},{opacity:1,duration:0.08},99.163);
+tl.fromTo("#w386",{opacity:0.28},{opacity:1,duration:0.08},99.478);
+tl.fromTo("#w387",{opacity:0.28},{opacity:1,duration:0.08},99.575);
+tl.fromTo("#w388",{opacity:0.28},{opacity:1,duration:0.08},99.867);
+tl.fromTo("#w389",{opacity:0.28},{opacity:1,duration:0.08},101.347);
+tl.fromTo("#w390",{opacity:0.28},{opacity:1,duration:0.08},101.505);
+tl.fromTo("#w391",{opacity:0.28},{opacity:1,duration:0.08},101.602);
+tl.fromTo("#w392",{opacity:0.28},{opacity:1,duration:0.08},101.966);
+tl.fromTo("#w393",{opacity:0.28},{opacity:1,duration:0.08},102.209);
+tl.fromTo("#w394",{opacity:0.28},{opacity:1,duration:0.08},102.342);
+tl.fromTo("#w395",{opacity:0.28},{opacity:1,duration:0.08},102.488);
+tl.fromTo("#w396",{opacity:0.28},{opacity:1,duration:0.08},102.706);
+tl.fromTo("#w397",{opacity:0.28},{opacity:1,duration:0.08},103.956);
+tl.fromTo("#w398",{opacity:0.28},{opacity:1,duration:0.08},104.660);
+tl.fromTo("#w399",{opacity:0.28},{opacity:1,duration:0.08},104.842);
+tl.fromTo("#w400",{opacity:0.28},{opacity:1,duration:0.08},105.328);
+tl.fromTo("#w401",{opacity:0.28},{opacity:1,duration:0.08},105.570);
+tl.fromTo("#w402",{opacity:0.28},{opacity:1,duration:0.08},106.226);
+tl.fromTo("#w403",{opacity:0.28},{opacity:1,duration:0.08},106.456);
+tl.fromTo("#w404",{opacity:0.28},{opacity:1,duration:0.08},106.881);
+tl.fromTo("#w405",{opacity:0.28},{opacity:1,duration:0.08},106.966);
+tl.fromTo("#w406",{opacity:0.28},{opacity:1,duration:0.08},107.427);
+tl.fromTo("#w407",{opacity:0.28},{opacity:1,duration:0.08},107.549);
+tl.fromTo("#w408",{opacity:0.28},{opacity:1,duration:0.08},107.658);
+tl.fromTo("#w409",{opacity:0.28},{opacity:1,duration:0.08},108.301);
+tl.fromTo("#w410",{opacity:0.28},{opacity:1,duration:0.08},108.726);
+tl.fromTo("#w411",{opacity:0.28},{opacity:1,duration:0.08},108.847);
+tl.fromTo("#w412",{opacity:0.28},{opacity:1,duration:0.08},109.017);
+tl.fromTo("#w413",{opacity:0.28},{opacity:1,duration:0.08},109.260);
+tl.fromTo("#w414",{opacity:0.28},{opacity:1,duration:0.08},109.490);
+tl.fromTo("#w415",{opacity:0.28},{opacity:1,duration:0.08},109.648);
+tl.fromTo("#w416",{opacity:0.28},{opacity:1,duration:0.08},109.782);
+tl.fromTo("#w417",{opacity:0.28},{opacity:1,duration:0.08},109.891);
+tl.fromTo("#w418",{opacity:0.28},{opacity:1,duration:0.08},109.976);
+tl.fromTo("#w419",{opacity:0.28},{opacity:1,duration:0.08},110.340);
+tl.fromTo("#w420",{opacity:0.28},{opacity:1,duration:0.08},110.473);
+tl.fromTo("#w421",{opacity:0.28},{opacity:1,duration:0.08},110.740);
+tl.fromTo("#w422",{opacity:0.28},{opacity:1,duration:0.08},111.080);
+tl.fromTo("#w423",{opacity:0.28},{opacity:1,duration:0.08},111.177);
+tl.fromTo("#w424",{opacity:0.28},{opacity:1,duration:0.08},111.541);
+tl.fromTo("#w425",{opacity:0.28},{opacity:1,duration:0.08},111.675);
+tl.fromTo("#w426",{opacity:0.28},{opacity:1,duration:0.08},111.954);
+tl.fromTo("#w427",{opacity:0.28},{opacity:1,duration:0.08},113.216);
+tl.fromTo("#w428",{opacity:0.28},{opacity:1,duration:0.08},113.629);
+tl.fromTo("#w429",{opacity:0.28},{opacity:1,duration:0.08},113.762);
+tl.fromTo("#w430",{opacity:0.28},{opacity:1,duration:0.08},114.029);
+tl.fromTo("#w431",{opacity:0.28},{opacity:1,duration:0.08},114.235);
+tl.fromTo("#w432",{opacity:0.28},{opacity:1,duration:0.08},114.612);
+tl.fromTo("#w433",{opacity:0.28},{opacity:1,duration:0.08},114.745);
+tl.fromTo("#w434",{opacity:0.28},{opacity:1,duration:0.08},115.085);
+tl.fromTo("#w435",{opacity:0.28},{opacity:1,duration:0.08},115.473);
+tl.fromTo("#w436",{opacity:0.28},{opacity:1,duration:0.08},115.837);
+tl.fromTo("#w437",{opacity:0.28},{opacity:1,duration:0.08},116.250);
+tl.fromTo("#w438",{opacity:0.28},{opacity:1,duration:0.08},116.893);
+tl.fromTo("#w439",{opacity:0.28},{opacity:1,duration:0.08},117.100);
+tl.fromTo("#w440",{opacity:0.28},{opacity:1,duration:0.08},117.549);
+tl.fromTo("#w441",{opacity:0.28},{opacity:1,duration:0.08},118.908);
+tl.fromTo("#w442",{opacity:0.28},{opacity:1,duration:0.08},119.417);
+tl.fromTo("#w443",{opacity:0.28},{opacity:1,duration:0.08},119.794);
+tl.fromTo("#w444",{opacity:0.28},{opacity:1,duration:0.08},120.182);
+tl.fromTo("#w445",{opacity:0.28},{opacity:1,duration:0.08},120.716);
+tl.fromTo("#w446",{opacity:0.28},{opacity:1,duration:0.08},121.019);
+tl.fromTo("#w447",{opacity:0.28},{opacity:1,duration:0.08},121.201);
+tl.fromTo("#w448",{opacity:0.28},{opacity:1,duration:0.08},121.723);
+tl.fromTo("#w449",{opacity:0.28},{opacity:1,duration:0.08},122.233);
+tl.fromTo("#w450",{opacity:0.28},{opacity:1,duration:0.08},122.512);
+tl.fromTo("#w451",{opacity:0.28},{opacity:1,duration:0.08},123.228);
+tl.fromTo("#w452",{opacity:0.28},{opacity:1,duration:0.08},123.386);
+tl.fromTo("#w453",{opacity:0.28},{opacity:1,duration:0.08},123.896);
+tl.fromTo("#w454",{opacity:0.28},{opacity:1,duration:0.08},125.316);
+tl.fromTo("#w455",{opacity:0.28},{opacity:1,duration:0.08},125.874);
+tl.fromTo("#w456",{opacity:0.28},{opacity:1,duration:0.08},126.117);
+tl.fromTo("#w457",{opacity:0.28},{opacity:1,duration:0.08},126.468);
+tl.fromTo("#w458",{opacity:0.28},{opacity:1,duration:0.08},127.840);
+tl.fromTo("#w459",{opacity:0.28},{opacity:1,duration:0.08},128.010);
+tl.fromTo("#w460",{opacity:0.28},{opacity:1,duration:0.08},128.240);
+tl.fromTo("#w461",{opacity:0.28},{opacity:1,duration:0.08},128.677);
+tl.fromTo("#w462",{opacity:0.28},{opacity:1,duration:0.08},129.235);
+tl.fromTo("#w463",{opacity:0.28},{opacity:1,duration:0.08},129.648);
+tl.fromTo("#w464",{opacity:0.28},{opacity:1,duration:0.08},129.745);
+tl.fromTo("#w465",{opacity:0.28},{opacity:1,duration:0.08},130.073);
+tl.fromTo("#w466",{opacity:0.28},{opacity:1,duration:0.08},130.291);
+tl.fromTo("#w467",{opacity:0.28},{opacity:1,duration:0.08},130.595);
+tl.fromTo("#w468",{opacity:0.28},{opacity:1,duration:0.08},130.716);
+tl.fromTo("#w469",{opacity:0.28},{opacity:1,duration:0.08},131.286);
+tl.fromTo("#w470",{opacity:0.28},{opacity:1,duration:0.08},131.408);
+tl.fromTo("#w471",{opacity:0.28},{opacity:1,duration:0.08},131.675);
+tl.fromTo("#w472",{opacity:0.28},{opacity:1,duration:0.08},131.881);
+tl.fromTo("#w473",{opacity:0.28},{opacity:1,duration:0.08},133.155);
+tl.fromTo("#w474",{opacity:0.28},{opacity:1,duration:0.08},133.762);
+tl.fromTo("#w475",{opacity:0.28},{opacity:1,duration:0.08},133.944);
+tl.fromTo("#w476",{opacity:0.28},{opacity:1,duration:0.08},134.199);
+tl.fromTo("#w477",{opacity:0.28},{opacity:1,duration:0.08},134.345);
+tl.fromTo("#w478",{opacity:0.28},{opacity:1,duration:0.08},134.405);
+tl.fromTo("#w479",{opacity:0.28},{opacity:1,duration:0.08},134.939);
+tl.fromTo("#w480",{opacity:0.28},{opacity:1,duration:0.08},136.966);
+tl.fromTo("#w481",{opacity:0.28},{opacity:1,duration:0.08},137.403);
+tl.fromTo("#w482",{opacity:0.28},{opacity:1,duration:0.08},137.658);
+tl.fromTo("#w483",{opacity:0.28},{opacity:1,duration:0.08},137.828);
+tl.fromTo("#w484",{opacity:0.28},{opacity:1,duration:0.08},138.192);
+tl.fromTo("#w485",{opacity:0.28},{opacity:1,duration:0.08},139.927);
+tl.fromTo("#w486",{opacity:0.28},{opacity:1,duration:0.08},140.133);
+tl.fromTo("#w487",{opacity:0.28},{opacity:1,duration:0.08},140.267);
+tl.fromTo("#w488",{opacity:0.28},{opacity:1,duration:0.08},140.352);
+tl.fromTo("#w489",{opacity:0.28},{opacity:1,duration:0.08},140.607);
+tl.fromTo("#w490",{opacity:0.28},{opacity:1,duration:0.08},141.068);
+tl.fromTo("#w491",{opacity:0.28},{opacity:1,duration:0.08},141.602);
+tl.fromTo("#w492",{opacity:0.28},{opacity:1,duration:0.08},141.723);
+tl.fromTo("#w493",{opacity:0.28},{opacity:1,duration:0.08},141.760);
+tl.fromTo("#w494",{opacity:0.28},{opacity:1,duration:0.08},143.034);
+tl.fromTo("#w495",{opacity:0.28},{opacity:1,duration:0.08},144.430);
+tl.fromTo("#w496",{opacity:0.28},{opacity:1,duration:0.08},144.891);
+tl.fromTo("#w497",{opacity:0.28},{opacity:1,duration:0.08},145.000);
+tl.fromTo("#w498",{opacity:0.28},{opacity:1,duration:0.08},145.231);
+tl.fromTo("#w499",{opacity:0.28},{opacity:1,duration:0.08},145.485);
+tl.fromTo("#w500",{opacity:0.28},{opacity:1,duration:0.08},145.874);
+tl.fromTo("#w501",{opacity:0.28},{opacity:1,duration:0.08},146.092);
+tl.fromTo("#w502",{opacity:0.28},{opacity:1,duration:0.08},146.250);
+tl.fromTo("#w503",{opacity:0.28},{opacity:1,duration:0.08},146.650);
+tl.fromTo("#w504",{opacity:0.28},{opacity:1,duration:0.08},148.095);
+tl.fromTo("#w505",{opacity:0.28},{opacity:1,duration:0.08},148.240);
+tl.fromTo("#w506",{opacity:0.28},{opacity:1,duration:0.08},148.350);
+tl.fromTo("#w507",{opacity:0.28},{opacity:1,duration:0.08},149.660);
+tl.fromTo("#w508",{opacity:0.28},{opacity:1,duration:0.08},150.024);
+tl.fromTo("#w509",{opacity:0.28},{opacity:1,duration:0.08},150.133);
+tl.fromTo("#w510",{opacity:0.28},{opacity:1,duration:0.08},150.437);
+tl.fromTo("#w511",{opacity:0.28},{opacity:1,duration:0.08},150.777);
+tl.fromTo("#w512",{opacity:0.28},{opacity:1,duration:0.08},151.529);
+tl.fromTo("#w513",{opacity:0.28},{opacity:1,duration:0.08},151.602);
+tl.fromTo("#w514",{opacity:0.28},{opacity:1,duration:0.08},151.784);
+tl.fromTo("#w515",{opacity:0.28},{opacity:1,duration:0.08},152.112);
+tl.fromTo("#w516",{opacity:0.28},{opacity:1,duration:0.08},152.318);
+tl.fromTo("#w517",{opacity:0.28},{opacity:1,duration:0.08},152.500);
+tl.fromTo("#w518",{opacity:0.28},{opacity:1,duration:0.08},153.398);
+tl.fromTo("#w519",{opacity:0.28},{opacity:1,duration:0.08},153.495);
+tl.fromTo("#w520",{opacity:0.28},{opacity:1,duration:0.08},153.629);
+tl.fromTo("#w521",{opacity:0.28},{opacity:1,duration:0.08},154.138);
+tl.fromTo("#w522",{opacity:0.28},{opacity:1,duration:0.08},155.425);
+tl.fromTo("#w523",{opacity:0.28},{opacity:1,duration:0.08},155.692);
+tl.fromTo("#w524",{opacity:0.28},{opacity:1,duration:0.08},155.801);
+tl.fromTo("#w525",{opacity:0.28},{opacity:1,duration:0.08},155.886);
+tl.fromTo("#w526",{opacity:0.28},{opacity:1,duration:0.08},156.286);
+tl.fromTo("#w527",{opacity:0.28},{opacity:1,duration:0.08},156.444);
+tl.fromTo("#w528",{opacity:0.28},{opacity:1,duration:0.08},156.942);
+tl.fromTo("#w529",{opacity:0.28},{opacity:1,duration:0.08},157.148);
+tl.fromTo("#w530",{opacity:0.28},{opacity:1,duration:0.08},157.342);
+tl.fromTo("#w531",{opacity:0.28},{opacity:1,duration:0.08},157.561);
+tl.fromTo("#w532",{opacity:0.28},{opacity:1,duration:0.08},157.888);
+tl.fromTo("#w533",{opacity:0.28},{opacity:1,duration:0.08},159.150);
+tl.fromTo("#w534",{opacity:0.28},{opacity:1,duration:0.08},159.575);
+tl.fromTo("#w535",{opacity:0.28},{opacity:1,duration:0.08},159.794);
+tl.fromTo("#w536",{opacity:0.28},{opacity:1,duration:0.08},159.879);
+tl.fromTo("#w537",{opacity:0.28},{opacity:1,duration:0.08},160.340);
+tl.fromTo("#w538",{opacity:0.28},{opacity:1,duration:0.08},160.692);
+tl.fromTo("#w539",{opacity:0.28},{opacity:1,duration:0.08},160.789);
+tl.fromTo("#w540",{opacity:0.28},{opacity:1,duration:0.08},161.396);
+tl.fromTo("#w541",{opacity:0.28},{opacity:1,duration:0.08},161.553);
+tl.fromTo("#w542",{opacity:0.28},{opacity:1,duration:0.08},161.663);
+tl.fromTo("#w543",{opacity:0.28},{opacity:1,duration:0.08},161.978);
+tl.fromTo("#w544",{opacity:0.28},{opacity:1,duration:0.08},162.197);
+tl.fromTo("#w545",{opacity:0.28},{opacity:1,duration:0.08},162.367);
+tl.fromTo("#w546",{opacity:0.28},{opacity:1,duration:0.08},162.633);
+tl.fromTo("#w547",{opacity:0.28},{opacity:1,duration:0.08},162.779);
+tl.fromTo("#w548",{opacity:0.28},{opacity:1,duration:0.08},163.107);
+tl.fromTo("#w549",{opacity:0.28},{opacity:1,duration:0.08},163.374);
+tl.fromTo("#w550",{opacity:0.28},{opacity:1,duration:0.08},163.641);
+tl.fromTo("#w551",{opacity:0.28},{opacity:1,duration:0.08},163.799);
+tl.fromTo("#w552",{opacity:0.28},{opacity:1,duration:0.08},163.932);
+tl.fromTo("#w553",{opacity:0.28},{opacity:1,duration:0.08},164.393);
+tl.fromTo("#w554",{opacity:0.28},{opacity:1,duration:0.08},164.515);
+tl.fromTo("#w555",{opacity:0.28},{opacity:1,duration:0.08},164.648);
+tl.fromTo("#w556",{opacity:0.28},{opacity:1,duration:0.08},166.019);
+tl.fromTo("#w557",{opacity:0.28},{opacity:1,duration:0.08},166.420);
+tl.fromTo("#w558",{opacity:0.28},{opacity:1,duration:0.08},166.881);
+tl.fromTo("#w559",{opacity:0.28},{opacity:1,duration:0.08},166.966);
+tl.fromTo("#w560",{opacity:0.28},{opacity:1,duration:0.08},167.367);
+tl.fromTo("#w561",{opacity:0.28},{opacity:1,duration:0.08},167.476);
+tl.fromTo("#w562",{opacity:0.28},{opacity:1,duration:0.08},168.811);
+tl.fromTo("#w563",{opacity:0.28},{opacity:1,duration:0.08},169.636);
+tl.fromTo("#w564",{opacity:0.28},{opacity:1,duration:0.08},169.818);
+tl.fromTo("#w565",{opacity:0.28},{opacity:1,duration:0.08},170.328);
+tl.fromTo("#w566",{opacity:0.28},{opacity:1,duration:0.08},170.437);
+tl.fromTo("#w567",{opacity:0.28},{opacity:1,duration:0.08},171.626);
+tl.fromTo("#w568",{opacity:0.28},{opacity:1,duration:0.08},171.784);
+tl.fromTo("#w569",{opacity:0.28},{opacity:1,duration:0.08},172.148);
+tl.fromTo("#w570",{opacity:0.28},{opacity:1,duration:0.08},172.379);
+tl.fromTo("#w571",{opacity:0.28},{opacity:1,duration:0.08},172.524);
+tl.fromTo("#w572",{opacity:0.28},{opacity:1,duration:0.08},173.738);
+tl.fromTo("#w573",{opacity:0.28},{opacity:1,duration:0.08},173.920);
+tl.fromTo("#w574",{opacity:0.28},{opacity:1,duration:0.08},174.090);
+tl.fromTo("#w575",{opacity:0.28},{opacity:1,duration:0.08},174.211);
+tl.fromTo("#w576",{opacity:0.28},{opacity:1,duration:0.08},174.320);
+tl.fromTo("#w577",{opacity:0.28},{opacity:1,duration:0.08},174.624);
+tl.fromTo("#w578",{opacity:0.28},{opacity:1,duration:0.08},174.964);
+tl.fromTo("#w579",{opacity:0.28},{opacity:1,duration:0.08},175.073);
+window.__timelines["main"] = tl;
+tl.seek(0);
+</script>
+</body>
+</html>
