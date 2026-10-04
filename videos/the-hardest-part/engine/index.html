@@ -1,0 +1,24 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>The Hardest Part — film engine</title>
+<style>
+  html, body { margin: 0; background: #000; overflow: hidden; }
+  #c { display: block; width: 100vw; height: auto; max-height: 100vh; aspect-ratio: 16 / 9; margin: 0 auto; }
+  #ui { display: none; position: fixed; left: 0; right: 0; bottom: 0; gap: 12px; align-items: center; padding: 10px 16px;
+        background: rgba(0,0,0,0.6); font: 13px/1 ui-monospace, monospace; color: #ccd; }
+  #ui input[type=range] { flex: 1; }
+  #ui button { background: #222; color: #eee; border: 1px solid #444; padding: 6px 12px; cursor: pointer; }
+</style>
+<script type="importmap">
+{ "imports": { "three": "../node_modules/three/build/three.module.js", "three/addons/": "../node_modules/three/examples/jsm/" } }
+</script>
+</head>
+<body>
+<canvas id="c"></canvas>
+<div id="ui"><button id="play">Play</button><input id="time" type="range" min="0" max="118" step="0.01" value="0" /><span id="label"></span></div>
+<script type="module" src="./src/main.js"></script>
+</body>
+</html>

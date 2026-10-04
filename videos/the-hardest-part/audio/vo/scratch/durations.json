@@ -1,0 +1,132 @@
+{
+ "C01": {
+  "duration": 2.4,
+  "slot": 4.2,
+  "headroom": 1.8
+ },
+ "C02": {
+  "duration": 2.328,
+  "slot": 3.4,
+  "headroom": 1.072
+ },
+ "C03": {
+  "duration": 1.872,
+  "slot": 3.6,
+  "headroom": 1.728
+ },
+ "C04": {
+  "duration": 3.696,
+  "slot": 4.8,
+  "headroom": 1.104
+ },
+ "C05": {
+  "duration": 2.592,
+  "slot": 3.2,
+  "headroom": 0.608
+ },
+ "C06": {
+  "duration": 2.592,
+  "slot": 3.2,
+  "headroom": 0.608
+ },
+ "C07": {
+  "duration": 2.928,
+  "slot": 4.2,
+  "headroom": 1.272
+ },
+ "C08": {
+  "duration": 3.792,
+  "slot": 7.3,
+  "headroom": 3.508
+ },
+ "C09": {
+  "duration": 3.168,
+  "slot": 3.8,
+  "headroom": 0.632
+ },
+ "C10": {
+  "duration": 3.552,
+  "slot": 4.2,
+  "headroom": 0.648
+ },
+ "C11": {
+  "duration": 1.872,
+  "slot": 3.1,
+  "headroom": 1.228
+ },
+ "C12": {
+  "duration": 2.256,
+  "slot": 3.4,
+  "headroom": 1.144
+ },
+ "C13": {
+  "duration": 3.696,
+  "slot": 4.6,
+  "headroom": 0.904
+ },
+ "C14": {
+  "duration": 4.8,
+  "slot": 5.9,
+  "headroom": 1.1
+ },
+ "C15": {
+  "duration": 4.128,
+  "slot": 5.3,
+  "headroom": 1.172
+ },
+ "C16": {
+  "duration": 1.872,
+  "slot": 2.4,
+  "headroom": 0.528
+ },
+ "C17": {
+  "duration": 3.816,
+  "slot": 4.6,
+  "headroom": 0.784
+ },
+ "C18": {
+  "duration": 2.472,
+  "slot": 3.1,
+  "headroom": 0.628
+ },
+ "C19": {
+  "duration": 2.76,
+  "slot": 3.4,
+  "headroom": 0.64
+ },
+ "C20": {
+  "duration": 3.0,
+  "slot": 3.1,
+  "headroom": 0.1
+ },
+ "C21": {
+  "duration": 4.344,
+  "slot": 5.2,
+  "headroom": 0.856
+ },
+ "C22": {
+  "duration": 3.936,
+  "slot": 5.6,
+  "headroom": 1.664
+ },
+ "C23": {
+  "duration": 3.0,
+  "slot": 6.0,
+  "headroom": 3.0
+ },
+ "C24": {
+  "duration": 1.944,
+  "slot": 6.6,
+  "headroom": 4.656
+ },
+ "C25": {
+  "duration": 1.872,
+  "slot": 3.2,
+  "headroom": 1.328
+ },
+ "C26": {
+  "duration": 1.992,
+  "slot": 9.2,
+  "headroom": 7.208
+ }
+}

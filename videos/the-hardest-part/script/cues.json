@@ -1,0 +1,194 @@
+{
+  "title": "The Hardest Part",
+  "duration": 118.0,
+  "sections": [
+    {
+      "id": "hook",
+      "name": "Hook",
+      "start": 0.0,
+      "end": 12.0
+    },
+    {
+      "id": "what",
+      "name": "What an actuator is",
+      "start": 12.0,
+      "end": 35.0
+    },
+    {
+      "id": "physics",
+      "name": "Physics of the motor",
+      "start": 35.0,
+      "end": 65.4
+    },
+    {
+      "id": "bottleneck",
+      "name": "The bottleneck",
+      "start": 65.4,
+      "end": 92.0
+    },
+    {
+      "id": "closing",
+      "name": "Closing",
+      "start": 92.0,
+      "end": 118.0
+    }
+  ],
+  "cues": [
+    {
+      "id": "C01",
+      "section": "hook",
+      "start": 1.4,
+      "text": "This is the hardest part of the robot."
+    },
+    {
+      "id": "C02",
+      "section": "hook",
+      "start": 5.6,
+      "text": "Not the brain. Not the battery."
+    },
+    {
+      "id": "C03",
+      "section": "hook",
+      "start": 9.0,
+      "text": "The actuator."
+    },
+    {
+      "id": "C04",
+      "section": "what",
+      "start": 12.6,
+      "text": "An actuator turns energy into controlled motion."
+    },
+    {
+      "id": "C05",
+      "section": "what",
+      "start": 17.4,
+      "text": "Hydraulics are strong, but heavy."
+    },
+    {
+      "id": "C06",
+      "section": "what",
+      "start": 20.6,
+      "text": "Pneumatics are fast, but springy."
+    },
+    {
+      "id": "C07",
+      "section": "what",
+      "start": 23.8,
+      "text": "Soft actuators are safe, but weak."
+    },
+    {
+      "id": "C08",
+      "section": "what",
+      "start": 28.0,
+      "text": "Humanoids run on electric motors. Twenty-eight of them."
+    },
+    {
+      "id": "C09",
+      "section": "physics",
+      "start": 35.3,
+      "text": "Inside, current flows through copper coils."
+    },
+    {
+      "id": "C10",
+      "section": "physics",
+      "start": 39.1,
+      "text": "The field pulls the magnets. The rotor turns."
+    },
+    {
+      "id": "C11",
+      "section": "physics",
+      "start": 43.3,
+      "text": "Torque rises with current."
+    },
+    {
+      "id": "C12",
+      "section": "physics",
+      "start": 46.4,
+      "text": "Gears trade speed for force."
+    },
+    {
+      "id": "C13",
+      "section": "physics",
+      "start": 49.8,
+      "text": "Encoders read the angle, thousands of times a second."
+    },
+    {
+      "id": "C14",
+      "section": "physics",
+      "start": 54.4,
+      "text": "Now, a muscle. Blood cools it. It absorbs shock. It heals."
+    },
+    {
+      "id": "C15",
+      "section": "physics",
+      "start": 60.3,
+      "text": "Copper only heats. Double the torque, four times the heat."
+    },
+    {
+      "id": "C16",
+      "section": "bottleneck",
+      "start": 65.6,
+      "text": "Every joint is a trade."
+    },
+    {
+      "id": "C17",
+      "section": "bottleneck",
+      "start": 68.0,
+      "text": "More torque needs more mass. More mass needs more torque."
+    },
+    {
+      "id": "C18",
+      "section": "bottleneck",
+      "start": 72.6,
+      "text": "Push hard, and motors overheat."
+    },
+    {
+      "id": "C19",
+      "section": "bottleneck",
+      "start": 75.7,
+      "text": "Land a jump, and the gears take the blow."
+    },
+    {
+      "id": "C20",
+      "section": "bottleneck",
+      "start": 79.1,
+      "text": "Gear down, and the joint loses its feel."
+    },
+    {
+      "id": "C21",
+      "section": "bottleneck",
+      "start": 82.5,
+      "text": "Now build millions. Precise. Durable. Cheap."
+    },
+    {
+      "id": "C22",
+      "section": "bottleneck",
+      "start": 87.6,
+      "text": "Intelligence can be copied. Muscle must be manufactured."
+    },
+    {
+      "id": "C23",
+      "section": "closing",
+      "start": 93.0,
+      "text": "Solve the actuator, and everything changes."
+    },
+    {
+      "id": "C24",
+      "section": "closing",
+      "start": 99.0,
+      "text": "Machines that move like we do."
+    },
+    {
+      "id": "C25",
+      "section": "closing",
+      "start": 105.6,
+      "text": "The brain is ready."
+    },
+    {
+      "id": "C26",
+      "section": "closing",
+      "start": 108.8,
+      "text": "The body is still being built."
+    }
+  ]
+}

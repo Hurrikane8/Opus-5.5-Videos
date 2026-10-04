@@ -1,0 +1,26 @@
+{
+ "torque": {
+  "frames": 101,
+  "fps": 30,
+  "width": 1640,
+  "height": 1000
+ },
+ "gear": {
+  "frames": 67,
+  "fps": 30,
+  "width": 1520,
+  "height": 680
+ },
+ "loop": {
+  "frames": 88,
+  "fps": 30,
+  "width": 1520,
+  "height": 900
+ },
+ "heat": {
+  "frames": 101,
+  "fps": 30,
+  "width": 1680,
+  "height": 1360
+ }
+}

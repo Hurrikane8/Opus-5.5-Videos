@@ -1,0 +1,6 @@
+node_modules/
+renders/
+audio/stems/
+audio/mix/
+audio/vo/elevenlabs/
+__pycache__/

@@ -1,0 +1,15 @@
+{
+  "name": "the-hardest-part",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "preview": "node render/serve.mjs",
+    "render:preview": "node render/render.mjs --preset preview",
+    "render:final": "node render/render.mjs --preset final",
+    "stills": "node render/render.mjs --preset stills"
+  },
+  "dependencies": {
+    "three": "0.170.0",
+    "playwright-core": "1.56.1"
+  }
+}
