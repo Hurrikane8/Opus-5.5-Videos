@@ -115,8 +115,8 @@ export function buildThermal(ctx) {
         thermal.uniforms.uHot.value[j].copy(robot.anchorWorld(idx));
         thermal.uniforms.uHeat.value[j] = vals[j] * (0.35 + 0.65 * heat) * (0.9 + 0.1 * Math.sin(t * 3 + j));
       });
-      camera.position.set(2.1, 1.05 - 0.05 * sq, 3.1);
-      camera.lookAt(0, 0.8 - 0.1 * sq, 0);
+      camera.position.set(2.25, 1.1 - 0.05 * sq, 3.45);
+      camera.lookAt(0, 0.88 - 0.1 * sq, 0);
       st = { cam: camera, heat, knee: robot.anchorWorld(robot.indexOf('l_knee')), T: 52 + 46 * heat };
     },
     post: () => ({ bloom: { strength: 0.35, radius: 0.5, threshold: 0.9 }, vignette: 0.7, grain: 0.06, ca: 0.004, saturation: 1.1, contrast: 1.05 }),
@@ -165,12 +165,12 @@ export function buildImpact(ctx) {
   spot(scene, ctx, { pos: [-1.8, 3.2, 2.2], target: [0, 0.6, 0], intensity: 36, angle: 0.55, penumbra: 0.8, far: 12 });
   spot(scene, ctx, { pos: [2.4, 1.6, -2.6], target: [0, 0.7, 0], color: 0x9cc8ff, intensity: 32, angle: 0.6, penumbra: 1, shadow: false });
   spot(scene, ctx, { pos: [-2.4, 0.6, -1.6], target: [0, 0.4, 0], color: 0xffd2a8, intensity: 18, angle: 0.6, penumbra: 1, shadow: false });
-  const LAND = 1.15;
-  const tauAt = (lt) => (lt < 1.05 ? lt : lt < 2.9 ? 1.05 + (lt - 1.05) * 0.18 : 1.383 + (lt - 2.9) * 0.85);
+  const LAND = 1.04;
+  const tauAt = (lt) => (lt < 0.95 ? lt : lt < 2.9 ? 0.95 + (lt - 0.95) * 0.18 : 1.301 + (lt - 2.9) * 0.85);
   const pelvisY = (tau) => {
     if (tau < 0.45) return -0.03 - 0.19 * ease.inOutSine(tau / 0.45);
     if (tau < 0.62) return -0.22 + 0.29 * ease.outQuad((tau - 0.45) / 0.17);
-    if (tau < LAND) { const s = tau - 0.62; return 0.07 + 2.49 * s - 0.5 * 9.81 * s * s; }
+    if (tau < LAND) { const s = tau - 0.62; return 0.07 + 1.89 * s - 0.5 * 9.81 * s * s; }
     const s = tau - LAND;
     return -0.03 - 0.21 * Math.exp(-s * 5) * Math.sin(Math.min(s * 9, Math.PI * 0.5) + (s > 0.17 ? (s - 0.17) * 2 : 0)) - 0.0 * s;
   };
@@ -182,7 +182,7 @@ export function buildImpact(ctx) {
       const tau = tauAt(lt);
       const py = pelvisY(tau);
       const air = tau > 0.62 && tau < LAND;
-      const armUp = tau < 0.45 ? -0.6 * (tau / 0.45) : tau < 0.62 ? -0.6 + 2.3 * ((tau - 0.45) / 0.17) : tau < LAND ? 1.7 - 1.0 * ((tau - 0.62) / 0.53) : 0.7 - 0.4 * clamp((tau - LAND) / 0.6);
+      const armUp = tau < 0.45 ? -0.6 * (tau / 0.45) : tau < 0.62 ? -0.6 + 2.3 * ((tau - 0.45) / 0.17) : tau < LAND ? 1.7 - 1.0 * ((tau - 0.62) / (LAND - 0.62)) : 0.7 - 0.4 * clamp((tau - LAND) / 0.6);
       const p = withPose(neutralPose(), {
         root: { pos: [0, py, 0], rot: [0.12 + (air ? -0.05 : 0.12 * clamp(-py / 0.2)), 0, 0] },
         waist: { pitch: 0.1 * clamp(-py / 0.2) },
@@ -191,7 +191,7 @@ export function buildImpact(ctx) {
       });
       robot.setPose(p);
       let fy = ANKLE_H;
-      if (air) { const pw = robot.j.pelvis.position.y; fy = Math.max(ANKLE_H, pw - 0.86 + 0.12 * Math.sin(((tau - 0.62) / 0.53) * Math.PI)); }
+      if (air) { const pw = robot.j.pelvis.position.y; fy = Math.max(ANKLE_H, pw - 0.86 + 0.12 * Math.sin(((tau - 0.62) / (LAND - 0.62)) * Math.PI)); }
       robot.plantFeet(v3(0.13, fy, 0.02), v3(-0.13, fy, -0.02), air ? -0.15 : 0, air ? -0.15 : 0);
       // impact FX
       const s = tau - LAND;
@@ -207,16 +207,17 @@ export function buildImpact(ctx) {
         robot.setGlow(idx, 0.7 + v, v > 0.8 ? 0xff4a3d : 0x6fe3ff);
       });
       const shake = s > 0 ? Math.exp(-s * 12) * 0.012 : 0;
-      camera.position.set(1.45 + Math.sin(lt * 80) * shake, 0.5 + Math.cos(lt * 93) * shake, 2.75);
-      camera.lookAt(0, 0.82, 0);
+      const follow = 1.15 * Math.max(0, py);
+      camera.position.set(1.5 + Math.sin(lt * 80) * shake, 0.5 + follow * 0.5 + Math.cos(lt * 93) * shake, 2.95);
+      camera.lookAt(0, 0.82 + follow, 0);
       st = { cam: camera, tau, s, knee: robot.anchorWorld(robot.indexOf('r_knee')), lt };
     },
     post: (t, lt) => ({ dof: { focus: 3.1, aperture: 12, maxBlur: 14 }, bloom: { strength: 0.6, radius: 0.55, threshold: 1.3 }, vignette: 0.65,
       exposure: 1 + 0.6 * (st.s > 0 ? Math.exp(-st.s * 25) : 0), saturation: st.tau > 1.05 && st.tau < 1.42 ? 0.85 : 1 }),
     overlay(o, t, lt) {
       if (!st.cam) return;
-      if (st.tau > 1.0 && lt < 2.95) o.text('0.18×  SLOW MOTION', 96, 140, { family: 'mono', size: 15, tracking: 0.22, color: C.dim });
-      const a = env(lt, 1.35, 3.5, 0.3, 0.3);
+      if (lt > 0.95 && lt < 2.95) o.text('0.18×  SLOW MOTION', 96, 140, { family: 'mono', size: 15, tracking: 0.22, color: C.dim });
+      const a = env(lt, 1.25, 3.5, 0.3, 0.3);
       o.group(a, () => {
         // ground reaction force trace, revealed in sync with the landing
         const R = { x: 1160, y: 300, w: 560, h: 260 };
@@ -264,9 +265,9 @@ function crackableEgg() {
         return d2 - d1; }`)
       .replace('#include <color_fragment>', `#include <color_fragment>
         float dc = distance(vObj, uContact);
-        float reach = uCrack * 0.05;
+        float reach = uCrack * 0.034;
         float e = edge(vObj * 260.0);
-        float lines = (1.0 - smoothstep(0.0, 0.07, e)) * (1.0 - smoothstep(reach * 0.7, reach, dc));
+        float lines = (1.0 - smoothstep(0.0, 0.055, e)) * (1.0 - smoothstep(reach * 0.6, reach, dc));
         diffuseColor.rgb = mix(diffuseColor.rgb, vec3(0.12, 0.08, 0.05), clamp(lines * 1.4, 0.0, 1.0));`);
   };
   const egg = new THREE.Mesh(g, mat);
@@ -317,16 +318,17 @@ export function buildFeel(ctx) {
       egg.U.uCrack.value = crack;
       egg.U.uDent.value = 0.004 * smoothstep(CRACK, CRACK + 0.3, lt);
       robot.setGlow(robot.indexOf('r_elbow'), 1.2 + (lt > CONTACT ? 3 * Math.exp(-(lt - CONTACT) * 3) : 0), lt > CONTACT ? 0xff4a3d : 0x6fe3ff);
-      camera.position.set(contact.x + 0.42 - lt * 0.01, contact.y + 0.1, contact.z + 0.56 - lt * 0.01);
-      camera.lookAt(contact.x + 0.0, contact.y + 0.03, contact.z);
-      st = { cam: camera, lt, crack, f: lt < CONTACT ? 0 : lt < CRACK ? (lt - CONTACT) / (CRACK - CONTACT) * 3.4 : 3.4 * Math.exp(-(lt - CRACK) * 6) };
+      const cp = (new URLSearchParams(location.search).get('cam') || '0.3,0.16,0.3').split(',').map(Number);
+      camera.position.set(contact.x + cp[0], contact.y + cp[1] - lt * 0.005, contact.z + cp[2] - lt * 0.01);
+      camera.lookAt(contact.x, contact.y - 0.012, contact.z);
+      st = { cam: camera, lt, crack, focus: camera.position.distanceTo(contact), f: lt < CONTACT ? 0 : lt < CRACK ? (lt - CONTACT) / (CRACK - CONTACT) * 3.4 : 3.4 * Math.exp(-(lt - CRACK) * 6) };
     },
-    post: () => ({ dof: { focus: 0.71, aperture: 9, maxBlur: 18 }, bloom: { strength: 0.45, radius: 0.5, threshold: 1.5 }, vignette: 0.6 }),
+    post: () => ({ dof: { focus: st.focus || 0.5, aperture: 7, maxBlur: 20 }, bloom: { strength: 0.45, radius: 0.5, threshold: 1.5 }, vignette: 0.6 }),
     overlay(o, t, lt) {
       if (!st.cam) return;
       const a = env(lt, 0.3, 3.6, 0.3, 0.3);
       o.group(a, () => {
-        const R = { x: 1180, y: 690, w: 520, h: 200 };
+        const R = { x: 1280, y: 720, w: 440, h: 180 };
         o.axes(R, { progress: clamp((lt - 0.3) / 0.4), xlabel: 't', ylabel: 'CONTACT FORCE' });
         const dom = { x0: 0, x1: 3.2, y0: 0, y1: 4 };
         const want = o.map(R, dom, 0, 0.6)[1];
@@ -334,8 +336,8 @@ export function buildFeel(ctx) {
         o.text('needed', R.x + R.w + 8, want + 5, { family: 'mono', size: 13, color: C.green });
         const fz = (x) => (x < CONTACT ? 0 : x < CRACK ? (x - CONTACT) / (CRACK - CONTACT) * 3.4 : 0.2 + 3.2 * Math.exp(-(x - CRACK) * 6));
         o.plot(fz, R, dom, { progress: clamp(lt / 3.2), w: 2.5, color: C.red, samples: 200 });
-        o.text('HIGH GEAR RATIO  →  THE JOINT CAN\'T FEEL', 1180, 280, { family: 'mono', size: 18, tracking: 0.12, color: C.white, alpha: clamp((lt - 0.4) / 0.5) });
-        o.text('reflected inertia ∝ N²   ·   N = 100 → 10,000×', 1180, 314, { family: 'mono', size: 15, color: C.dim, alpha: clamp((lt - 0.8) / 0.5) });
+        o.text('HIGH GEAR RATIO  →  THE JOINT CAN\'T FEEL', 1280, 280, { family: 'mono', size: 18, tracking: 0.12, color: C.white, alpha: clamp((lt - 0.4) / 0.5) });
+        o.text('reflected inertia ∝ N²   ·   N = 100 → 10,000×', 1280, 314, { family: 'mono', size: 15, color: C.dim, alpha: clamp((lt - 0.8) / 0.5) });
       });
     },
   };
@@ -448,10 +450,12 @@ export function buildCopied(ctx) {
   const act = rotaryActuator();
   act.group.scale.setScalar(0.15);
   act.group.rotation.set(0.3, -0.75, 0);
+  act.group.position.set(0.14, 0, 0);
   scene.add(act.group);
   const camera = lens(50, 0.02, 60);
   const key = spot(scene, ctx, { pos: [0.6, 2.2, 1.4], target: [0, 0, 0], color: 0xffe2c0, intensity: 0, angle: 0.35, penumbra: 0.7, far: 8 });
   const rimC = spot(scene, ctx, { pos: [-1.6, 0.6, -1.2], target: [0, 0, 0], color: 0x9cc8ff, intensity: 0, angle: 0.6, penumbra: 1, shadow: false });
+  const fillC = spot(scene, ctx, { pos: [0.4, 0.5, 2.2], target: [0.1, 0, 0], color: 0xfff2e6, intensity: 0, angle: 0.5, penumbra: 1, shadow: false });
   // network glyph
   const layers = [4, 6, 6, 3];
   let st = {};
@@ -464,8 +468,9 @@ export function buildCopied(ctx) {
       const e = 1 - ease.inOutCubic(clamp((lt - 2.3) / 2.1));
       act.set(0.15 + 0.85 * e, t, t * 0.6);
       act.ringMat.color.set(0x6fe3ff).multiplyScalar(3 * smoothstep(4.0, 4.4, lt));
-      key.intensity = 26 * smoothstep(2.0, 2.6, lt);
-      rimC.intensity = 18 * smoothstep(2.0, 2.6, lt);
+      key.intensity = 60 * smoothstep(2.0, 2.6, lt);
+      rimC.intensity = 22 * smoothstep(2.0, 2.6, lt);
+      fillC.intensity = 14 * smoothstep(2.0, 2.6, lt);
       st = { lt };
     },
     post: (t, lt) => ({ dof: { focus: 1.95, aperture: 10, maxBlur: 14 }, bloom: { strength: 0.5, radius: 0.5, threshold: 1.4 }, vignette: 0.6, fade: 1 - smoothstep(4.25, 4.6, lt) }),

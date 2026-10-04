@@ -114,7 +114,7 @@ export function thermalMaterial(maxSpots = 12) {
         for (int i = 0; i < N; i++) { vec3 d = vW - uHot[i]; T += uHeat[i] * exp(-dot(d, d) / (uSigma * uSigma)); }
         float facing = abs(dot(normalize(vN), normalize(vV)));
         T *= 0.82 + 0.25 * facing;               // emissivity falls off at grazing angles
-        if (vW.y < 0.003) T = 0.02 + 0.25 * T;    // floor
+        if (vW.y < 0.003) T = max(0.0, T - uBase) * 0.5;   // floor: black except heat spill near the feet
         gl_FragColor = vec4(iron(T) * 1.15, 1.0);
       }`,
   });

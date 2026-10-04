@@ -37,9 +37,12 @@ P.h = Math.round((P.w * 9) / 16);
 
 const CHROME = process.env.CHROME_PATH || ['/opt/pw-browsers/chromium-1194/chrome-linux/chrome'].find((p) => fs.existsSync(p));
 const GPU = !!args.gpu;
-const launchArgs = GPU
-  ? ['--ignore-gpu-blocklist', '--enable-gpu-rasterization', '--use-angle=default', '--enable-unsafe-webgpu']
-  : ['--use-angle=swiftshader', '--enable-unsafe-swiftshader', '--ignore-gpu-blocklist'];
+// GPU: let ANGLE pick the native backend (Metal on macOS, D3D11 on Windows); on Linux pass
+// CHROME_FLAGS="--use-angle=vulkan" (or --use-gl=egl) and/or --headed if headless falls back to software.
+const launchArgs = [
+  ...(GPU ? ['--ignore-gpu-blocklist', '--enable-gpu', '--enable-gpu-rasterization'] : ['--use-angle=swiftshader', '--enable-unsafe-swiftshader', '--ignore-gpu-blocklist']),
+  ...(process.env.CHROME_FLAGS ? process.env.CHROME_FLAGS.split(' ').filter(Boolean) : []),
+];
 
 async function openPage(server, startT = 0) {
   const browser = await chromium.launch({ executablePath: CHROME, headless: !args.headed, args: launchArgs });
@@ -52,6 +55,12 @@ async function openPage(server, startT = 0) {
   await page.waitForFunction(() => window.__ready || window.__error, null, { timeout: 0, polling: 200 });
   const err = await page.evaluate(() => window.__error);
   if (err) throw new Error(err);
+  const gpu = await page.evaluate(() => {
+    const gl = document.getElementById('c').getContext('webgl2');
+    const ext = gl.getExtension('WEBGL_debug_renderer_info');
+    return ext ? gl.getParameter(ext.UNMASKED_RENDERER_WEBGL) : gl.getParameter(gl.RENDERER);
+  });
+  console.log(`WebGL renderer: ${gpu}${/swiftshader|llvmpipe|software/i.test(gpu) ? '  (software — expect seconds per frame)' : ''}`);
   return { browser, page };
 }
 

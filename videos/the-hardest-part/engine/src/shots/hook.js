@@ -95,7 +95,7 @@ export function buildHook(ctx) {
       const sweep = ease.inOutSine(clamp(lt / 4.2));
       keyMacro.position.copy(E).addScaledVector(out, 0.3).addScaledVector(fwd, -0.55 + 0.6 * sweep).addScaledVector(up, 0.16 - 0.42 * sweep);
       keyMacro.target.position.copy(E).addScaledVector(out, 0.03);
-      keyMacro.intensity = 1.7 * smoothstep(0.0, 1.6, lt) * (1 - smoothstep(6.0, 8.5, lt));
+      keyMacro.intensity = (0.75 + 0.35 * smoothstep(3.2, 4.4, lt)) * smoothstep(0.0, 1.6, lt) * (1 - smoothstep(6.0, 8.5, lt));
       scene.environmentIntensity = 0.5 + 0.5 * (1 - smoothstep(4.5, 8, lt));
       keyBody.intensity = 26 * smoothstep(5.0, 8.5, lt);
       rimL.intensity = 6 + 22 * smoothstep(5, 9, lt);

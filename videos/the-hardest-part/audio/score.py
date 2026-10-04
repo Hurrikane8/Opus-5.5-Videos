@@ -290,8 +290,8 @@ for k in range(5):
     place(sfx, beep(1100, 0.1), 74.32 + k * 0.25, 0.4)
 # impact: takeoff whoosh, slow-mo landing boom with long tail
 place(sfx, whoosh(0.8, 300, 3000), 75.95, 0.3)
-place(sfx, hit(30, 5.0, 0.9), 77.15, 1.0)
-place(sfx, reverb(np.stack([hit(55, 2.0, 1.2)] * 2, axis=1), 3.0, 0.6), 77.17, 0.35)
+place(sfx, hit(30, 5.0, 0.9), 77.05, 1.0)
+place(sfx, reverb(np.stack([hit(55, 2.0, 1.2)] * 2, axis=1), 3.0, 0.6), 77.07, 0.35)
 # feel: contact click, egg crack (crackle burst)
 place(sfx, click(3000), 80.15, 0.4)
 n = int(0.6 * SR)

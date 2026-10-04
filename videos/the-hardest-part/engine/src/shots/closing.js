@@ -13,11 +13,14 @@ const v3 = (x, y, z) => new THREE.Vector3(x, y, z);
 function horizonGlow({ color = 0xffa860, intensity = 1.6, z = -30, w = 160, h = 50, y = 4 } = {}) {
   const m = new THREE.ShaderMaterial({
     depthWrite: false, fog: false,
-    uniforms: { uColor: { value: new THREE.Color(color) }, uI: { value: intensity } },
+    uniforms: { uColor: { value: new THREE.Color(color) }, uI: { value: intensity }, uY0: { value: y }, uH: { value: h } },
     vertexShader: `varying vec2 vUv; void main(){ vUv = uv; gl_Position = projectionMatrix * modelViewMatrix * vec4(position,1.0); }`,
-    fragmentShader: `uniform vec3 uColor; uniform float uI; varying vec2 vUv;
-      void main(){ float y = vUv.y; float x = vUv.x - 0.5;
-        float g = exp(-pow((y - 0.16) / 0.16, 2.0)) * exp(-x * x * 4.0) + 0.3 * exp(-pow((y - 0.2) / 0.4, 2.0));
+    fragmentShader: `uniform vec3 uColor; uniform float uI, uY0, uH; varying vec2 vUv;
+      void main(){ float wy = uY0 + (vUv.y - 0.5) * uH; float x = vUv.x - 0.5;   // world height above the floor
+        float core = exp(-pow((wy - 0.35) / 0.55, 2.0)) * exp(-x * x * 3.0);      // bright dawn line on the horizon
+        float halo = exp(-pow((wy - 1.2) / 3.2, 2.0)) * exp(-x * x * 2.0) * 0.4;  // warm glow above it
+        float sky = exp(-max(wy, 0.0) / 12.0) * 0.07;
+        float g = core * 1.5 + halo + sky;
         gl_FragColor = vec4(uColor * g * uI, 1.0); }`,
   });
   const p = new THREE.Mesh(new THREE.PlaneGeometry(w, h), m);
@@ -30,6 +33,8 @@ export function buildSolved(ctx) {
   const { scene } = makeStage(ctx, { env: 'warm', envIntensity: 0.0, floor: false, fog: [0x000000, 0.05] });
   const act = rotaryActuator();
   act.group.scale.setScalar(0.2);
+  // the "solved" actuator: bright machined aluminium instead of dark anodizing
+  act.group.traverse((m) => { if (m.isMesh && m.material === M.graphite) m.material = M.alu; });
   scene.add(act.group);
   const sweepMat = glow(0xffd9a8, 0, { additive: true, transparent: true });
   const sweep = new THREE.Mesh(new THREE.TorusGeometry(1.26, 0.02, 8, 128), sweepMat);
@@ -45,7 +50,7 @@ export function buildSolved(ctx) {
       const rise = smoothstep(0.0, 2.6, lt);
       scene.environmentIntensity = 1.3 * rise;
       key.intensity = 34 * rise;
-      fill.intensity = 16 * rise;
+      fill.intensity = 30 * rise;
       act.group.rotation.set(0.25, -0.6 + lt * 0.12, 0);
       const evolve = ease.inOutCubic(clamp((lt - 1.6) / 2.4));
       act.group.scale.setScalar(0.2 * (1 - 0.1 * evolve));
@@ -79,7 +84,7 @@ export function buildSolved(ctx) {
 export function buildGrace(ctx) {
   const { scene } = makeStage(ctx, { env: 'warm', envIntensity: 0.6, fog: [0x120a05, 0.07], floorMat: new THREE.MeshStandardMaterial({ color: 0x0c0806, roughness: 0.5 }) });
   scene.background = new THREE.Color(0x070402);
-  scene.add(horizonGlow({ intensity: 0.55, color: 0xffbf80 }));
+  scene.add(horizonGlow({ intensity: 0.9, color: 0xffc58a }));
   const robot = new Robot();
   scene.add(robot.root);
   const shadow = contactShadow(1.4, 1.2, 0.8);
@@ -154,7 +159,7 @@ export function buildGrace(ctx) {
 export function buildFinale(ctx) {
   const { scene } = makeStage(ctx, { env: 'warm', envIntensity: 0.35, fog: [0x140b05, 0.05], floorMat: new THREE.MeshStandardMaterial({ color: 0x0a0705, roughness: 0.4, metalness: 0.2 }) });
   scene.background = new THREE.Color(0x080402);
-  scene.add(horizonGlow({ intensity: 0.9, color: 0xffc080, y: 3 }));
+  scene.add(horizonGlow({ intensity: 1.2, color: 0xffc58a, y: 3 }));
   const robot = new Robot();
   scene.add(robot.root, contactShadow(1.3, 1.1, 0.8));
   robot.root.rotation.y = 0.5;
